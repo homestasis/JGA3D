@@ -25,7 +25,7 @@ public class GroundCheck : MonoBehaviour
         return isGround;
     }
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == groundTag)
         {
@@ -33,7 +33,7 @@ public class GroundCheck : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == groundTag)
         {
@@ -41,7 +41,7 @@ public class GroundCheck : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == groundTag)
         {
