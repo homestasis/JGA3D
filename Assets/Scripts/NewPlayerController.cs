@@ -13,6 +13,8 @@ public class NewPlayerController : MonoBehaviour
 
     private Rigidbody rb = null;
     private CharacterController controller = null;
+    private Animator anim = null;
+    private bool isRun = false;
     private bool isJump = false;
     private float jumpPos = 0.0f;
     private float dashTime, jumpTime;
@@ -21,6 +23,7 @@ public class NewPlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -34,6 +37,8 @@ public class NewPlayerController : MonoBehaviour
 
         Vector3 direction = new Vector3(xSpeed, ySpeed, 0);
         controller.Move(direction * Time.deltaTime);
+
+        SetAnimation();
     }
 
     private float GetXSpeed()
@@ -43,15 +48,18 @@ public class NewPlayerController : MonoBehaviour
         if(horizontalKey > 0)
         {
             transform.localRotation = Quaternion.Euler(0, 90, 0);
+            isRun = true;
             xSpeed = speed;
         }
         else if(horizontalKey < 0)
         {
             transform.localRotation = Quaternion.Euler(0, -90, 0);
+            isRun = true;
             xSpeed = -speed;
         }
         else
         {
+            isRun = false;
             xSpeed = 0.0f;
         }
         return xSpeed;
@@ -94,5 +102,11 @@ public class NewPlayerController : MonoBehaviour
             ySpeed *= jumpCurve.Evaluate(jumpTime);
         }
         return ySpeed;
+    }
+
+    private void SetAnimation()
+    {
+        anim.SetBool("is_in_air",isJump);
+        anim.SetBool("run", isRun);
     }
 }
