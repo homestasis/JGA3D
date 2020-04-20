@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
     [Header("ジャンプする高さ")] public float jumpHeight;
     [Header("ジャンプする長さ")]public float jumpLimitTime;
     [Header("接地判定")] public GroundCheck ground;
-    [Header("天井判定")] public GroundCheck head;
-    [Header("ステルス判定だよ")] public HideCheck wallChecker;
-    public SeenCheck seenChecker;//New
+    //[Header("天井判定")] public GroundCheck head;
+    //[Header("ステルス判定だよ")] public HideCheck wallChecker;
+    //public SeenCheck seenChecker;//New
     [Header("ダッシュの速さ表現")] public AnimationCurve dashCurve;
     [Header("ジャンプの速さ表現")] public AnimationCurve jumpCurve;
     #endregion
@@ -45,18 +45,18 @@ public class PlayerController : MonoBehaviour
     {
         //接地判定を得る
         isGround = ground.IsGround();
-        isHead = head.IsGround();
+        //isHead = head.IsGround();
         //ステルス判定を得る
         //isHide = hide.IsHide();
         isHide = false;
-        isSeen = seenChecker.IsSeen();//New
-        isOnWall = wallChecker.IsOnWall();
+        //isSeen = seenChecker.IsSeen();//New
+        //isOnWall = wallChecker.IsOnWall();
         //各種座標軸の速度を求める
         float xSpeed = GetXSpeed();
         float ySpeed = GetYSpeed();
         //アニメーションを適用
-        SetAnimation();
-        SeenByEnemy();
+        //SetAnimation();
+        //SeenByEnemy();
 
         rb.velocity = new Vector2(xSpeed, ySpeed);
     }
