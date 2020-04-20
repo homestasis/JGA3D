@@ -165,11 +165,11 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// アニメーションを設定する
     /// </summary>
-    /*private void SetAnimation()
+    private void SetAnimation()
     {
         anim.SetBool("jump", isJump);
         anim.SetBool("ground", isGround);
         anim.SetBool("run", isRun);
         anim.SetBool("hide", isHide);
-    }*/
+    }
 }
