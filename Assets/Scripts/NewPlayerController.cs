@@ -9,6 +9,7 @@ public class NewPlayerController : MonoBehaviour
     public float jumpSpeed;
     public float jumpHeight;
     public float jumpLimitTime;
+    public AnimationCurve dashCurve;
     public AnimationCurve jumpCurve;
 
     private Rigidbody rb = null;
@@ -18,6 +19,7 @@ public class NewPlayerController : MonoBehaviour
     private bool isJump = false;
     private float jumpPos = 0.0f;
     private float dashTime, jumpTime;
+    private float beforeKey;
 
     private void Start()
     {
@@ -48,12 +50,14 @@ public class NewPlayerController : MonoBehaviour
         if(horizontalKey > 0)
         {
             transform.localRotation = Quaternion.Euler(0, 90, 0);
+            dashTime += Time.deltaTime;
             isRun = true;
             xSpeed = speed;
         }
         else if(horizontalKey < 0)
         {
             transform.localRotation = Quaternion.Euler(0, -90, 0);
+            dashTime += Time.deltaTime;
             isRun = true;
             xSpeed = -speed;
         }
@@ -61,7 +65,19 @@ public class NewPlayerController : MonoBehaviour
         {
             isRun = false;
             xSpeed = 0.0f;
+            dashTime = 0.0f;
         }
+        if (horizontalKey > 0 && beforeKey < 0)
+        {
+            dashTime = 0.0f;
+        }
+        else if (horizontalKey < 0 && beforeKey > 0)
+        {
+            dashTime = 0.0f;
+        }
+        beforeKey = horizontalKey;
+　       //アニメーションカーブを速度に適用 New
+        xSpeed *= dashCurve.Evaluate(dashTime);
         return xSpeed;
     }
 
