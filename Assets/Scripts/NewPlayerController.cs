@@ -11,6 +11,8 @@ public class NewPlayerController : MonoBehaviour
     public float jumpLimitTime;
     public AnimationCurve jumpCurve;
 
+
+    [SerializeField] private SunLightController sunLight;
     private Rigidbody rb = null;
     private CharacterController controller = null;
     private Animator anim = null;
@@ -77,6 +79,7 @@ public class NewPlayerController : MonoBehaviour
                 jumpPos = transform.position.y; //ジャンプした位置を記録する
                 isJump = true;
                 jumpTime = 0.0f;
+                sunLight.Darken();
             }
             else
             {
