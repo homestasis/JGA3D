@@ -8,7 +8,7 @@ public class DeadPoint : MonoBehaviour
 
     private string playerTag = "Player";
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if(collision.tag == playerTag)
         { 
