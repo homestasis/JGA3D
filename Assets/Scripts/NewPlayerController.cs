@@ -9,8 +9,10 @@ public class NewPlayerController : MonoBehaviour
     public float jumpSpeed;
     public float jumpHeight;
     public float jumpLimitTime;
+    public float climbSpeed;
     public AnimationCurve dashCurve;
     public AnimationCurve jumpCurve;
+    public LadderCheck ladderChecker;
 
 
     [SerializeField] private SunLightController sunLight;
@@ -19,6 +21,7 @@ public class NewPlayerController : MonoBehaviour
     private Animator anim = null;
     private bool isRun = false;
     private bool isJump = false;
+    private bool isLadder = false;
     private float jumpPos = 0.0f;
     private float dashTime, jumpTime;
     private float beforeKey;
@@ -32,6 +35,7 @@ public class NewPlayerController : MonoBehaviour
 
     private void Update()
     {
+        isLadder = ladderChecker.IsLadder();
 
         float xSpeed = 0.0f;
         float ySpeed = 0.0f;
@@ -87,6 +91,23 @@ public class NewPlayerController : MonoBehaviour
     {
         float verticalKey = Input.GetAxis("Vertical");
         float ySpeed = -gravity;
+        if (isLadder)
+        {
+            if (verticalKey > 0)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+                ySpeed = climbSpeed;
+            }
+            else if (verticalKey < 0)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+                ySpeed = -climbSpeed;
+            }
+            else
+            {
+                ySpeed = 0.0f;
+            }
+        }
         if (controller.isGrounded)
         {
             if (verticalKey > 0 && jumpTime < jumpLimitTime)
