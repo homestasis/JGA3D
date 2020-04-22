@@ -13,7 +13,7 @@ public class SunLightController : MonoBehaviour
     private new Light light;
     private float ex;
 
-
+    private List<WaterController> water;
 
     // Start is called before the first frame update
     void Awake()
@@ -22,6 +22,13 @@ public class SunLightController : MonoBehaviour
         light.intensity = 1f;
         sky.SetFloat("_Exposure", 1f);
         ex = 1f;
+
+        water = new List<WaterController>();
+        GameObject[] waterOb = GameObject.FindGameObjectsWithTag("Water");
+        foreach(GameObject w in waterOb)
+        {
+            water.Add(w.GetComponent<WaterController>());
+        }
     }
 
     public async void Darken()
@@ -44,49 +51,40 @@ public class SunLightController : MonoBehaviour
 
                 break;
             }
-            await Task.Delay(50);    
+            await Task.Delay(50);
         }
 
+       
         grass.GrowGrass();
-
-
-    }
-
-
-   
-    public  void LightLighten()
-    {
-       while(true)
+        foreach(WaterController w in water)
         {
-            float inte = light.intensity;
-            light.intensity += delta;
-            if (inte >= 1f)
-            {
-                break;
-            }
-            Thread.Sleep(50);
+            w.IncreaseWater();
         }
 
     }
 
-   
-
-    public void SkyLighten()
+    public async void Lighten()
     {
         while(true)
         {
+
+            float inte = light.intensity;
+            light.intensity += delta;
+
             ex += delta;
             sky.SetFloat("_Exposure", ex);
-            if (ex >= 1f)
+
+            if (inte >= 1f || ex >= 1f)
             {
+                light.intensity = 1f;
+
                 ex = 1f;
                 sky.SetFloat("_Exposure", ex);
+
                 break;
             }
-            Thread.Sleep(50);
+            await Task.Delay(50);
         }
     }
 
-
-    
 }
