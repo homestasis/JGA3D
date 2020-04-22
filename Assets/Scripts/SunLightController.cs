@@ -8,7 +8,6 @@ public class SunLightController : MonoBehaviour
 {
     [SerializeField]private Material sky;
     [SerializeField]private GrassController grass;
-    [SerializeField] private Rain3DController rain;
     [SerializeField] private float delta;
 
     private new Light light;
@@ -55,7 +54,6 @@ public class SunLightController : MonoBehaviour
             await Task.Delay(50);
         }
 
-        rain.StartToRain();
         grass.GrowGrass();
         foreach(WaterController w in water)
         {
@@ -87,7 +85,6 @@ public class SunLightController : MonoBehaviour
             await Task.Delay(50);
         }
 
-        rain.StopToRain();
         foreach (WaterController w in water)
         {
             w.DecreaseWater();
