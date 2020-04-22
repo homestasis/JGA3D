@@ -16,7 +16,7 @@ public class Rain3DController : MonoBehaviour
         audioSource.volume = 0;
     }
 
-    internal async void StartToRain()
+    internal async void StartToSoundRain()
     {
         if (audioSource.volume >= 0.5f) { return; }
         while (true)
@@ -32,7 +32,7 @@ public class Rain3DController : MonoBehaviour
         }
     }
 
-    internal async void StopToRain()
+    internal async void StopToSoundRain()
     {
         if(audioSource.volume <= 0) { return; }
         while (true)
