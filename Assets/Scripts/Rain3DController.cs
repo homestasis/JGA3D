@@ -2,29 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using DigitalRuby.RainMaker;
 
 public class Rain3DController : MonoBehaviour
 {
 
     [SerializeField] private float delta;
-    private AudioSource audioSource;
-
+    private RainScript rain;
+    
     
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
-        audioSource.volume = 0;
+        rain = this.GetComponent<RainScript>();
+        rain.RainIntensity = 0f;
     }
 
     internal async void StartToSoundRain()
     {
-        if (audioSource.volume >= 0.5f) { return; }
+        if (rain.RainIntensity >= 0.31f) { return; }
         while (true)
         {
-            audioSource.volume += delta;
-            if (audioSource.volume >= 0.5f)
+            rain.RainIntensity += delta;
+            if (rain.RainIntensity >= 0.31f)
             {
-                audioSource.volume = 0.5f;
+                rain.RainIntensity = 0.31f;
                 return;
             }
 
@@ -34,17 +35,19 @@ public class Rain3DController : MonoBehaviour
 
     internal async void StopToSoundRain()
     {
-        if(audioSource.volume <= 0) { return; }
+        if(rain.RainIntensity <= 0) { return; }
         while (true)
         {
-            audioSource.volume -= delta;
-            if (audioSource.volume <= 0f)
+            rain.RainIntensity -= delta;
+            if (rain.RainIntensity <= 0f)
             {
-                audioSource.volume = 0f;
+                rain.RainIntensity = 0f;
                 return;
             }
 
             await Task.Delay(50);
         }
     }
+
+    
 }
