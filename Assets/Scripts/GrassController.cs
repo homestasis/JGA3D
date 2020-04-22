@@ -8,15 +8,8 @@ public class GrassController : MonoBehaviour
 
     [SerializeField] private float delta;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-  
-
-    public async void GrowGrass()
+    internal async void GrowGrass()
     {
         if (transform.localScale.y > 10f){ return;}
         float sum = 2f;

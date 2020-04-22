@@ -8,6 +8,7 @@ public class SunLightController : MonoBehaviour
 {
     [SerializeField]private Material sky;
     [SerializeField]private GrassController grass;
+    [SerializeField] private Rain3DController rain;
     [SerializeField] private float delta;
 
     private new Light light;
@@ -16,7 +17,7 @@ public class SunLightController : MonoBehaviour
     private List<WaterController> water;
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         light = GetComponent<Light>();
         light.intensity = 1f;
@@ -31,7 +32,7 @@ public class SunLightController : MonoBehaviour
         }
     }
 
-    public async void Darken()
+    internal async void Darken()
     {
         while (true)
         {
@@ -54,7 +55,7 @@ public class SunLightController : MonoBehaviour
             await Task.Delay(50);
         }
 
-       
+        rain.StartToRain();
         grass.GrowGrass();
         foreach(WaterController w in water)
         {
@@ -63,7 +64,7 @@ public class SunLightController : MonoBehaviour
 
     }
 
-    public async void Lighten()
+    internal async void Lighten()
     {
         while(true)
         {
@@ -84,6 +85,12 @@ public class SunLightController : MonoBehaviour
                 break;
             }
             await Task.Delay(50);
+        }
+
+        rain.StopToRain();
+        foreach (WaterController w in water)
+        {
+            w.DecreaseWater();
         }
     }
 

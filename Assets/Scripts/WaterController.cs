@@ -18,9 +18,9 @@ public class WaterController : MonoBehaviour
         initZ = transform.position.z;
     }
 
-    public async void IncreaseWater()
+    internal async void IncreaseWater()
     {
-        if (transform.position.y > maxY) { return; }
+        if (transform.position.y >= maxY) { return; }
         float sum = minY;
         while (true)
         {
@@ -30,7 +30,25 @@ public class WaterController : MonoBehaviour
             {
                 sum = maxY;
                 transform.position = new Vector3(initX, sum, initZ);
-                break;
+                return;
+            }
+            await Task.Delay(50);
+        }
+    }
+
+    internal async void DecreaseWater()
+    {
+        if (transform.position.y <= minY) { return; }
+        float sum = maxY;
+        while (true)
+        {
+            sum -= delta;
+            transform.position = new Vector3(initX, sum, initZ);
+            if (sum <= minY)
+            {
+                sum = minY;
+                transform.position = new Vector3(initX, sum, initZ);
+                return;
             }
             await Task.Delay(50);
         }
