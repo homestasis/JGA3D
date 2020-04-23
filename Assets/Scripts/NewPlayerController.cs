@@ -55,14 +55,28 @@ public class NewPlayerController : MonoBehaviour
         float xSpeed = 0.0f;
         if(horizontalKey > 0)
         {
-            transform.localRotation = Quaternion.Euler(0, 90, 0);
+            if (isLadder)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, 90, 0);
+            }
             dashTime += Time.deltaTime;
             isRun = true;
             xSpeed = speed;
         }
         else if(horizontalKey < 0)
         {
-            transform.localRotation = Quaternion.Euler(0, -90, 0);
+            if (isLadder)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, -90, 0);
+            }
             dashTime += Time.deltaTime;
             isRun = true;
             xSpeed = -speed;
@@ -97,11 +111,13 @@ public class NewPlayerController : MonoBehaviour
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
                 ySpeed = climbSpeed;
+                isRun = true;
             }
             else if (verticalKey < 0)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
                 ySpeed = -climbSpeed;
+                isRun = true;
             }
             else
             {
