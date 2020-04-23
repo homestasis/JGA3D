@@ -15,7 +15,7 @@ public class NewPlayerController : MonoBehaviour
     public LadderCheck ladderChecker;
 
 
-    [SerializeField] private SunLightController sunLight;
+    //[SerializeField] private SunLightController sunLight;
     private Rigidbody rb = null;
     private CharacterController controller = null;
     private Animator anim = null;
@@ -55,14 +55,28 @@ public class NewPlayerController : MonoBehaviour
         float xSpeed = 0.0f;
         if(horizontalKey > 0)
         {
-            transform.localRotation = Quaternion.Euler(0, 90, 0);
+            if (isLadder)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, 90, 0);
+            }
             dashTime += Time.deltaTime;
             isRun = true;
             xSpeed = speed;
         }
         else if(horizontalKey < 0)
         {
-            transform.localRotation = Quaternion.Euler(0, -90, 0);
+            if (isLadder)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, -90, 0);
+            }
             dashTime += Time.deltaTime;
             isRun = true;
             xSpeed = -speed;
@@ -82,7 +96,6 @@ public class NewPlayerController : MonoBehaviour
             dashTime = 0.0f;
         }
         beforeKey = horizontalKey;
-　       //アニメーションカーブを速度に適用 New
         xSpeed *= dashCurve.Evaluate(dashTime);
         return xSpeed;
     }
@@ -93,22 +106,26 @@ public class NewPlayerController : MonoBehaviour
         float ySpeed = -gravity;
         if (isLadder)
         {
+            isRun = false;
+            isJump = false;
             if (verticalKey > 0)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
                 ySpeed = climbSpeed;
+                isRun = true;
             }
             else if (verticalKey < 0)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
                 ySpeed = -climbSpeed;
+                isRun = true;
             }
             else
             {
                 ySpeed = 0.0f;
             }
         }
-        if (controller.isGrounded)
+        else if (controller.isGrounded)
         {
             if (verticalKey > 0 && jumpTime < jumpLimitTime)
             {
@@ -116,7 +133,7 @@ public class NewPlayerController : MonoBehaviour
                 jumpPos = transform.position.y; //ジャンプした位置を記録する
                 isJump = true;
                 jumpTime = 0.0f;
-                sunLight.Darken();
+                //sunLight.Darken();
             }
             else
             {
