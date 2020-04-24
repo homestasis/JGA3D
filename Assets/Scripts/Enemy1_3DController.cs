@@ -18,17 +18,30 @@ public class Enemy1_3DController : MonoBehaviour
 
     private Animator anim;
 
+    private float sumTime;
+
 
     // Start is called before the first frame update
     private void Start()
     {
+        anim = GetComponent<Animator>();
         isLeft = true;
-
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if(isTurn)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            sumTime += Time.deltaTime;
+            if(sumTime>0.3f)
+            {
+                startToWalk();
+            }
+        }
+
         if (isLeft)
         {
             float x = transform.position.x - delta;
@@ -57,17 +70,21 @@ public class Enemy1_3DController : MonoBehaviour
             }
         }
 
+        SetAnimation();
+
     }
 
     private void　LookBack()
     {
         isTurn = true;
-        anim.SetBool("isTurn", isTurn);
         transform.rotation = Quaternion.Euler(0, 0, 0);
+        sumTime = 0;
     }
 
     private void startToWalk()
     {
+        sumTime = 0;
+        isTurn = false;
         if (transform.position.x > (minX + maxX) / 2)
         {
             LookLeft();
@@ -92,6 +109,5 @@ public class Enemy1_3DController : MonoBehaviour
     private void SetAnimation()
     {
         anim.SetBool("isLook", isLook);
-        anim.SetBool("isTurn", isTurn);
     }
 }
