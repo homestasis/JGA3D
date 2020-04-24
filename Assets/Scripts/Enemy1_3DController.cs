@@ -16,16 +16,17 @@ public class Enemy1_3DController : MonoBehaviour
     private bool isTurn;
     private bool isLook;
 
-    private Animator anim;
 
+    private Animator anim;
     private float sumTime;
+    private int vec;//Left = -1, Right = 1;
 
 
     // Start is called before the first frame update
     private void Start()
     {
         anim = GetComponent<Animator>();
-        isLeft = true;
+        LookLeft();
     }
 
     // Update is called once per frame
@@ -33,7 +34,8 @@ public class Enemy1_3DController : MonoBehaviour
     {
         if(isTurn)
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            float rot = (float)(90 * vec - vec*(sumTime / 0.3) * 180);
+            transform.rotation = Quaternion.Euler(0, rot, 0);
 
             sumTime += Time.deltaTime;
             if(sumTime>0.3f)
@@ -98,11 +100,13 @@ public class Enemy1_3DController : MonoBehaviour
     private void LookRight()
     {
         isRight = true;
+        vec = 1;
         transform.rotation = Quaternion.Euler(0, 90, 0);
     }
     private void LookLeft()
     {
         isLeft = true;
+        vec = -1;
         transform.rotation = Quaternion.Euler(0, -90, 0);
     }
 
