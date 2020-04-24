@@ -32,7 +32,7 @@ public class SunLightController : MonoBehaviour
         }
 
         grass = new List<GrassController>();
-        GameObject[] grassOb = GameObject.FindGameObjectsWithTag("Grass");
+        GameObject[] grassOb = GameObject.FindGameObjectsWithTag("Ladder");
         foreach(GameObject g in grassOb)
         {
             grass.Add(g.GetComponent<GrassController>());
