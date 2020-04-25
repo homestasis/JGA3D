@@ -29,7 +29,6 @@ public class LadderCheck : MonoBehaviour
     {
         if (collision.tag == ladderTag)
         {
-            Debug.Log("Enter");
             isLadderEnter = true;
         }
     }
@@ -38,7 +37,6 @@ public class LadderCheck : MonoBehaviour
     {
         if (collision.tag == ladderTag)
         {
-            Debug.Log("Stay");
             isLadderStay = true;
         }
     }

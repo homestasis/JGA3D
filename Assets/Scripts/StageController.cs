@@ -7,7 +7,7 @@ public class StageController : MonoBehaviour
     [Header("プレイヤーゲームオブジェクト")] public GameObject playerObj;
     [Header("コンティニュー位置")] public GameObject[] continuePoint;
 
-    private PlayerController p;
+    private NewPlayerController p;
 
 
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class StageController : MonoBehaviour
         {
             playerObj.transform.position = continuePoint[0].transform.position;
 
-            p = playerObj.GetComponent<PlayerController>();
+            p = playerObj.GetComponent<NewPlayerController>();
             if (p == null)
             {
                 Debug.Log("プレイヤーが設定されていません");
@@ -43,6 +43,6 @@ public class StageController : MonoBehaviour
     /// </summary>
     public void PlayerSetContinuePoint()
     {
-        playerObj.transform.position = continuePoint[0].transform.position;
+        playerObj.transform.position = continuePoint[GManager.instance.continueNum].transform.position;
     }
 }
