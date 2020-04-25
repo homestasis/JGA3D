@@ -22,6 +22,7 @@ public class NewPlayerController : MonoBehaviour
     private bool isRun = false;
     private bool isJump = false;
     private bool isLadder = false;
+    private bool rainKey = false;
     private float jumpPos = 0.0f;
     private float dashTime, jumpTime;
     private float beforeKey;
@@ -45,6 +46,8 @@ public class NewPlayerController : MonoBehaviour
 
         Vector3 direction = new Vector3(xSpeed, ySpeed, 0);
         controller.Move(direction * Time.deltaTime);
+
+        GetRain();
 
         SetAnimation();
     }
@@ -132,7 +135,7 @@ public class NewPlayerController : MonoBehaviour
                 jumpPos = transform.position.y; //ジャンプした位置を記録する
                 isJump = true;
                 jumpTime = 0.0f;
-                sunLight.Darken();
+                //sunLight.Darken();
             }
             else
             {
@@ -158,6 +161,20 @@ public class NewPlayerController : MonoBehaviour
             ySpeed *= jumpCurve.Evaluate(jumpTime);
         }
         return ySpeed;
+    }
+
+    private void GetRain()
+    {
+        if(!rainKey && Input.GetKeyDown(KeyCode.Space))
+        {
+            sunLight.Darken();
+            rainKey = true;
+        }
+        else if(rainKey && Input.GetKeyDown(KeyCode.Space))
+        {
+            sunLight.Lighten();
+            rainKey = false;
+        }
     }
 
     private void SetAnimation()
