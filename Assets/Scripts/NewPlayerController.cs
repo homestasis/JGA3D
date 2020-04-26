@@ -47,6 +47,8 @@ public class NewPlayerController : MonoBehaviour
         Vector3 direction = new Vector3(xSpeed, ySpeed, 0);
         controller.Move(direction * Time.deltaTime);
 
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+
         GetRain();
 
         SetAnimation();
