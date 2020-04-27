@@ -32,6 +32,7 @@ public partial class NewPlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
+        weather = weatherOb.GetComponent<WeatherController>();
     }
 
     private void Update()
@@ -175,12 +176,12 @@ public partial class NewPlayerController : MonoBehaviour
     {
         if(!rainKey && Input.GetKeyDown(KeyCode.Space))
         {
-            sunLight.Darken();
+            weather.BeRainnyAsync();
             rainKey = true;
         }
         else if(rainKey && Input.GetKeyDown(KeyCode.Space))
         {
-            sunLight.Lighten();
+            weather.BeSunny();
             rainKey = false;
         }
     }
