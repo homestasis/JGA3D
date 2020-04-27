@@ -28,7 +28,7 @@ public class TextController : MonoBehaviour
         uiText = message;
         //パネルを表示
         panel.SetActive(true);
-        //テクストを表示
+        //テキストを表示
         uiText.gameObject.SetActive(true);
         TextUpdate();
 
