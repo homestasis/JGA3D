@@ -53,9 +53,9 @@ public class SunLightController : MonoBehaviour
             ex -= delta;
             sky.SetFloat("_Exposure", ex);
 
-            if (inte <= 0.07f || ex <= 0.01f)
+            if (inte <= 0.40 || ex <= 0.01f)
             {
-                light.intensity = 0.07f;
+                light.intensity = 0.40f;
 
                 ex = 0.01f;
                 sky.SetFloat("_Exposure", ex);

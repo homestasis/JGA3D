@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Timers;
 
 
-public class Enemy1_3DController : MonoBehaviour
+public class Enemy1_3DController : EnemyBase
 {
 
     [SerializeField] private float minX;
@@ -14,7 +14,6 @@ public class Enemy1_3DController : MonoBehaviour
     private bool isLeft;
     private bool isRight;
     private bool isTurn;
-    private bool isLook;
 
 
     private Animator anim;
@@ -58,21 +57,19 @@ public class Enemy1_3DController : MonoBehaviour
 
             }
         }
-        if(isRight)
+        if (isRight)
         {
             float x = transform.position.x + delta;
-            if(x >= maxX)
+            if (x >= maxX)
             {
                 isRight = false;
-                LookBack();        
+                LookBack();
             }
             else
             {
                 transform.Translate(0, 0, delta);
             }
         }
-
-        SetAnimation();
 
     }
 
@@ -110,8 +107,4 @@ public class Enemy1_3DController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, -90, 0);
     }
 
-    private void SetAnimation()
-    {
-        anim.SetBool("isLook", isLook);
-    }
 }

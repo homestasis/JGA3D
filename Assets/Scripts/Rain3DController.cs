@@ -19,6 +19,7 @@ public class Rain3DController : MonoBehaviour
 
     internal async void StartToSoundRain()
     {
+        print("starttorain");
         if (rain.RainIntensity >= 0.31f) { return; }
         while (true)
         {

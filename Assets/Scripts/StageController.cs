@@ -44,5 +44,6 @@ public class StageController : MonoBehaviour
     public void PlayerSetContinuePoint()
     {
         playerObj.transform.position = continuePoint[GManager.instance.continueNum].transform.position;
+        p.ResetIsStop();
     }
 }

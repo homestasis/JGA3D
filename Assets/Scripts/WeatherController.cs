@@ -12,11 +12,17 @@ public class WeatherController : MonoBehaviour
     private SunLightController sunLight;
     private Rain3DController rain;
 
+    private bool isNormalRainy;
+    private bool isHeavyRainy;
+
     private void Awake()
     {
         sunLight = sunLightOb.GetComponent<SunLightController>();
         rain = rainPf.GetComponent<Rain3DController>();
     }
+
+    internal bool GetIsNormalRainy() { return isNormalRainy; }
+    internal bool GetIsHeavyRainy() { return isHeavyRainy;  }
 
     internal async Task BeRainnyAsync()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewPlayerController : MonoBehaviour
+public partial class NewPlayerController : MonoBehaviour
 {
     public float speed;
     public float gravity;
@@ -36,6 +36,12 @@ public class NewPlayerController : MonoBehaviour
 
     private void Update()
     {
+        if(isStop)
+        {
+            transform.position = StopPoint;
+            return;
+        }
+
         isLadder = ladderChecker.IsLadder();
 
         float xSpeed = 0.0f;
