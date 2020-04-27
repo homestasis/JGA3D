@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Timers;
 
 
-public class Enemy1_3DController : EnemyBase
+public class Enemy1_3DController : MonoBehaviour
 {
 
     [SerializeField] private float minX;
@@ -14,9 +14,8 @@ public class Enemy1_3DController : EnemyBase
     private bool isLeft;
     private bool isRight;
     private bool isTurn;
+    private bool isStop;
 
-
-    private Animator anim;
     private float sumTime;
     private int vec;//Left = -1, Right = 1;
 
@@ -24,14 +23,18 @@ public class Enemy1_3DController : EnemyBase
     // Start is called before the first frame update
     private void Start()
     {
-        anim = GetComponent<Animator>();
         LookLeft();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if(isTurn)
+        if(isStop)
+        {
+            return;
+        }
+
+        if (isTurn)
         {
             float rot = (float)(90 * vec - vec*(sumTime / 0.3) * 180);
             transform.rotation = Quaternion.Euler(0, rot, 0);
@@ -107,4 +110,8 @@ public class Enemy1_3DController : EnemyBase
         transform.rotation = Quaternion.Euler(0, -90, 0);
     }
 
+    internal void StopToMove()
+    {
+        isStop = true;
+    }
 }

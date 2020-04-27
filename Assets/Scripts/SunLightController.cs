@@ -14,15 +14,16 @@ public class SunLightController : MonoBehaviour
 
     private List<WaterController> water;
     private List<GrassController> grass;
-    private FireController fire;
+   // private FireController fire;
 
     // Start is called before the first frame update
     private void Awake()
     {
         light = GetComponent<Light>();
-        light.intensity = 1f;
-        sky.SetFloat("_Exposure", 1f);
-        ex = 1f;
+        light.intensity = 0.7f;
+        ex = 0.6f;
+        sky.SetFloat("_Exposure", ex);
+        
 
         water = new List<WaterController>();
         GameObject[] waterOb = GameObject.FindGameObjectsWithTag("Water");
@@ -37,9 +38,10 @@ public class SunLightController : MonoBehaviour
         {
             grass.Add(g.GetComponent<GrassController>());
         }
-
+        /*
         GameObject fireOb = GameObject.Find("fireplace");
         fire = fireOb.GetComponent<FireController>();
+        */
 
     }
 
@@ -53,11 +55,11 @@ public class SunLightController : MonoBehaviour
             ex -= delta;
             sky.SetFloat("_Exposure", ex);
 
-            if (inte <= 0.40 || ex <= 0.01f)
+            if (inte <= 0.40 || ex <= 0.23f)
             {
                 light.intensity = 0.40f;
 
-                ex = 0.01f;
+                ex = 0.23f;
                 sky.SetFloat("_Exposure", ex);
 
 
@@ -75,7 +77,7 @@ public class SunLightController : MonoBehaviour
             w.IncreaseWater();
         }
 
-        fire.PutOutFire();
+    //    fire.PutOutFire();
 
     }
 
@@ -90,11 +92,11 @@ public class SunLightController : MonoBehaviour
             ex += delta;
             sky.SetFloat("_Exposure", ex);
 
-            if (inte >= 1f || ex >= 1f)
+            if (inte >= 0.7f || ex >= 0.6f)
             {
-                light.intensity = 1f;
+                light.intensity = 0.7f;
 
-                ex = 1f;
+                ex = 0.6f;
                 sky.SetFloat("_Exposure", ex);
 
                 break;
