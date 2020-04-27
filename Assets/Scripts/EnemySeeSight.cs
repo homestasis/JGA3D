@@ -7,7 +7,7 @@ public class EnemySeeSight : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject stageOb;
     private NewPlayerController pController;
-    private Enemy1_3DController enemyCont;
+    private EnemyBase enemyBase;
     private StageController stage;
 
 
@@ -15,7 +15,7 @@ public class EnemySeeSight : MonoBehaviour
     {
         pController = player.GetComponent<NewPlayerController>();
         GameObject enemy = transform.root.gameObject;
-        enemyCont = enemy.GetComponent<Enemy1_3DController>();
+        enemyBase = enemy.GetComponent<EnemyBase>();
         stage = stageOb.GetComponent<StageController>();
     }
 
@@ -23,7 +23,7 @@ public class EnemySeeSight : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if(pController.IntoSight())
+            if (pController.IntoSight())
             {
                 StartCoroutine(FindingPlayer());
             }
@@ -32,9 +32,10 @@ public class EnemySeeSight : MonoBehaviour
 
     private IEnumerator FindingPlayer()
     {
-        enemyCont.FindPlayer();
+        enemyBase.FindPlayer();
         pController.StopPlayer();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.4f);
         stage.PlayerSetContinuePoint();
+        enemyBase.GetAnimationFalse();
     }
 }

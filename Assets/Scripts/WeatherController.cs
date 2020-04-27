@@ -19,6 +19,7 @@ public class WeatherController : MonoBehaviour
     {
         sunLight = sunLightOb.GetComponent<SunLightController>();
         rain = rainPf.GetComponent<Rain3DController>();
+        isNormalRainy = true;
     }
 
     internal bool GetIsNormalRainy() { return isNormalRainy; }
@@ -26,6 +27,8 @@ public class WeatherController : MonoBehaviour
 
     internal async Task BeRainnyAsync()
     {
+        isNormalRainy = false;
+        isHeavyRainy = true;
         sunLight.Darken();
         await Task.Delay(1200);
         rain.StartToSoundRain();
@@ -33,6 +36,8 @@ public class WeatherController : MonoBehaviour
 
     internal void BeSunny()
     {
+        isNormalRainy = true;
+        isHeavyRainy = false;
         sunLight.Lighten();
         rain.StopToSoundRain();
     }
