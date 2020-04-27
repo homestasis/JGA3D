@@ -20,13 +20,10 @@ public class IventScript : MonoBehaviour
 
     public void Talk()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (flag2)
         {
-            if (flag2)
-            {
-                textController.StartText(scenarios2);
-                flag2 = false;
-            }
+            textController.StartText(scenarios2);
+            flag2 = false;
         }
     }
 }
