@@ -18,15 +18,13 @@ public class IventScript : MonoBehaviour
     }
 
 
-    public void Talk()
+    public void AButton()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        Debug.Log("!");
+        if (flag2)
         {
-            if (flag2)
-            {
-                textController.StartText(scenarios2);
-                flag2 = false;
-            }
+            textController.StartText(scenarios2);
+            flag2 = false;
         }
     }
 }
