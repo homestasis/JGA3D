@@ -31,13 +31,15 @@ public class SunLightController : MonoBehaviour
         {
             water.Add(w.GetComponent<WaterController>());
         }
+        
 
         grass = new List<GrassController>();
-        GameObject[] grassOb = GameObject.FindGameObjectsWithTag("Ladder");
+        GameObject[] grassOb = GameObject.FindGameObjectsWithTag("Grass");
         foreach(GameObject g in grassOb)
         {
             grass.Add(g.GetComponent<GrassController>());
         }
+
         /*
         GameObject fireOb = GameObject.Find("fireplace");
         fire = fireOb.GetComponent<FireController>();
@@ -46,7 +48,7 @@ public class SunLightController : MonoBehaviour
     }
 
     internal async void Darken()
-    {
+    { 
         while (true)
         {
             float inte = light.intensity;
@@ -75,6 +77,7 @@ public class SunLightController : MonoBehaviour
         foreach(WaterController w in water)
         {
             w.IncreaseWater();
+            print("increase water");
         }
 
     //    fire.PutOutFire();
