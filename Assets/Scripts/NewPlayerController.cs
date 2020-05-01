@@ -14,7 +14,6 @@ public partial class NewPlayerController : MonoBehaviour
     public AnimationCurve jumpCurve;
     public LadderCheck ladderChecker;
 
-
     [SerializeField] private SunLightController sunLight;
     private Rigidbody rb = null;
     private CharacterController controller = null;
