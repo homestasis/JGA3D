@@ -26,30 +26,12 @@ public partial class NewPlayerController : MonoBehaviour
     private float dashTime, jumpTime;
     private float beforeKey;
 
-    //クワバラが追加した.
-    private bool isInWater;
-  //  private bool goToUpper;
-
-    [Header("何フレームで1周期か")]
-    [SerializeField] private float tSeconds;
-    private float tFrame;
-    [Header("振幅")]
-    [SerializeField] private float amp;
-
-    private float surfaceP;
-    private float dir;
-
-    private bool fall;
-
-  //  [Header("浮力")]
-
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         weather = weatherOb.GetComponent<WeatherController>();
-        tFrame = tSeconds / Time.deltaTime;     
     }
 
     private void Update()
@@ -66,15 +48,7 @@ public partial class NewPlayerController : MonoBehaviour
         float ySpeed = 0.0f;
 
         xSpeed = GetXSpeed();
-
-        if (!isInWater) { ySpeed = GetYSpeed(); }
-        else
-        {
-            int i = xSpeed < 0 ? -1 : 1;
-            xSpeed = (float)(i * Mathf.Abs(xSpeed) * 0.8);
-
-            ySpeed = GetYSPeedInWater();
-        }
+        ySpeed = GetYSpeed();
 
         Vector3 direction = new Vector3(xSpeed, ySpeed, 0);
         controller.Move(direction * Time.deltaTime);
@@ -85,24 +59,6 @@ public partial class NewPlayerController : MonoBehaviour
 
         SetAnimation();
     }
-
-    internal void SetIsInWater(float y)
-    {
-        isInWater = true;
-        surfaceP = y;
-        //  dir = -1;
-        fall = true;
-        print("water in ");
-
-    }
-
-    internal void ResetIsInWater()
-    {
-        isInWater = false;
-        print("water reset");
-    }
-
-    
 
     private float GetXSpeed()
     {
@@ -158,31 +114,36 @@ public partial class NewPlayerController : MonoBehaviour
 
     private float GetYSpeed()
     {
-        bool pushSpace = Input.GetKey(KeyCode.Space);
+        float verticalKey = Input.GetAxis("Vertical");
         float ySpeed = -gravity;
         if (isLadder)
         {
-            if (pushSpace)
+            if (verticalKey > 0)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
                 ySpeed = climbSpeed;
                 isRun = true;
             }
-            else
+            else if (verticalKey < 0)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
                 ySpeed = -climbSpeed;
                 isRun = true;
             }
+            else
+            {
+                ySpeed = 0.0f;
+            }
         }
         if (controller.isGrounded)
         {
-            if (pushSpace && jumpTime < jumpLimitTime)
+            if (verticalKey > 0 && jumpTime < jumpLimitTime)
             {
                 ySpeed = jumpSpeed;
                 jumpPos = transform.position.y; //ジャンプした位置を記録する
                 isJump = true;
                 jumpTime = 0.0f;
+                //sunLight.Darken();
             }
             else
             {
@@ -192,7 +153,7 @@ public partial class NewPlayerController : MonoBehaviour
         else if (isJump)
         {
             //上ボタンを押されている。かつ、現在の高さがジャンプした位置から自分の決めた位置より下ならジャンプを継続する
-            if (pushSpace && jumpPos + jumpHeight > transform.position.y && jumpTime < jumpLimitTime)
+            if (verticalKey > 0 && jumpPos + jumpHeight > transform.position.y && jumpTime < jumpLimitTime)
             {
                 ySpeed = jumpSpeed;
                 jumpTime += Time.deltaTime;
@@ -208,76 +169,16 @@ public partial class NewPlayerController : MonoBehaviour
             ySpeed *= jumpCurve.Evaluate(jumpTime);
         }
         return ySpeed;
-    }
-
-    private float GetYSPeedInWater()
-    {
-        bool pushSpace = Input.GetKey(KeyCode.Space);
-        float ySpeed = -gravity;
-        if (!isJump)
-        {
-            if (pushSpace && jumpTime < jumpLimitTime)
-            {
-                ySpeed = jumpSpeed;
-                jumpPos = transform.position.y; //ジャンプした位置を記録する
-                isJump = true;
-                jumpTime = 0.0f;
-                fall = true;
-            }
-            else
-            {
-                isJump = false;
-            }
-        }
-        else if (isJump)
-        {
-            //上ボタンを押されている。かつ、現在の高さがジャンプした位置から自分の決めた位置より下ならジャンプを継続する
-            if (pushSpace&& jumpPos + jumpHeight > transform.position.y && jumpTime < jumpLimitTime)
-            {
-                ySpeed = jumpSpeed;
-                jumpTime += Time.deltaTime;
-            }
-            else
-            {
-                isJump = false;
-                jumpTime = 0.0f;
-            }
-        }
-
-
-
-        if (isJump)
-        {
-            ySpeed *= jumpCurve.Evaluate(jumpTime);
-        }
-        else
-        {
-            float y = transform.position.y;
-            float gap = surfaceP - y;
-            print("surfaceP:"+surfaceP + "y:" + y +  "gap:" + gap);
-            if (gap  >= 0.2480) { fall = false; }
-
-            float tem = CalculateBouyancy(y);
-            float bouyanValue = fall ? (float)(tem * 0.40) : (float)(tem*0.6);
-            ySpeed += bouyanValue;
-        }
-        print(fall);
-        print(ySpeed);
-        return ySpeed;
-    }
-    private float CalculateBouyancy(float posY)
-    {
-        return (float)(gravity*(surfaceP - posY)/0.10);
     }
 
     private void GetRain()
     {
-        if(!rainKey && Input.GetKeyDown(KeyCode.Return))
+        if(!rainKey && Input.GetKeyDown(KeyCode.Space))
         {
             weather.BeRainnyAsync();
             rainKey = true;
         }
-        else if(rainKey && Input.GetKeyDown(KeyCode.Return))
+        else if(rainKey && Input.GetKeyDown(KeyCode.Space))
         {
             weather.BeSunny();
             rainKey = false;
