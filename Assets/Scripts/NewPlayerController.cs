@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public partial class NewPlayerController : MonoBehaviour
 {
@@ -30,17 +31,43 @@ public partial class NewPlayerController : MonoBehaviour
     private float surfaceP;
     private bool inWater;
 
+    private bool isNormalRain;
+    private bool isHeavyRain;
+
+    [SerializeField] private float nomalTempDecrease;
+    [SerializeField] private float heavyTempDecrease;
+
+    [SerializeField]
+    private GameObject tempUI;
+    private Slider tempSlider;
+
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         weather = weatherOb.GetComponent<WeatherController>();
+
+        tempSlider = tempUI.transform.Find("TempBar").GetComponent<Slider>();
+        tempSlider.value = 1f;
+
+        SetNormalRain();
+
+        nomalTempDecrease = nomalTempDecrease * Time.deltaTime;
+        heavyTempDecrease = heavyTempDecrease * Time.deltaTime;
     }
 
     private void Update()
     {
-        if(isStop)
+
+        DecreaseTempreture();
+        if (tempSlider.value <= 0)
+        {
+            //GameOver
+        }
+
+        if (isStop)
         {
             transform.position = StopPoint;
             return;
@@ -72,6 +99,18 @@ public partial class NewPlayerController : MonoBehaviour
         SetAnimation();
     }
 
+    internal void SetNormalRain()
+    {
+        isNormalRain = true;
+        isHeavyRain = false;
+    }
+
+    internal void SetHeavyRain()
+    {
+        isHeavyRain = true;
+        isNormalRain = false;
+    }
+
     internal void GetIntoWater(float pos)
     {
         inWater = true;
@@ -91,6 +130,17 @@ public partial class NewPlayerController : MonoBehaviour
         fall = false;
     }
 
+    private void DecreaseTempreture()
+    {
+        if (isNormalRain)
+        {
+            tempSlider.value -= nomalTempDecrease;
+        }
+        if (isHeavyRain)
+        {
+            tempSlider.value -= heavyTempDecrease;
+        }
+    }
 
     private float GetXSpeed()
     {
