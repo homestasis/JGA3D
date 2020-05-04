@@ -31,15 +31,19 @@ public partial class NewPlayerController : MonoBehaviour
     private float surfaceP;
     private bool inWater;
 
-    private bool isNormalRain;
-    private bool isHeavyRain;
-
     [SerializeField] private float nomalTempDecrease;
     [SerializeField] private float heavyTempDecrease;
 
     [SerializeField]
     private GameObject tempUI;
     private Slider tempSlider;
+
+    [SerializeField] private float speedPropInHeavyRain;
+
+    private float xSpeed;
+    private float ySpeed;
+
+    private float xSpeedBefore;
 
 
     private void Start()
@@ -60,7 +64,7 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void Update()
     {
-
+        GetRain();
         DecreaseTempreture();
         if (tempSlider.value <= 0)
         {
@@ -72,43 +76,37 @@ public partial class NewPlayerController : MonoBehaviour
             transform.position = StopPoint;
             return;
         }
-
         isLadder = ladderChecker.IsLadder();
-
-        float xSpeed = 0.0f;
-        float ySpeed = 0.0f;
-
-        xSpeed = GetXSpeed();
-
+        GetXSpeed();
+        xSpeedBefore = xSpeed;
         if (!inWater)
         {
-            ySpeed = GetYSpeed();
+            GetYSpeed();
         }
         if(inWater)
         {
-            ySpeed = GetYSPeedInWater();
+            GetYSPeedInWater();
+        }
+        if(rainKey)
+        {
+            xSpeed = xSpeed*speedPropInHeavyRain;
+            ySpeed = ySpeed * speedPropInHeavyRain;
         }
 
         Vector3 direction = new Vector3(xSpeed, ySpeed, 0);
         controller.Move(direction * Time.deltaTime);
-
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-
-        GetRain();
-
         SetAnimation();
     }
 
     internal void SetNormalRain()
     {
-        isNormalRain = true;
-        isHeavyRain = false;
+        rainKey = false;
     }
 
     internal void SetHeavyRain()
     {
-        isHeavyRain = true;
-        isNormalRain = false;
+        rainKey = true;
     }
 
     internal void GetIntoWater(float pos)
@@ -132,20 +130,25 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void DecreaseTempreture()
     {
-        if (isNormalRain)
-        {
-            tempSlider.value -= nomalTempDecrease;
-        }
-        if (isHeavyRain)
+        if (rainKey)
         {
             tempSlider.value -= heavyTempDecrease;
         }
+        else
+        {
+            tempSlider.value -= nomalTempDecrease;
+        }
     }
 
-    private float GetXSpeed()
+    private void GetXSpeed()
     {
+        if (!controller.isGrounded)
+        {
+            xSpeed = xSpeedBefore;
+            return; }
+
         float horizontalKey = Input.GetAxis("Horizontal");
-        float xSpeed = 0.0f;
+        xSpeed = 0f;
         if(horizontalKey > 0)
         {
             if (isLadder)
@@ -191,14 +194,13 @@ public partial class NewPlayerController : MonoBehaviour
         beforeKey = horizontalKey;
 　       //アニメーションカーブを速度に適用 New
         xSpeed *= dashCurve.Evaluate(dashTime);
-        return xSpeed;
     }
 
-    private float GetYSpeed()
+    private void GetYSpeed()
     {
         //float verticalKey = Input.GetAxis("Vertical");
         bool jump = Input.GetKey(KeyCode.Space);
-        float ySpeed = -gravity;
+        ySpeed = -gravity;
         if (isLadder)
         {
             if (jump)
@@ -247,14 +249,14 @@ public partial class NewPlayerController : MonoBehaviour
         {
             ySpeed *= jumpCurve.Evaluate(jumpTime);
         }
-        return ySpeed;
+        
     }
 
 
-    private float GetYSPeedInWater()
+    private void GetYSPeedInWater()
     {
         bool pushSpace = Input.GetKey(KeyCode.Space);
-        float ySpeed = -gravity;
+        ySpeed = -gravity;
         if (!isJump)
         {
             if (pushSpace && jumpTime < jumpLimitTime)
@@ -293,16 +295,12 @@ public partial class NewPlayerController : MonoBehaviour
         {
             float y = transform.position.y;
             float gap = surfaceP - y;
-            print("surfaceP:" + surfaceP + "y:" + y + "gap:" + gap);
             if (gap >= 0.2480) { fall = false; }
 
             float tem = CalculateBouyancy(y);
             float bouyanValue = fall ? (float)(tem * 0.40) : (float)(tem * 0.6);
             ySpeed += bouyanValue;
         }
-        print(fall);
-        print(ySpeed);
-        return ySpeed;
     }
     private float CalculateBouyancy(float posY)
     {
