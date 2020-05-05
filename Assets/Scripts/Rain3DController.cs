@@ -14,18 +14,18 @@ public class Rain3DController : MonoBehaviour
     private void Awake()
     {
         rain = this.GetComponent<RainScript>();
-        rain.RainIntensity = 0.1f;
+        rain.RainIntensity = 0.4f;
     }
 
     internal async void StartToSoundRain()
     {
-        if (rain.RainIntensity >= 0.41f) { return; }
+        if (rain.RainIntensity >= 0.7f) { return; }
         while (true)
         {
             rain.RainIntensity += delta;
-            if (rain.RainIntensity >= 0.41f)
+            if (rain.RainIntensity >= 0.7f)
             {
-                rain.RainIntensity = 0.41f;
+                rain.RainIntensity = 0.7f;
                 return;
             }
 
@@ -35,13 +35,13 @@ public class Rain3DController : MonoBehaviour
 
     internal async void StopToSoundRain()
     {
-        if(rain.RainIntensity <= 0.1) { return; }
+        if(rain.RainIntensity <= 0.4) { return; }
         while (true)
         {
             rain.RainIntensity -= delta;
-            if (rain.RainIntensity <= 0.1f)
+            if (rain.RainIntensity <= 0.4f)
             {
-                rain.RainIntensity = 0.1f;
+                rain.RainIntensity = 0.4f;
                 return;
             }
 

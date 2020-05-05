@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public partial class NewPlayerController : MonoBehaviour
@@ -42,9 +40,9 @@ public partial class NewPlayerController : MonoBehaviour
 
     private float xSpeed;
     private float ySpeed;
-
     private float xSpeedBefore;
 
+    private AudioSource audio;
 
     private void Start()
     {
@@ -60,6 +58,8 @@ public partial class NewPlayerController : MonoBehaviour
 
         nomalTempDecrease = nomalTempDecrease * Time.deltaTime;
         heavyTempDecrease = heavyTempDecrease * Time.deltaTime;
+
+        audio = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -83,19 +83,20 @@ public partial class NewPlayerController : MonoBehaviour
         {
             GetYSpeed();
         }
-        if(inWater)
+        if (inWater)
         {
             GetYSPeedInWater();
         }
-        if(rainKey)
+        if (rainKey)
         {
-            xSpeed = xSpeed*speedPropInHeavyRain;
+            xSpeed = xSpeed * speedPropInHeavyRain;
             ySpeed = ySpeed * speedPropInHeavyRain;
         }
 
         Vector3 direction = new Vector3(xSpeed, ySpeed, 0);
         controller.Move(direction * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+
         SetAnimation();
     }
 
@@ -145,11 +146,12 @@ public partial class NewPlayerController : MonoBehaviour
         if (!controller.isGrounded)
         {
             xSpeed = xSpeedBefore;
-            return; }
+            return;
+        }
 
         float horizontalKey = Input.GetAxis("Horizontal");
         xSpeed = 0f;
-        if(horizontalKey > 0)
+        if (horizontalKey > 0)
         {
             if (isLadder)
             {
@@ -162,8 +164,12 @@ public partial class NewPlayerController : MonoBehaviour
             dashTime += Time.deltaTime;
             isRun = true;
             xSpeed = speed;
+            if (!audio.isPlaying)
+            {
+                audio.Play();
+            }
         }
-        else if(horizontalKey < 0)
+        else if (horizontalKey < 0)
         {
             if (isLadder)
             {
@@ -176,12 +182,17 @@ public partial class NewPlayerController : MonoBehaviour
             dashTime += Time.deltaTime;
             isRun = true;
             xSpeed = -speed;
+            if (!audio.isPlaying)
+            {
+                audio.Play();
+            }
         }
         else
         {
             isRun = false;
             xSpeed = 0.0f;
             dashTime = 0.0f;
+            audio.Stop();
         }
         if (horizontalKey > 0 && beforeKey < 0)
         {
@@ -209,13 +220,13 @@ public partial class NewPlayerController : MonoBehaviour
                 ySpeed = climbSpeed;
                 isRun = true;
             }
-            else 
+            else
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
                 ySpeed = -climbSpeed;
                 isRun = true;
             }
-            
+
         }
         if (controller.isGrounded)
         {
@@ -225,6 +236,7 @@ public partial class NewPlayerController : MonoBehaviour
                 jumpPos = transform.position.y; //ジャンプした位置を記録する
                 isJump = true;
                 jumpTime = 0.0f;
+                audio.Stop();
             }
             else
             {
@@ -249,7 +261,7 @@ public partial class NewPlayerController : MonoBehaviour
         {
             ySpeed *= jumpCurve.Evaluate(jumpTime);
         }
-        
+
     }
 
 
@@ -309,12 +321,12 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void GetRain()
     {
-        if(!rainKey && Input.GetKeyDown(KeyCode.Return))
+        if (!rainKey && Input.GetKeyDown(KeyCode.Return))
         {
             weather.BeRainnyAsync();
             rainKey = true;
         }
-        else if(rainKey && Input.GetKeyDown(KeyCode.Return))
+        else if (rainKey && Input.GetKeyDown(KeyCode.Return))
         {
             weather.BeSunny();
             rainKey = false;
@@ -323,7 +335,7 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void SetAnimation()
     {
-        anim.SetBool("jump",isJump);
+        anim.SetBool("jump", isJump);
         anim.SetBool("run", isRun);
     }
 }
