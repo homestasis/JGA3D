@@ -6,52 +6,96 @@ using System.Threading.Tasks;
 public class EnemyGardian : MonoBehaviour
 {
     [SerializeField] private GameObject player = null;
-    [SerializeField] private float startPosX = 0;
-    [SerializeField] private float nextPosX = 0;
+    [SerializeField] private float xMoov = 0;
     [SerializeField] private float speed = 0;
 
     private Rigidbody rb = null;
     private Animator anim = null;
     private bool isRun = false;
-    private float vec;
+    private bool isLook = false;
+    private float startPosX;
+    private float nextPosX;
+    private float pos;
 
-    // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        vec = nextPosX - startPosX;
+        startPosX = transform.position.x;
+        nextPosX = transform.position.x + xMoov;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        SetAnimation();
+        pos = transform.position.x;
+        if (xMoov < 0 && pos < nextPosX)
         {
-            StartCoroutine("RunAway");
+            transform.position = new Vector3(nextPosX, transform.position.y, transform.position.z);
+            //isRun = false;
+        }
+        else if (xMoov > 0 && pos > nextPosX)
+        {
+            transform.position = new Vector3(nextPosX, transform.position.y, transform.position.z);
+            //isRun = false;
+        }
+        if (xMoov < 0 && pos > startPosX)
+        {
+            transform.position = new Vector3(startPosX, transform.position.y, transform.position.z);
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            isRun = false;
+        }
+        else if(xMoov > 0 && pos < startPosX)
+        {
+            transform.position = new Vector3(startPosX, transform.position.y, transform.position.z);
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            isRun = false;
         }
     }
 
-    IEnumerator RunAway()
+    internal async void RunAway()
     {
-        if (vec < 0)
+        isRun = true;
+        if (xMoov < 0)
         {
             transform.localRotation = Quaternion.Euler(0, -90, 0);
             rb.velocity = new Vector3(-speed, 0, 0);
-            isRun = true;
-            anim.SetBool("run", isRun);
-            yield return new WaitForSeconds(3f);
-            Destroy(this.gameObject);
-    
         }
-        else if (vec > 0)
+        else if (xMoov > 0)
         {
             transform.localRotation = Quaternion.Euler(0, 90, 0);
             rb.velocity = new Vector3(speed, 0, 0);
-            isRun = true;
-            anim.SetBool("run", isRun);
-            yield return new WaitForSeconds(3f);
-            Destroy(this.gameObject);
         }
-        else Destroy(this.gameObject);
+    }
+
+    internal async void ComeBack()
+    {
+        isRun = true;
+        if (xMoov < 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 90, 0);
+            rb.velocity = new Vector3(speed, 0, 0);
+        }
+        else if (xMoov > 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, -90, 0);
+            rb.velocity = new Vector3(-speed, 0, 0);
+        }
+    }
+
+    internal void FindPlayer()
+    {
+        isLook = true;
+    }
+
+    internal void FindAnimFalse()
+    {
+        isLook = false;
+    }
+
+    private void SetAnimation()
+    {
+        anim.SetBool("run", isRun);
+        anim.SetBool("jump",isLook);
     }
 }
