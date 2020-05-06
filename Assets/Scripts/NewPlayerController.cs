@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
+using System.Collections;
 
 public partial class NewPlayerController : MonoBehaviour
 {
@@ -44,6 +47,32 @@ public partial class NewPlayerController : MonoBehaviour
 
     private AudioSource audio;
 
+    private List<SpeechChange> speechScripts;
+    private GameObject[] farmers;
+    private List<FarmerController> farmerScripts;
+
+    [SerializeField] private GameObject cameraOb;
+    private Camera3DController cam;
+
+
+
+    private void Awake()
+    {
+        speechScripts = new List<SpeechChange>();
+        farmerScripts = new List<FarmerController>();
+
+        farmers = GameObject.FindGameObjectsWithTag("Farmer");
+        foreach(GameObject g in farmers)
+        {
+            GameObject speechBubble = g.transform.Find("SpeechBubble").gameObject;
+            speechScripts.Add(speechBubble.GetComponent<SpeechChange>());
+            farmerScripts.Add(g.GetComponent<FarmerController>());
+        }
+        
+        cam = cameraOb.GetComponent<Camera3DController>();
+        
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -71,6 +100,7 @@ public partial class NewPlayerController : MonoBehaviour
             //GameOver
         }
 
+        Conversation();
         if (isStop)
         {
             transform.position = StopPoint;
@@ -331,6 +361,39 @@ public partial class NewPlayerController : MonoBehaviour
             weather.BeSunny();
             rainKey = false;
         }
+    }
+
+    private void Conversation()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            for(int i =0; i<speechScripts.Count; i++)
+            {
+                if(speechScripts[i].GetIsDisplay())
+                {
+                    StartCoroutine(StartToConversation(i));
+                }
+            }
+        }
+    }
+
+    private IEnumerator StartToConversation(int i)
+    {
+        speechScripts[i].ResetIsDisplay();
+        StopPlayer();
+        Vector3 pos = farmers[i].transform.position;
+        //Farmerの方をみる
+        transform.LookAt(pos);
+        farmerScripts[i].LookToPlayer();
+        //カメラのzoom
+        cam.ZoomIn(pos);
+        //会話開始
+        yield return StartCoroutine(farmerScripts[i].Talk());
+
+        //会話終了後
+        cam.ZoomAuto();
+        farmerScripts[i].ResetDirection();
+        ResetIsStop();
     }
 
     private void SetAnimation()

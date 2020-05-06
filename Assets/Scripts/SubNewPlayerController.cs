@@ -20,6 +20,7 @@ public partial class NewPlayerController : MonoBehaviour
     internal void StopPlayer()
     {
         isStop = true;
+        isRun = false;
         StopPoint = transform.position;
     }
 

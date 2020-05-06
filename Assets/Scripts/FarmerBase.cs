@@ -6,39 +6,42 @@ using UnityEngine.UI;
 public class FarmerBase : MonoBehaviour
 {
     [SerializeField] private GameObject imageOb;
-    private Image image;
-    private Text textBox;
-    private List<string> contents;
-
+    protected Image image;
+    [SerializeField] private GameObject text;
+    protected Text textBox;
+    [SerializeField] private List<string> contents;
+    protected GameObject player;
+ 
     // Start is called before the first frame update
     [System.Obsolete]
     private void Awake()
     {
         image = imageOb.GetComponent<Image>();
-        GameObject text = gameObject.transform.FindChild("Text").gameObject;
         textBox = text.GetComponent<Text>();
-
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    public  IEnumerator Talk()
+    internal IEnumerator Talk()
     {
         initiate();
-       
-        foreach (string cont in contents)
+
+        yield return null;
+        for (int i =0; i<contents.Count; i++)
         {
-            textBox.text = cont;
-            yield return new WaitUntil(() => Input.GetKeyDown(0));
+            textBox.text = contents[i];
+            yield return new WaitUntil(() => Input.anyKeyDown);
             yield return null;
         }
-
         image.enabled = false;
         textBox.enabled = false;
-        
+
     }
 
     private void initiate()
     {
+        image = imageOb.GetComponent<Image>();
         image.enabled = true;
+        textBox = text.GetComponent<Text>();
         textBox.enabled = true;
     }
 }

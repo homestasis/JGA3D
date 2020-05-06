@@ -20,7 +20,7 @@ public class SunLightController : MonoBehaviour
     private void Awake()
     {
         light = GetComponent<Light>();
-        light.intensity = 0.7f;
+        light.intensity = 0.8f;
         ex = 0.6f;
         sky.SetFloat("_Exposure", ex);
         
