@@ -171,6 +171,11 @@ public partial class NewPlayerController : MonoBehaviour
         }
     }
 
+    internal void RecoveryTemp(float plusTemp)
+    {
+        tempSlider.value += plusTemp;
+    }
+
     private void GetXSpeed()
     {
         if (!controller.isGrounded)
