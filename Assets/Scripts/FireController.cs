@@ -14,12 +14,17 @@ public class FireController : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         pController = player.GetComponent<NewPlayerController>();
     }
+
+    private void Start()
+    {
+        recoveryTemp = recoveryTemp * Time.deltaTime;
+    }
     internal void PutOutFire()
     {
         fireLight.intensity = 0;
     }
 
-    private void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)
     {
         pController.RecoveryTemp(recoveryTemp);
     }

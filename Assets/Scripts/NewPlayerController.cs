@@ -178,7 +178,7 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void GetXSpeed()
     {
-        if (!controller.isGrounded)
+        if (!controller.isGrounded && !isLadder)
         {
             xSpeed = xSpeedBefore;
             return;
