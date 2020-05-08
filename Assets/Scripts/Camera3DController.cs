@@ -22,11 +22,11 @@ public class Camera3DController : MonoBehaviour
     private bool isHigh;
 
 
-    internal void ZoomIn(Vector3 pos)
+    internal void ZoomIn(Vector3 pos, Vector3 euler)
     {
         isZoom = true;
         transform.position = new Vector3(pos.x, transform.position.y, transform.position.z);
-        transform.rotation = Quaternion.Euler(5, 0, 0);
+        transform.rotation = Quaternion.Euler(euler.x, euler.y, euler.z);
         DOTween.To(() => Camera.main.fieldOfView, fov => Camera.main.fieldOfView = fov, defaultFov / zoom, waitTime);
     }
 

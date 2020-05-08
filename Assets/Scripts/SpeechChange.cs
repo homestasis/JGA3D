@@ -6,7 +6,7 @@ public class SpeechChange : MonoBehaviour
 {
     [SerializeField] private Material[] mates;
     private MeshRenderer mesh;
-    private static bool isDisplay;
+    private bool isDisplay;
 
 
     // Start is called before the first frame update

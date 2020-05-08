@@ -374,7 +374,7 @@ public partial class NewPlayerController : MonoBehaviour
         {
             for(int i =0; i<speechScripts.Count; i++)
             {
-                if(speechScripts[i].GetIsDisplay())
+                if (speechScripts[i].GetIsDisplay())
                 {
                     StartCoroutine(StartToConversation(i));
                 }
@@ -391,7 +391,7 @@ public partial class NewPlayerController : MonoBehaviour
         transform.LookAt(pos);
         farmerScripts[i].LookToPlayer();
         //カメラのzoom
-        cam.ZoomIn(pos);
+        cam.ZoomIn(pos, farmerScripts[i].GetEuler());
         //会話開始
         yield return StartCoroutine(farmerScripts[i].Talk());
 
