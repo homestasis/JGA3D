@@ -114,4 +114,17 @@ public class Enemy1_3DController : MonoBehaviour
     {
         isStop = true;
     }
+
+    internal void RestartToMove()
+    {
+        isStop = false;
+        if (isLeft)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        else if (isRight)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+    }
 }
