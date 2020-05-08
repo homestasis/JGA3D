@@ -19,7 +19,8 @@ public class EnemyBase : MonoBehaviour
 
     internal void FindPlayer()
     {
-        transform.LookAt(player.transform);
+        //transform.LookAt(player.transform);
+        transform.localRotation = Quaternion.Euler(0, 180, 0);
         eController.StopToMove();
         anim.SetBool("isLook", true);
     }
@@ -27,6 +28,7 @@ public class EnemyBase : MonoBehaviour
     internal void GetAnimationFalse()
     {
         anim.SetBool("isLook", false);
+        eController.RestartToMove();
     }
 
 
