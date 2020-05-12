@@ -54,6 +54,8 @@ public partial class NewPlayerController : MonoBehaviour
     [SerializeField] private GameObject cameraOb;
     private Camera3DController cam;
 
+    [SerializeField] private GameObject handLight;
+    private PointLightController handLightController;
 
 
     private void Awake()
@@ -70,6 +72,8 @@ public partial class NewPlayerController : MonoBehaviour
         }
         
         cam = cameraOb.GetComponent<Camera3DController>();
+
+        handLightController = handLight.GetComponent<PointLightController>();
         
     }
 
@@ -93,6 +97,8 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void Update()
     {
+        GetLightKey();
+
         GetRain();
         DecreaseTempreture();
         if (tempSlider.value <= 0)
@@ -129,6 +135,26 @@ public partial class NewPlayerController : MonoBehaviour
 
         SetAnimation();
     }
+
+    public void OnEventFx()
+    {
+        if(!rainKey)
+        {
+            weather.BeRainnyAsync();
+            rainKey = true;
+        }
+        else if(!rainKey)
+        {
+            weather.BeSunny();
+            rainKey = false;
+        }
+    }
+
+    public void Spell()
+    {
+        handLightController.Spell();
+    }
+
 
     internal void SetNormalRain()
     {
@@ -354,18 +380,42 @@ public partial class NewPlayerController : MonoBehaviour
         return (float)(gravity * (surfaceP - posY) / 0.10);
     }
 
+    private void GetLightKey()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        {
+            if(handLightController.GEtisOn())
+            {
+                handLightController.TurnOff();
+            }
+            else
+            {
+                handLightController.TurnOn();
+            }
+        }
+    }
+
     private void GetRain()
     {
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            anim.SetTrigger("BeRain");
+        }
+
+        /*
         if (!rainKey && Input.GetKeyDown(KeyCode.Return))
         {
+            anim.SetTrigger("BeRain");
             weather.BeRainnyAsync();
             rainKey = true;
         }
         else if (rainKey && Input.GetKeyDown(KeyCode.Return))
         {
+            anim.SetTrigger("BeRain");
             weather.BeSunny();
             rainKey = false;
         }
+        */
     }
 
     private void Conversation()

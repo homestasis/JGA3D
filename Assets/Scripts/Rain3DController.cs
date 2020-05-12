@@ -9,23 +9,31 @@ public class Rain3DController : MonoBehaviour
 
     [SerializeField] private float delta;
     private RainScript rain;
-    
+
+    private float minRainInt;
+    private float maxRainInt;
     
     private void Awake()
     {
         rain = this.GetComponent<RainScript>();
-        rain.RainIntensity = 0.4f;
+        rain.RainIntensity = 0.1f;
     }
 
+    private void Start()
+    {
+        minRainInt = 0.1f;
+        maxRainInt = 0.4f;
+
+    }
     internal async void StartToSoundRain()
     {
-        if (rain.RainIntensity >= 0.7f) { return; }
+        if (rain.RainIntensity >= maxRainInt) { return; }
         while (true)
         {
             rain.RainIntensity += delta;
-            if (rain.RainIntensity >= 0.7f)
+            if (rain.RainIntensity >= maxRainInt)
             {
-                rain.RainIntensity = 0.7f;
+                rain.RainIntensity = maxRainInt;
                 return;
             }
 
@@ -35,13 +43,13 @@ public class Rain3DController : MonoBehaviour
 
     internal async void StopToSoundRain()
     {
-        if(rain.RainIntensity <= 0.4) { return; }
+        if(rain.RainIntensity <= minRainInt) { return; }
         while (true)
         {
             rain.RainIntensity -= delta;
-            if (rain.RainIntensity <= 0.4f)
+            if (rain.RainIntensity <= minRainInt)
             {
-                rain.RainIntensity = 0.4f;
+                rain.RainIntensity = minRainInt;
                 return;
             }
 

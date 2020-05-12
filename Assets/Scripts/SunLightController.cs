@@ -14,14 +14,26 @@ public class SunLightController : MonoBehaviour
 
     private List<WaterController> water;
     private List<GrassController> grass;
-   // private FireController fire;
+    // private FireController fire;
+
+    private float minLight;
+    private float maxLight;
+
+    private float minSun;
+    private float maxSun;
 
     // Start is called before the first frame update
     private void Awake()
     {
+        minLight = 0.2f;
+        maxLight = 0.9f;
+
+        minSun = 0.3f;
+        maxSun = 1f;
+
         light = GetComponent<Light>();
-        light.intensity = 0.8f;
-        ex = 0.6f;
+        light.intensity = maxLight;
+        ex = maxSun;
         sky.SetFloat("_Exposure", ex);
         
 
@@ -57,11 +69,11 @@ public class SunLightController : MonoBehaviour
             ex -= delta;
             sky.SetFloat("_Exposure", ex);
 
-            if (inte <= 0.40 || ex <= 0.23f)
+            if (inte <= minLight || ex <= minSun)
             {
-                light.intensity = 0.40f;
+                light.intensity = minLight;
 
-                ex = 0.23f;
+                ex = minSun;
                 sky.SetFloat("_Exposure", ex);
 
 
@@ -77,7 +89,6 @@ public class SunLightController : MonoBehaviour
         foreach(WaterController w in water)
         {
             w.IncreaseWater();
-            print("increase water");
         }
 
     //    fire.PutOutFire();
@@ -95,11 +106,11 @@ public class SunLightController : MonoBehaviour
             ex += delta;
             sky.SetFloat("_Exposure", ex);
 
-            if (inte >= 0.7f || ex >= 0.6f)
+            if (inte >= maxLight || ex >= maxSun)
             {
-                light.intensity = 0.7f;
+                light.intensity = maxLight;
 
-                ex = 0.6f;
+                ex = maxSun;
                 sky.SetFloat("_Exposure", ex);
 
                 break;
