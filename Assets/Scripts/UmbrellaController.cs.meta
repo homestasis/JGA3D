@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellSound : MonoBehaviour
+public class UmbrellaController : MonoBehaviour
 {
-    private AudioSource spellaudio;
+    [SerializeField] Sprite coolTimeImage;
+    [SerializeField] Sprite activeTImeImage;
 
     // Start is called before the first frame update
     void Start()
     {
-        spellaudio = GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
-    internal void Spell()
+    void Update()
     {
-        spellaudio.Play();
+        
     }
 }

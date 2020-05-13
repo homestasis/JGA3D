@@ -57,7 +57,9 @@ public partial class NewPlayerController : MonoBehaviour
     [SerializeField] private GameObject handLight;
     private PointLightController handLightController;
 
-
+    [SerializeField] private GameObject rainSwitch;
+    private RainSwitcher rainSwitcher;
+ 
     private void Awake()
     {
         speechScripts = new List<SpeechChange>();
@@ -74,6 +76,8 @@ public partial class NewPlayerController : MonoBehaviour
         cam = cameraOb.GetComponent<Camera3DController>();
 
         handLightController = handLight.GetComponent<PointLightController>();
+
+        rainSwitcher = rainSwitch.GetComponent<RainSwitcher>();
         
     }
 
@@ -140,11 +144,13 @@ public partial class NewPlayerController : MonoBehaviour
     {
         if(!rainKey)
         {
+            rainSwitcher.ChangeToHeavyRain();
             weather.BeRainnyAsync();
             rainKey = true;
         }
-        else if(!rainKey)
+        else if(rainKey)
         {
+            rainSwitcher.ChangeToNormalRain();
             weather.BeSunny();
             rainKey = false;
         }
@@ -397,7 +403,7 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void GetRain()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Return) && rainSwitcher.GetIsActive())
         {
             anim.SetTrigger("BeRain");
         }
