@@ -32,12 +32,12 @@ public class EnemyGardian : MonoBehaviour
         if (xMoov < 0 && pos < nextPosX)
         {
             transform.position = new Vector3(nextPosX, transform.position.y, transform.position.z);
-            //isRun = false;
+            isRun = false;
         }
         else if (xMoov > 0 && pos > nextPosX)
         {
             transform.position = new Vector3(nextPosX, transform.position.y, transform.position.z);
-            //isRun = false;
+            isRun = false;
         }
         if (xMoov < 0 && pos > startPosX)
         {
