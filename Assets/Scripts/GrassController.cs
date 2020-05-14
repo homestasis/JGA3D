@@ -12,7 +12,7 @@ public class GrassController : MonoBehaviour
     internal async void GrowGrass()
     {
         if (transform.localScale.y > 10f){ return;}
-        float sum = 2f;
+        float sum = 1f;
         while (true)
         {
             sum += delta;

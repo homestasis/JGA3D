@@ -34,6 +34,8 @@ public class Camera3DController : MonoBehaviour
     {
         isZoom = false;
         DOTween.To(() => Camera.main.fieldOfView, fov => Camera.main.fieldOfView = fov, defaultFov, waitTime);
+        UpdatePos();
+
     }
 
 
@@ -52,6 +54,12 @@ public class Camera3DController : MonoBehaviour
     private void LateUpdate()
     {
         if (isZoom) { return; }
+        UpdatePos();
+
+    }
+
+    private void UpdatePos()
+    {
 
         float playerX = player.transform.position.x;
         float playerY = player.transform.position.y;
@@ -61,30 +69,31 @@ public class Camera3DController : MonoBehaviour
         {
             if (maxX < 0) { maxX = playerX; }
             transform.position = new Vector3(maxX + offsetX, posY[0], -10);
-           // Debug.Log("Low 1");
+            // Debug.Log("Low 1");
         }
         else if (!isHigh && playerY >= 7f)
         {
             StartCoroutine(LowToHigh(playerX));
-           // Debug.Log("Low To High");
+            // Debug.Log("Low To High");
         }
         else if (!isHigh && playerX < 40)
         {
             maxX = -100;
             transform.position = new Vector3(playerX + offsetX, posY[0], -10);
-           // Debug.Log("Low 2");
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            // Debug.Log("Low 2");
         }
         else if (isHigh && playerY < 7f)
         {
             if (playerX < 40)
             {
                 StartCoroutine(HightToLow1(playerX));
-               // Debug.Log("High to Low 1");
+                // Debug.Log("High to Low 1");
             }
             else
             {
                 StartCoroutine(HightToLow2(playerX));
-               // Debug.Log("High to Low 2");
+                // Debug.Log("High to Low 2");
             }
         }
         else if (isHigh)
@@ -94,13 +103,13 @@ public class Camera3DController : MonoBehaviour
         }
         else if (playerX > 40 && !isHigh)
         {
-            transform.position = new Vector3(playerX + offsetX, 10, -10);
-            transform.rotation = Quaternion.Euler(10, 0, 0);
-           // Debug.Log("Low 3");
+            transform.position = new Vector3(playerX + offsetX, 8, -10);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            // Debug.Log("Low 3");
         }
         else
         {
-            
+
         }
     }
 
