@@ -12,6 +12,7 @@ public class WeatherController : MonoBehaviour
     private SunLightController sunLight;
     private Rain3DController rain;
     private List<EnemyGardian> gardian;
+    private List<TalkMobController> talkMob;
 
     private bool isNormalRainy;
     private bool isHeavyRainy;
@@ -26,6 +27,12 @@ public class WeatherController : MonoBehaviour
         foreach (GameObject g in gardOb)
         {
             gardian.Add(g.GetComponent<EnemyGardian>());
+        }
+        talkMob = new List<TalkMobController>();
+        GameObject[] talkmobOb = GameObject.FindGameObjectsWithTag("Farmer");
+        foreach (GameObject t in talkmobOb)
+        {
+            talkMob.Add(t.GetComponent<TalkMobController>());
         }
     }
 
@@ -43,6 +50,10 @@ public class WeatherController : MonoBehaviour
         {
             g.RunAway();
         }
+        foreach (TalkMobController t in talkMob)
+        {
+            t.MobGo();
+        }
     }
 
     internal void BeSunny()
@@ -54,6 +65,10 @@ public class WeatherController : MonoBehaviour
         foreach (EnemyGardian g in gardian)
         {
             g.ComeBack();
+        }
+        foreach (TalkMobController t in talkMob)
+        {
+            t.MobBack();
         }
     }
 }
