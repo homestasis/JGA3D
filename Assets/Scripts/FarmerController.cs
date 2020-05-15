@@ -12,13 +12,14 @@ public class FarmerController : MonoBehaviour
     [SerializeField] private List<string> contents;
     protected GameObject player;
     [SerializeField] private Vector3 zoomEular;
-
+    private Quaternion initEular;
 
     private void Awake()
     {
         image = imageOb.GetComponent<Image>();
         textBox = text.GetComponent<Text>();
         player = GameObject.FindGameObjectWithTag("Player");
+        initEular = transform.rotation;
     }
 
     internal IEnumerator Talk()
@@ -34,7 +35,6 @@ public class FarmerController : MonoBehaviour
         }
         image.enabled = false;
         textBox.enabled = false;
-
     }
 
     internal void LookToPlayer()
@@ -44,7 +44,7 @@ public class FarmerController : MonoBehaviour
 
     internal void ResetDirection()
     {
-        transform.rotation = Quaternion.Euler(0, 180, 0);
+        transform.rotation = initEular;
     }
 
     internal Vector3 GetEuler()
