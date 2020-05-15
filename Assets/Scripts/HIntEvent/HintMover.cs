@@ -16,9 +16,9 @@ public class HintMover : MonoBehaviour
         hinterText = hintTextOb.GetComponent<HinterTextController>();
     }
 
-    internal IEnumerator TurnOn()
+    internal IEnumerator TurnOn(int n)
     {
-        hinterText.UpdateText();
+        hinterText.UpdateText(n);
         yield return StartCoroutine(MoveIn());
 
         yield return new WaitForSeconds(6f);
@@ -29,9 +29,9 @@ public class HintMover : MonoBehaviour
     private IEnumerator MoveIn()
     {
         int pos = 1240;
-        while(pos > 680)
+        while(pos != 680)
         {
-            pos -= 1;
+            pos -= 20;
             hintPos.localPosition = new Vector3(pos, 350, 0);
             yield return new WaitForSeconds(0.005f);
         }
@@ -40,9 +40,9 @@ public class HintMover : MonoBehaviour
     private IEnumerator MoveOut()
     {
         int pos = 680;
-        while (pos < 1280)
+        while (pos != 1240)
         {
-            pos += 1;
+            pos += 20;
             hintPos.localPosition = new Vector3(pos, 350, 0);
             yield return new WaitForSeconds(0.005f);
         }

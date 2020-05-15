@@ -8,17 +8,15 @@ public class HinterTextController : MonoBehaviour
 {
     [SerializeField] private List<string> hintScripts;
     private Text tex;
-    private int num;
+
 
     private void Awake()
     {
         tex = GetComponent<Text>();
-        num = 0;
     }
 
-    internal void UpdateText()
+    internal void UpdateText(int i)
     {
-        tex.text = hintScripts[num];
-        num++;
+        tex.text = hintScripts[i];
     }
 }
