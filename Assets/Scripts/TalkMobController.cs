@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Threading.Tasks;
 
 public class TalkMobController : MonoBehaviour
@@ -51,23 +52,23 @@ public class TalkMobController : MonoBehaviour
         {
             isRun = false;
             transform.localRotation = Quaternion.Euler(0, standVec, 0);
-            transform.position = new Vector3(transform.position.x, transform.position.y, nextPosZ);
+            transform.position = new Vector3(transform.position.x, transform.position.y, startPosZ);
         }
 
     }
-
+ 
     internal async void MobGo()
     {
         isRun = true;
         if (zMoov > 0)
         {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
-            rb.velocity = new Vector3(0, speed, 0);
+            rb.velocity = new Vector3(0, 0, speed);
         }
         else if (zMoov < 0)
         {
             transform.localRotation = Quaternion.Euler(0, 180, 0);
-            rb.velocity = new Vector3(0, -speed, 0);
+            rb.velocity = new Vector3(0, 0, -speed);
         }
     }
 
@@ -77,12 +78,12 @@ public class TalkMobController : MonoBehaviour
         if (zMoov > 0)
         {
             transform.localRotation = Quaternion.Euler(0, 180, 0);
-            rb.velocity = new Vector3(0, -speed, 0);
+            rb.velocity = new Vector3(0, 0, -speed);
         }
         else if (zMoov < 0)
         {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
-            rb.velocity = new Vector3(0, speed, 0);
+            rb.velocity = new Vector3(0, 0, speed);
         }
     }
 

@@ -14,12 +14,15 @@ public class FarmerController : MonoBehaviour
     [SerializeField] private Vector3 zoomEular;
     private Quaternion initEular;
 
+    private TalkMobController talkMob;
+
     private void Awake()
     {
         image = imageOb.GetComponent<Image>();
         textBox = text.GetComponent<Text>();
         player = GameObject.FindGameObjectWithTag("Player");
         initEular = transform.rotation;
+        talkMob = GetComponent<TalkMobController>();
     }
 
     internal IEnumerator Talk()
@@ -45,6 +48,10 @@ public class FarmerController : MonoBehaviour
     internal void ResetDirection()
     {
         transform.rotation = initEular;
+        if (talkMob != null)
+        {
+            talkMob.MobGo();
+        }
     }
 
     internal Vector3 GetEuler()

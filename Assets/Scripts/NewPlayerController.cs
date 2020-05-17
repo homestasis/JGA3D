@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -49,6 +50,8 @@ public partial class NewPlayerController : MonoBehaviour
 
     private List<SpeechChange> speechScripts;
     private GameObject[] farmers;
+    private GameObject[] talkmobs;
+    private GameObject[] dst;
     private List<FarmerController> farmerScripts;
 
     [SerializeField] private GameObject cameraOb;
@@ -64,15 +67,16 @@ public partial class NewPlayerController : MonoBehaviour
     {
         speechScripts = new List<SpeechChange>();
         farmerScripts = new List<FarmerController>();
-
+        
         farmers = GameObject.FindGameObjectsWithTag("Farmer");
+
         foreach(GameObject g in farmers)
         {
             GameObject speechBubble = g.transform.Find("SpeechBubble").gameObject;
             speechScripts.Add(speechBubble.GetComponent<SpeechChange>());
             farmerScripts.Add(g.GetComponent<FarmerController>());
         }
-        
+
         cam = cameraOb.GetComponent<Camera3DController>();
 
         handLightController = handLight.GetComponent<PointLightController>();
