@@ -13,6 +13,11 @@ public class WeatherController : MonoBehaviour
     private Rain3DController rain;
     private List<EnemyGardian> gardian;
     private List<TalkMobController> talkMob;
+    private GameObject talkmob1;
+    private GameObject talkmob2;
+    private GameObject talkmob3;
+    private GameObject talkmob4;
+    private GameObject talkmob5;
 
     private bool isNormalRainy;
     private bool isHeavyRainy;
@@ -29,11 +34,16 @@ public class WeatherController : MonoBehaviour
             gardian.Add(g.GetComponent<EnemyGardian>());
         }
         talkMob = new List<TalkMobController>();
-        GameObject[] talkmobOb = GameObject.FindGameObjectsWithTag("Farmer");
-        foreach (GameObject t in talkmobOb)
-        {
-            talkMob.Add(t.GetComponent<TalkMobController>());
-        }
+        talkmob1 = GameObject.Find("Murabito1");
+        talkMob.Add(talkmob1.GetComponent<TalkMobController>());
+        talkmob2 = GameObject.Find("Murabito1");
+        talkMob.Add(talkmob2.GetComponent<TalkMobController>());
+        talkmob3 = GameObject.Find("Murabito1");
+        talkMob.Add(talkmob3.GetComponent<TalkMobController>());
+        talkmob4 = GameObject.Find("Murabito1");
+        talkMob.Add(talkmob4.GetComponent<TalkMobController>());
+        talkmob5 = GameObject.Find("Murabito1");
+        talkMob.Add(talkmob5.GetComponent<TalkMobController>());
     }
 
     internal bool GetIsNormalRainy() { return isNormalRainy; }
