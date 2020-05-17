@@ -16,7 +16,7 @@ public class HinterTextController : MonoBehaviour
     }
 
     internal void UpdateText(int i)
-    {
+    { 
         tex.text = hintScripts[i];
     }
 }

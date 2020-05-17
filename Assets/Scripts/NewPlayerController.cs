@@ -101,6 +101,13 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void Update()
     {
+        Conversation();
+        if (isStop)
+        {
+            transform.position = StopPoint;
+            return;
+        }
+
         GetLightKey();
 
         GetRain();
@@ -110,12 +117,6 @@ public partial class NewPlayerController : MonoBehaviour
             //GameOver
         }
 
-        Conversation();
-        if (isStop)
-        {
-            transform.position = StopPoint;
-            return;
-        }
         isLadder = ladderChecker.IsLadder();
         GetXSpeed();
         xSpeedBefore = xSpeed;

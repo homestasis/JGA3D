@@ -116,6 +116,7 @@ public class Camera3DController : MonoBehaviour
     private IEnumerator LowToHigh(float playerX)
     {
         transform.DOMove(new Vector3(playerX + offsetX, 10, -10), 0.5f);
+        transform.DORotate(new Vector3(5, 0, 0), 0.5f);
         yield return new WaitForSeconds(0.5f);
         isHigh = true;
     }
@@ -130,8 +131,8 @@ public class Camera3DController : MonoBehaviour
 
     private IEnumerator HightToLow2(float playerX)
     {
-        transform.DOMove(new Vector3(playerX + offsetX, 10, -10), 0.5f);
-        transform.DORotate(new Vector3(10,0,0), 0.5f);
+        transform.DOMove(new Vector3(playerX + offsetX, 8, -10), 0.5f);
+        transform.DORotate(new Vector3(0,0,0), 0.5f);
         yield return new WaitForSeconds(0.5f);
         isHigh = false;
     }
