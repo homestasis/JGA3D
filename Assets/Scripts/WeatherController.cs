@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
 
 
 public class WeatherController : MonoBehaviour
@@ -49,12 +48,12 @@ public class WeatherController : MonoBehaviour
     internal bool GetIsNormalRainy() { return isNormalRainy; }
     internal bool GetIsHeavyRainy() { return isHeavyRainy;  }
 
-    internal async Task BeRainnyAsync()
+    internal IEnumerator BeRainnyAsync()
     {
         isNormalRainy = false;
         isHeavyRainy = true;
         sunLight.Darken();
-        await Task.Delay(1200);
+        yield return new WaitForSeconds(1.2f);
         rain.StartToSoundRain();
         foreach (EnemyGardian g in gardian)
         {

@@ -62,6 +62,7 @@ public partial class NewPlayerController : MonoBehaviour
 
     [SerializeField] private GameObject rainSwitch;
     private RainSwitcher rainSwitcher;
+    private LeverController lever;
  
     private void Awake()
     {
@@ -82,6 +83,7 @@ public partial class NewPlayerController : MonoBehaviour
         handLightController = handLight.GetComponent<PointLightController>();
 
         rainSwitcher = rainSwitch.GetComponent<RainSwitcher>();
+        lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
         
     }
 
@@ -150,7 +152,7 @@ public partial class NewPlayerController : MonoBehaviour
         if(!rainKey)
         {
             rainSwitcher.ChangeToHeavyRain();
-            weather.BeRainnyAsync();
+            StartCoroutine(weather.BeRainnyAsync());
             rainKey = true;
         }
         else if(rainKey)
@@ -215,7 +217,7 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void GetXSpeed()
     {
-        if (!controller.isGrounded && !isLadder)
+        if (!controller.isGrounded && !isLadder &!inWater)
         {
             xSpeed = xSpeedBefore;
             return;
@@ -413,20 +415,6 @@ public partial class NewPlayerController : MonoBehaviour
             anim.SetTrigger("BeRain");
         }
 
-        /*
-        if (!rainKey && Input.GetKeyDown(KeyCode.Return))
-        {
-            anim.SetTrigger("BeRain");
-            weather.BeRainnyAsync();
-            rainKey = true;
-        }
-        else if (rainKey && Input.GetKeyDown(KeyCode.Return))
-        {
-            anim.SetTrigger("BeRain");
-            weather.BeSunny();
-            rainKey = false;
-        }
-        */
     }
 
     private void Conversation()
@@ -439,6 +427,12 @@ public partial class NewPlayerController : MonoBehaviour
                 {
                     StartCoroutine(StartToConversation(i));
                 }
+            }
+
+            if (lever is null) { return; }
+            else if (lever.GetIsDisplay())
+            {
+                lever.Levering();
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
+
 
 public class WaterController : MonoBehaviour
 {
@@ -14,6 +13,8 @@ public class WaterController : MonoBehaviour
 
     private float initX;
     private float initZ;
+
+    private bool isUp;
 
     private void Awake()
     {
@@ -38,11 +39,11 @@ public class WaterController : MonoBehaviour
 
 
 
-    internal async void IncreaseWater()
+    internal IEnumerator IncreaseWater()
     {
-        if (transform.position.y >= maxY) { return; }
+        if (transform.position.y >= maxY) { isUp = false; }
         float sum = minY;
-        while (true)
+        while (isUp)
         {
             sum += delta;
             transform.position = new Vector3(initX, sum, initZ);
@@ -51,17 +52,17 @@ public class WaterController : MonoBehaviour
             {
                 sum = maxY;
                 transform.position = new Vector3(initX, sum, initZ);
-                return;
+                isUp = false;
             }
-            await Task.Delay(50);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
-    internal async void DecreaseWater()
+    internal IEnumerator DecreaseWater()
     {
-        if (transform.position.y <= minY) { return; }
+        if (transform.position.y <= minY) { isUp = true; }
         float sum = maxY;
-        while (true)
+        while (!isUp)
         {
             sum -= delta;
             transform.position = new Vector3(initX, sum, initZ);
@@ -69,9 +70,9 @@ public class WaterController : MonoBehaviour
             {
                 sum = minY;
                 transform.position = new Vector3(initX, sum, initZ);
-                return;
+                isUp = true;
             }
-            await Task.Delay(50);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }

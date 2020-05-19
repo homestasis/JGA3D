@@ -88,7 +88,7 @@ public class SunLightController : MonoBehaviour
         }
         foreach(WaterController w in water)
         {
-            w.IncreaseWater();
+            StartCoroutine(w.IncreaseWater());
         }
 
     //    fire.PutOutFire();
@@ -120,7 +120,7 @@ public class SunLightController : MonoBehaviour
 
         foreach (WaterController w in water)
         {
-            w.DecreaseWater();
+            StartCoroutine(w.DecreaseWater());
         }
     }
 
