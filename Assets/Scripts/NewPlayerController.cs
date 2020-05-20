@@ -118,10 +118,13 @@ public partial class NewPlayerController : MonoBehaviour
         {
             GetYSpeed();
         }
-        if (inWater)
+        else
         {
+            audio.Stop();
             GetYSPeedInWater();
         }
+
+
         if (rainKey)
         {
             xSpeed = xSpeed * speedPropInHeavyRain;
@@ -208,6 +211,7 @@ public partial class NewPlayerController : MonoBehaviour
         if (!controller.isGrounded && !isLadder &!inWater)
         {
             xSpeed = xSpeedBefore;
+            audio.Stop();
             return;
         }
 

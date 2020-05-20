@@ -25,7 +25,6 @@ public class WaterController : MonoBehaviour
     {
         initX = transform.position.x;
         initZ = transform.position.z;
-
     }
 
     private void OnTriggerEnter(Collider other)
