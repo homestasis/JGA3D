@@ -25,6 +25,7 @@ public class WaterController : MonoBehaviour
     {
         initX = transform.position.x;
         initZ = transform.position.z;
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,10 +42,16 @@ public class WaterController : MonoBehaviour
 
     internal IEnumerator IncreaseWater()
     {
-        if (transform.position.y >= maxY) { isUp = false; }
+        isUp = true;
+        if (transform.position.y >= maxY)
+        {
+         isUp = false;
+            Debug.Log("false");
+        }
         float sum = minY;
         while (isUp)
         {
+            Debug.Log("while");
             sum += delta;
             transform.position = new Vector3(initX, sum, initZ);
             pController.setSurfaceP(sum);
@@ -56,10 +63,12 @@ public class WaterController : MonoBehaviour
             }
             yield return new WaitForSeconds(0.05f);
         }
+        Debug.Log("end increase Water");
     }
 
     internal IEnumerator DecreaseWater()
     {
+        isUp = false;
         if (transform.position.y <= minY) { isUp = true; }
         float sum = maxY;
         while (!isUp)

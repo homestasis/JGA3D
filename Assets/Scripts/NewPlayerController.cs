@@ -17,7 +17,6 @@ public partial class NewPlayerController : MonoBehaviour
     public AnimationCurve jumpCurve;
     public LadderCheck ladderChecker;
 
-    [SerializeField] private SunLightController sunLight;
     private Rigidbody rb = null;
     private CharacterController controller = null;
     private Animator anim = null;
@@ -25,42 +24,34 @@ public partial class NewPlayerController : MonoBehaviour
     private bool isJump = false;
     private bool isLadder = false;
     private bool rainKey = false;
+    private bool fall;
+    private bool inWater;
     private float jumpPos = 0.0f;
     private float dashTime, jumpTime;
     private float beforeKey;
-
-    private bool fall;
     private float surfaceP;
-    private bool inWater;
-
-    [SerializeField] private float nomalTempDecrease;
-    [SerializeField] private float heavyTempDecrease;
-
-    [SerializeField]
-    private GameObject tempUI;
-    private Slider tempSlider;
-
-    [SerializeField] private float speedPropInHeavyRain;
-
     private float xSpeed;
     private float ySpeed;
     private float xSpeedBefore;
 
-    private AudioSource audio;
 
+    [SerializeField] private float nomalTempDecrease;
+    [SerializeField] private float heavyTempDecrease;
+    [SerializeField] private float speedPropInHeavyRain;
+
+    [SerializeField] private GameObject tempUI;
+    private Slider tempSlider;
+
+    private AudioSource audio;
     private List<SpeechChange> speechScripts;
     private GameObject[] farmers;
     private GameObject[] talkmobs;
     private GameObject[] dst;
     private List<FarmerController> farmerScripts;
-
     [SerializeField] private GameObject cameraOb;
     private Camera3DController cam;
-
     [SerializeField] private GameObject handLight;
     private PointLightController handLightController;
-
-    [SerializeField] private GameObject rainSwitch;
     private RainSwitcher rainSwitcher;
     private LeverController lever;
  
@@ -82,7 +73,7 @@ public partial class NewPlayerController : MonoBehaviour
 
         handLightController = handLight.GetComponent<PointLightController>();
 
-        rainSwitcher = rainSwitch.GetComponent<RainSwitcher>();
+        rainSwitcher = RainSwitcher.Instance;
         lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
         
     }

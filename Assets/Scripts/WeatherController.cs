@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class WeatherController : MonoBehaviour
+public class WeatherController : SingletonMonoBehaviour<WeatherController>
 {
-    [SerializeField] private GameObject sunLightOb;
-    [SerializeField] private GameObject rainPf;
-
     private SunLightController sunLight;
     private Rain3DController rain;
     private List<EnemyGardian> gardian;
@@ -21,18 +18,17 @@ public class WeatherController : MonoBehaviour
     private bool isNormalRainy;
     private bool isHeavyRainy;
 
-    private void Awake()
+    protected override void Awake()
     {
-        sunLight = sunLightOb.GetComponent<SunLightController>();
-        rain = rainPf.GetComponent<Rain3DController>();
-        isNormalRainy = true;
+        sunLight = SunLightController.Instance;
+        rain = Rain3DController.Instance;
         gardian = new List<EnemyGardian>();
         GameObject[] gardOb = GameObject.FindGameObjectsWithTag("Gardian");
         foreach (GameObject g in gardOb)
         {
             gardian.Add(g.GetComponent<EnemyGardian>());
         }
-        talkMob = new List<TalkMobController>();
+     /*   talkMob = new List<TalkMobController>();
         talkmob1 = GameObject.Find("Murabito1");
         talkMob.Add(talkmob1.GetComponent<TalkMobController>());
         talkmob2 = GameObject.Find("Murabito1");
@@ -43,6 +39,8 @@ public class WeatherController : MonoBehaviour
         talkMob.Add(talkmob4.GetComponent<TalkMobController>());
         talkmob5 = GameObject.Find("Murabito1");
         talkMob.Add(talkmob5.GetComponent<TalkMobController>());
+        */
+        isNormalRainy = true;
     }
 
     internal bool GetIsNormalRainy() { return isNormalRainy; }
@@ -52,9 +50,9 @@ public class WeatherController : MonoBehaviour
     {
         isNormalRainy = false;
         isHeavyRainy = true;
-        sunLight.Darken();
+        StartCoroutine(sunLight.Darken());
         yield return new WaitForSeconds(1.2f);
-        rain.StartToSoundRain();
+        StartCoroutine(rain.StartToSoundStrong());
         foreach (EnemyGardian g in gardian)
         {
             g.RunAway();
@@ -70,7 +68,7 @@ public class WeatherController : MonoBehaviour
         isNormalRainy = true;
         isHeavyRainy = false;
         sunLight.Lighten();
-        rain.StopToSoundRain();
+        StartCoroutine(rain.StopToSoundStrong());
         foreach (EnemyGardian g in gardian)
         {
             g.ComeBack();

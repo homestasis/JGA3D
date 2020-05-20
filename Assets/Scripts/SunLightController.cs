@@ -1,41 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
-using System.Threading.Tasks;
 
-public class SunLightController : MonoBehaviour
+
+public class SunLightController : SingletonMonoBehaviour<SunLightController>
 {
     [SerializeField]private Material sky;
     [SerializeField] private float delta;
 
-    private new Light light;
-    private float ex;
+    private Light sunLight;
+    private WeatherController weather;
 
     private List<WaterController> water;
     private List<GrassController> grass;
-    // private FireController fire;
 
-    private float minLight;
-    private float maxLight;
-
-    private float minSun;
-    private float maxSun;
+    private float ex;
+    private const float minLight = 0.2f;
+    private const float maxLight = 0.9f;
+    private const float minSun = 0.3f;
+    private const float maxSun = 1f;
 
     // Start is called before the first frame update
-    private void Awake()
+    protected override void Awake()
     {
-        minLight = 0.2f;
-        maxLight = 0.9f;
-
-        minSun = 0.3f;
-        maxSun = 1f;
-
-        light = GetComponent<Light>();
-        light.intensity = maxLight;
+        sunLight = GetComponent<Light>();
+        sunLight.intensity = maxLight;
         ex = maxSun;
         sky.SetFloat("_Exposure", ex);
-        
+
+        weather = WeatherController.Instance;
 
         water = new List<WaterController>();
         GameObject[] waterOb = GameObject.FindGameObjectsWithTag("Water");
@@ -52,26 +45,21 @@ public class SunLightController : MonoBehaviour
             grass.Add(g.GetComponent<GrassController>());
         }
 
-        /*
-        GameObject fireOb = GameObject.Find("fireplace");
-        fire = fireOb.GetComponent<FireController>();
-        */
-
     }
 
-    internal async void Darken()
+    internal IEnumerator Darken()
     { 
         while (true)
         {
-            float inte = light.intensity;
-            light.intensity -= delta;
+            float inte = sunLight.intensity;
+            sunLight.intensity -= delta;
 
             ex -= delta;
             sky.SetFloat("_Exposure", ex);
 
             if (inte <= minLight || ex <= minSun)
             {
-                light.intensity = minLight;
+                sunLight.intensity = minLight;
 
                 ex = minSun;
                 sky.SetFloat("_Exposure", ex);
@@ -79,49 +67,70 @@ public class SunLightController : MonoBehaviour
 
                 break;
             }
-            await Task.Delay(50);
+            yield return new WaitForSeconds(0.05f);
         }
 
         foreach(GrassController g in grass)
         {
             g.GrowGrass();
         }
+       
         foreach(WaterController w in water)
         {
             StartCoroutine(w.IncreaseWater());
+           // Debug.Log("start coroutine");
         }
-
-    //    fire.PutOutFire();
 
     }
 
-    internal async void Lighten()
+    internal IEnumerator Lighten()
     {
         while(true)
         {
 
-            float inte = light.intensity;
-            light.intensity += delta;
+            float inte = sunLight.intensity;
+            sunLight.intensity += delta;
 
             ex += delta;
             sky.SetFloat("_Exposure", ex);
 
             if (inte >= maxLight || ex >= maxSun)
             {
-                light.intensity = maxLight;
+                sunLight.intensity = maxLight;
 
                 ex = maxSun;
                 sky.SetFloat("_Exposure", ex);
 
                 break;
             }
-            await Task.Delay(50);
+            yield return new WaitForSeconds(0.05f);
         }
 
         foreach (WaterController w in water)
         {
             StartCoroutine(w.DecreaseWater());
         }
+    }
+
+    internal void EnterDarkPlace()
+    {
+        sunLight.intensity = 0.01f;
+    }
+
+    internal void ExitDarkPlace()
+    {
+        if (weather.GetIsNormalRainy())
+        {
+            sunLight.intensity = maxLight;
+            Debug.Log("max light");
+        }
+        else
+        {
+            sunLight.intensity = minLight;
+            Debug.Log("min light");
+        }
+        
+
     }
 
 }

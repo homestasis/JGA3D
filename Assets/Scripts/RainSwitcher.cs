@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RainSwitcher : MonoBehaviour
+public class RainSwitcher : SingletonMonoBehaviour<RainSwitcher>
 {
     [SerializeField] private float maxCoolTime;
     private float coolTime;
@@ -15,7 +15,7 @@ public class RainSwitcher : MonoBehaviour
     private RainSwitchBackGrounder backgrounder;
 
    
-    private void Awake()
+    protected override void Awake()
     {
         backgrounder = transform.Find("background").gameObject.GetComponent<RainSwitchBackGrounder>();
         umbController = transform.Find("umbrella").gameObject.GetComponent<UmbrellaController>();

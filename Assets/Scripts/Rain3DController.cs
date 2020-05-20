@@ -1,19 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
 using DigitalRuby.RainMaker;
 
-public class Rain3DController : MonoBehaviour
+public class Rain3DController : SingletonMonoBehaviour<Rain3DController>
 {
 
     [SerializeField] private float delta;
     private RainScript rain;
-
     private float minRainInt;
     private float maxRainInt;
+    private bool isStrongSound;
     
-    private void Awake()
+    protected override void Awake()
     {
         rain = this.GetComponent<RainScript>();
         rain.RainIntensity = 0.1f;
@@ -25,35 +23,35 @@ public class Rain3DController : MonoBehaviour
         maxRainInt = 0.4f;
 
     }
-    internal async void StartToSoundRain()
+    internal IEnumerator StartToSoundStrong()
     {
-        if (rain.RainIntensity >= maxRainInt) { return; }
-        while (true)
+        if (rain.RainIntensity >= maxRainInt) { isStrongSound = true; }
+        while (!isStrongSound)
         {
             rain.RainIntensity += delta;
             if (rain.RainIntensity >= maxRainInt)
             {
                 rain.RainIntensity = maxRainInt;
-                return;
+                isStrongSound = true;
             }
 
-            await Task.Delay(50);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
-    internal async void StopToSoundRain()
+    internal IEnumerator StopToSoundStrong()
     {
-        if(rain.RainIntensity <= minRainInt) { return; }
-        while (true)
+        if(rain.RainIntensity <= minRainInt) { isStrongSound = false; }
+        while (isStrongSound)
         {
             rain.RainIntensity -= delta;
             if (rain.RainIntensity <= minRainInt)
             {
                 rain.RainIntensity = minRainInt;
-                return;
+                isStrongSound = false;
             }
 
-            await Task.Delay(50);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 

@@ -3,62 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Camera3DController : MonoBehaviour
+public class Camera3DController : CameraBase
 {
-    [SerializeField] private float offsetX;
-    [SerializeField] private List<float> posY;
-    [SerializeField] private GameObject player;
-    [SerializeField] private LadderCheck ladder;
-
-    private float maxX;
-    private float posZ;
-
-    private Camera cam;
-    private float defaultFov;
-    private float zoom;
-    private float waitTime;
-
-    private bool isZoom;
-    private bool isHigh;
-
-
-    internal void ZoomIn(Vector3 pos, Vector3 euler)
-    {
-        isZoom = true;
-        transform.position = new Vector3(pos.x, transform.position.y, transform.position.z);
-        transform.rotation = Quaternion.Euler(euler.x, euler.y, euler.z);
-        DOTween.To(() => Camera.main.fieldOfView, fov => Camera.main.fieldOfView = fov, defaultFov / zoom, waitTime);
-    }
-
-    internal void ZoomAuto()
-    {
-        isZoom = false;
-        DOTween.To(() => Camera.main.fieldOfView, fov => Camera.main.fieldOfView = fov, defaultFov, waitTime);
-        UpdatePos();
-
-    }
-
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        maxX = -100;
-        cam = GetComponent<Camera>();
-
-        defaultFov = cam.fieldOfView;
-        zoom = 6;
-        waitTime = 0.4f;
-    }
-
-    // Update is called once per frame
-    private void LateUpdate()
-    {
-        if (isZoom) { return; }
-        UpdatePos();
-
-    }
-
-    private void UpdatePos()
+   
+    internal override void UpdatePos()
     {
 
         float playerX = player.transform.position.x;
