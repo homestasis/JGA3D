@@ -42,14 +42,13 @@ public partial class NewPlayerController : MonoBehaviour
     [SerializeField] private GameObject tempUI;
     private Slider tempSlider;
 
+    private CameraBase cam;
     private AudioSource audio;
     private List<SpeechChange> speechScripts;
     private GameObject[] farmers;
     private GameObject[] talkmobs;
     private GameObject[] dst;
     private List<FarmerController> farmerScripts;
-    [SerializeField] private GameObject cameraOb;
-    private Camera3DController cam;
     [SerializeField] private GameObject handLight;
     private PointLightController handLightController;
     private RainSwitcher rainSwitcher;
@@ -57,43 +56,41 @@ public partial class NewPlayerController : MonoBehaviour
  
     private void Awake()
     {
-        speechScripts = new List<SpeechChange>();
-        farmerScripts = new List<FarmerController>();
-        
-        farmers = GameObject.FindGameObjectsWithTag("Farmer");
-
-        foreach(GameObject g in farmers)
-        {
-            GameObject speechBubble = g.transform.Find("SpeechBubble").gameObject;
-            speechScripts.Add(speechBubble.GetComponent<SpeechChange>());
-            farmerScripts.Add(g.GetComponent<FarmerController>());
-        }
-
-        cam = cameraOb.GetComponent<Camera3DController>();
-
-        handLightController = handLight.GetComponent<PointLightController>();
-
-        rainSwitcher = RainSwitcher.Instance;
+        initiateComponent();
+      
+        //stage2だったら的な
         lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
-        
-    }
-
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        controller = GetComponent<CharacterController>();
-        anim = GetComponent<Animator>();
-        weather = weatherOb.GetComponent<WeatherController>();
-
-        tempSlider = tempUI.transform.Find("TempBar").GetComponent<Slider>();
-        tempSlider.value = 1f;
 
         SetNormalRain();
 
         nomalTempDecrease = nomalTempDecrease * Time.deltaTime;
         heavyTempDecrease = heavyTempDecrease * Time.deltaTime;
+    }
 
+
+    private void initiateComponent()
+    {
+        GameObject cameraOb = GameObject.FindWithTag("MainCamera");
+        cam = cameraOb.GetComponent<CameraBase>();
+        rb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
+
+        speechScripts = new List<SpeechChange>();
+        farmerScripts = new List<FarmerController>();
+        farmers = GameObject.FindGameObjectsWithTag("Farmer");
+        foreach (GameObject g in farmers)
+        {
+            GameObject speechBubble = g.transform.Find("SpeechBubble").gameObject;
+            speechScripts.Add(speechBubble.GetComponent<SpeechChange>());
+            farmerScripts.Add(g.GetComponent<FarmerController>());
+        }
+        weather = weatherOb.GetComponent<WeatherController>();
+        rainSwitcher = RainSwitcher.Instance;
+        tempSlider = tempUI.transform.Find("TempBar").GetComponent<Slider>();
+        tempSlider.value = 1f;
+        handLightController = handLight.GetComponent<PointLightController>();
     }
 
     private void Update()

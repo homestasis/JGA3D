@@ -1,19 +1,19 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
+
 
 public class GrassController : MonoBehaviour
 {
 
     [SerializeField] private float delta;
+    private bool isGrow;
 
 
-    internal async void GrowGrass()
+    internal IEnumerator GrowGrass()
     {
-        if (transform.localScale.y > 10f){ return;}
+        if (transform.localScale.y > 10f){ isGrow = true; }
         float sum = 1f;
-        while (true)
+        while (!isGrow)
         {
             sum += delta;
             transform.localScale = new Vector3(1f, sum, 1f);
@@ -21,11 +21,11 @@ public class GrassController : MonoBehaviour
             {
                 sum = 10f;
                 transform.localScale = new Vector3(1f, sum, 1f);
-                return;
+                isGrow = true;
             }
-            
-            await Task.Delay(50);
-           
+
+            yield return new WaitForSeconds(0.05f);
+
         }
     }
 }

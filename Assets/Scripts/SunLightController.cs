@@ -72,7 +72,7 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
 
         foreach(GrassController g in grass)
         {
-            g.GrowGrass();
+            StartCoroutine(g.GrowGrass());
         }
        
         foreach(WaterController w in water)
