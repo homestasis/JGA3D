@@ -17,6 +17,8 @@ public class RainSwitcher : SingletonMonoBehaviour<RainSwitcher>
    
     protected override void Awake()
     {
+        base.Awake();
+
         backgrounder = transform.Find("background").gameObject.GetComponent<RainSwitchBackGrounder>();
         umbController = transform.Find("umbrella").gameObject.GetComponent<UmbrellaController>();
         geugeImage = transform.Find("gauge").gameObject.GetComponent<Image>();

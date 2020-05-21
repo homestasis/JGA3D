@@ -23,6 +23,8 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
     // Start is called before the first frame update
     protected override void Awake()
     {
+        base.Awake();
+
         sunLight = GetComponent<Light>();
         sunLight.intensity = maxLight;
         ex = maxSun;
@@ -50,9 +52,9 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
     internal IEnumerator Darken()
     { 
         while (true)
-        {
-            float inte = sunLight.intensity;
+        {       
             sunLight.intensity -= delta;
+            float inte = sunLight.intensity;
 
             ex -= delta;
             sky.SetFloat("_Exposure", ex);
@@ -87,9 +89,8 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
     {
         while(true)
         {
-
-            float inte = sunLight.intensity;
             sunLight.intensity += delta;
+            float inte = sunLight.intensity;
 
             ex += delta;
             sky.SetFloat("_Exposure", ex);
@@ -119,6 +120,7 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
 
     internal void ExitDarkPlace()
     {
+        sky.SetFloat("_Exposure", ex);
         if (weather.GetIsNormalRainy())
         {
             sunLight.intensity = maxLight;

@@ -34,7 +34,7 @@ public class WaterController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        pController.ResetIsStop();
+        pController.ResetWater();
     }
 
 
@@ -44,13 +44,11 @@ public class WaterController : MonoBehaviour
         isUp = true;
         if (transform.position.y >= maxY)
         {
-         isUp = false;
-            Debug.Log("false");
+           isUp = false;
         }
         float sum = minY;
         while (isUp)
         {
-            Debug.Log("while");
             sum += delta;
             transform.position = new Vector3(initX, sum, initZ);
             pController.setSurfaceP(sum);
@@ -62,7 +60,7 @@ public class WaterController : MonoBehaviour
             }
             yield return new WaitForSeconds(0.05f);
         }
-        Debug.Log("end increase Water");
+       // Debug.Log("end increase Water");
     }
 
     internal IEnumerator DecreaseWater()

@@ -13,6 +13,7 @@ public class Rain3DController : SingletonMonoBehaviour<Rain3DController>
     
     protected override void Awake()
     {
+        base.Awake();
         rain = this.GetComponent<RainScript>();
         rain.RainIntensity = 0.1f;
     }

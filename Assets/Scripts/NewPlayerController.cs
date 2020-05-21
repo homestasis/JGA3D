@@ -337,7 +337,7 @@ public partial class NewPlayerController : MonoBehaviour
         ySpeed = -gravity;
         if (!isJump)
         {
-            if (pushSpace && jumpTime < jumpLimitTime)
+            if (pushSpace && jumpTime < jumpLimitTime && !fall)
             {
                 ySpeed = jumpSpeed;
                 jumpPos = transform.position.y; //ジャンプした位置を記録する
@@ -375,9 +375,16 @@ public partial class NewPlayerController : MonoBehaviour
             float gap = surfaceP - y;
             if (gap >= 0.2480) { fall = false; }
 
+            if(!fall)
+            {
+                float bouyanValue =(float)(gravity * (surfaceP - y) *6);
+                ySpeed += bouyanValue;
+            }
+            /*
             float tem = CalculateBouyancy(y);
             float bouyanValue = fall ? (float)(tem * 0.40) : (float)(tem * 0.6);
             ySpeed += bouyanValue;
+            */
         }
     }
     private float CalculateBouyancy(float posY)
