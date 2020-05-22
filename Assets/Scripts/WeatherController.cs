@@ -27,9 +27,11 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
         }
 
         //stage2だったら的な
+        /*
         GameObject farmers = GameObject.FindWithTag("Farmers");
         talkMob = new TalkMobController[farmers.transform.childCount];
         talkMob = farmers.GetComponentsInChildren<TalkMobController>();
+        */
        
         isNormalRainy = true;
     }

@@ -59,7 +59,7 @@ public partial class NewPlayerController : MonoBehaviour
         initiateComponent();
       
         //stage2だったら的な
-        lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
+//        lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
 
         SetNormalRain();
 
