@@ -1,26 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Threading.Tasks;
+﻿using UnityEngine;
+
 
 public class EnemyBase : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    private PlayerController pController;
+    private GameObject player;
     private Animator anim;
     private Enemy1_3DController eController;
 
     private void Awake()
     {
-        pController = player.GetComponent<PlayerController>();
+        player = GameObject.FindWithTag("Player");
         anim = GetComponent<Animator>();
         eController = GetComponent<Enemy1_3DController>();
     }
 
     internal void FindPlayer()
     {
-        //transform.LookAt(player.transform);
-        transform.localRotation = Quaternion.Euler(0, 180, 0);
+        transform.LookAt(player.transform);
+       // transform.localRotation = Quaternion.Euler(0, 180, 0);
         eController.StopToMove();
         anim.SetBool("isLook", true);
     }
@@ -28,7 +25,12 @@ public class EnemyBase : MonoBehaviour
     internal void GetAnimationFalse()
     {
         anim.SetBool("isLook", false);
-        eController.RestartToMove();
+        RestartToMove();
+    }
+
+    protected virtual void RestartToMove()
+    {
+
     }
 
 

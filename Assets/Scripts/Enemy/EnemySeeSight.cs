@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySeeSight : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
     [SerializeField] private GameObject stageOb;
     private NewPlayerController pController;
     private EnemyBase enemyBase;
@@ -13,6 +11,7 @@ public class EnemySeeSight : MonoBehaviour
 
     private void Awake()
     {
+        GameObject player = GameObject.FindWithTag("Player");
         pController = player.GetComponent<NewPlayerController>();
         GameObject enemy = transform.root.gameObject;
         enemyBase = enemy.GetComponent<EnemyBase>();

@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Timers;
+﻿using UnityEngine;
 
 
-public class Enemy1_3DController : MonoBehaviour
+public class Enemy1_3DController : EnemyBase
 {
 
     [SerializeField] private float minX;
@@ -115,7 +112,7 @@ public class Enemy1_3DController : MonoBehaviour
         isStop = true;
     }
 
-    internal void RestartToMove()
+    protected override void RestartToMove()
     {
         isStop = false;
         if (isLeft)
