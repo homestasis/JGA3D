@@ -22,6 +22,7 @@ public partial class NewPlayerController : MonoBehaviour
     private Animator anim = null;
     private bool isRun = false;
     private bool isJump = false;
+    private bool isDead = false;//new
     private bool isLadder = false;
     private bool rainKey = false;
     private bool fall;
@@ -33,6 +34,7 @@ public partial class NewPlayerController : MonoBehaviour
     private float xSpeed;
     private float ySpeed;
     private float xSpeedBefore;
+    private string deadTag = "DeadPoint";
 
 
     [SerializeField] private float nomalTempDecrease;
@@ -140,7 +142,7 @@ public partial class NewPlayerController : MonoBehaviour
         Vector3 direction = new Vector3(xSpeed, ySpeed, 0);
         controller.Move(direction * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-
+        
         SetAnimation();
     }
 
@@ -165,6 +167,15 @@ public partial class NewPlayerController : MonoBehaviour
         handLightController.Spell();
     }
 
+    internal void IsDead()
+    {
+        isDead = true;
+    }
+
+    internal void IsNotDead()
+    {
+        isDead = false;
+    }
 
     internal void SetNormalRain()
     {
@@ -465,5 +476,36 @@ public partial class NewPlayerController : MonoBehaviour
     {
         anim.SetBool("jump", isJump);
         anim.SetBool("run", isRun);
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.tag == deadTag)
+        {
+            anim.Play("Die");
+            isDead = true;
+        }
+    }
+    public bool IsDieAnimEnd()
+    {
+        if (isDead)
+        {
+            AnimatorStateInfo currentState = anim.GetCurrentAnimatorStateInfo(0);
+            if (currentState.IsName("Die"))
+            {
+                if (currentState.normalizedTime >= 1)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public void ContinuePlayer()
+    {
+        isDead = false;
+        anim.Play("Idol");
+        isJump = false;
+        isRun = false;
     }
 }
