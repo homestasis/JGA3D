@@ -57,9 +57,12 @@ public partial class NewPlayerController : MonoBehaviour
     private void Awake()
     {
         initiateComponent();
-      
+
         //stage2だったら的な
-        lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
+        if (GManager.instance.stageNum == 2)
+        {
+            lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
+        }
 
         SetNormalRain();
 
