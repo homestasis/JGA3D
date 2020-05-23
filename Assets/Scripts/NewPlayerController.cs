@@ -56,18 +56,21 @@ public partial class NewPlayerController : MonoBehaviour
  
     private void Awake()
     {
-        initiateComponent();
-
-        //stage2だったら的な
-        if (GManager.instance.stageNum == 2)
-        {
-            lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
-        }
+        initiateComponent();      
 
         SetNormalRain();
 
         nomalTempDecrease = nomalTempDecrease * Time.deltaTime;
         heavyTempDecrease = heavyTempDecrease * Time.deltaTime;
+    }
+
+    private void Start()
+    {
+        //stage2だったら的な
+        if (GManager.instance.stageNum == 2)
+        {
+            lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
+        }
     }
 
 
