@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class TitleScript : MonoBehaviour
 {
+    public FadeImage fade;
+
     private bool firstPush = false;
 
     // Start is called before the first frame update
@@ -20,14 +22,19 @@ public class TitleScript : MonoBehaviour
         {
             PressStart();
         }
+        if (fade.compFadeOut)
+        {
+            SceneManager.LoadScene("FirstStage");
+        }
     }
 
     public void PressStart()
     {
         if (!firstPush)
         {
+            fade.isFadeOut = true;
             Debug.Log("start");
-            SceneManager.LoadScene("FirstStage");
+            fade.StartFadeOut();
             firstPush = true;
         }
     }
