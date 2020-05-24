@@ -26,6 +26,12 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
             gardian.Add(g.GetComponent<EnemyGardian>());
         }
 
+       
+        isNormalRainy = true;
+    }
+
+    private void Start()
+    {
         //stage2だったら的な
         if (GManager.instance.stageNum == 2)
         {
@@ -33,8 +39,6 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
             talkMob = new TalkMobController[farmers.transform.childCount];
             talkMob = farmers.GetComponentsInChildren<TalkMobController>();
         }
-       
-        isNormalRainy = true;
     }
 
     internal bool GetIsNormalRainy() { return isNormalRainy; }
