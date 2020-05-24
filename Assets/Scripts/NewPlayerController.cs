@@ -482,6 +482,7 @@ public partial class NewPlayerController : MonoBehaviour
     {
         if (collision.tag == deadTag)
         {
+            StopPlayer();
             anim.Play("Die");
             isDead = true;
         }
@@ -503,6 +504,7 @@ public partial class NewPlayerController : MonoBehaviour
     }
     public void ContinuePlayer()
     {
+        ResetIsStop();
         isDead = false;
         anim.Play("Idol");
         isJump = false;
