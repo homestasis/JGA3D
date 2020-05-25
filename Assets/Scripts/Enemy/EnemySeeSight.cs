@@ -13,7 +13,7 @@ public class EnemySeeSight : MonoBehaviour
     {
         GameObject player = GameObject.FindWithTag("Player");
         pController = player.GetComponent<NewPlayerController>();
-        GameObject enemy = transform.root.gameObject;
+        GameObject enemy = transform.parent.gameObject;
         enemyBase = enemy.GetComponent<EnemyBase>();
         stage = stageOb.GetComponent<StageController>();
     }
