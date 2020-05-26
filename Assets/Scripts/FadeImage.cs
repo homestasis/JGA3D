@@ -1,30 +1,29 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class FadeImage : MonoBehaviour
 {
     public float fadeSpeed = 0.01f;
-    public bool compFadeIn = false;
-    public bool compFadeOut = false;
-    public bool isFadeIn = false;
-    public bool isFadeOut = false;
+    protected bool compFadeIn;
+	protected bool compFadeOut;
 
-    Image fadeImage;
-    float red,green,blue,alfa;
+
+    protected Image fadeIm;
+    protected float red,green,blue,alfa;
 
     private void Awake()
     {
-        fadeImage = GetComponent<Image>();
-        red = fadeImage.color.r;
-        green = fadeImage.color.g;
-        blue = fadeImage.color.b;
-        alfa = fadeImage.color.a;
+        fadeIm = GetComponent<Image>();
+        red = fadeIm.color.r;
+        green = fadeIm.color.g;
+        blue = fadeIm.color.b;
+        alfa = fadeIm.color.a;
     }
    
 
-    public IEnumerator StartFadeIn()
+    internal IEnumerator StartFadeIn()
     {
         while (!compFadeIn)
         {
@@ -32,34 +31,34 @@ public class FadeImage : MonoBehaviour
             SetAlpha();                      //b)変更した不透明度パネルに反映する
             if (alfa <= 0)
             {                    //c)完全に透明になったら処理を抜ける
-                isFadeIn = false;
                 compFadeIn = true;
-                fadeImage.enabled = false;//d)パネルの表示をオフにする
+                fadeIm.enabled = false;//d)パネルの表示をオフにする
             }
 
             yield return null;
         }
+		compFadeOut = false;
     }
 
-    public IEnumerator StartFadeOut()
+    internal IEnumerator StartFadeOut()
     {
-        fadeImage.enabled = true;  // a)パネルの表示をオンにする
+        fadeIm.enabled = true;  // a)パネルの表示をオンにする
         while (!compFadeOut)
         {
             alfa += fadeSpeed;         // b)不透明度を徐々にあげる
             SetAlpha();               // c)変更した透明度をパネルに反映する
             if (alfa >= 1)
             {             // d)完全に不透明になったら処理を抜ける
-                isFadeOut = false;
                 compFadeOut = true;
             }
 
             yield return null;
         }
+		compFadeIn = false;
     }
 
-    void SetAlpha()
+    private void SetAlpha()
     {
-        fadeImage.color = new Color(red, green, blue, alfa);
+        fadeIm.color = new Color(red, green, blue, alfa);
     }
 }

@@ -11,6 +11,7 @@ public class TitleScript : MonoBehaviour
     private Canvas tempCanvas;
     private NewPlayerController p;
     private FadeImage title;
+    private TitleWord word;
 
     private bool firstPush;
     private float playerX;
@@ -18,12 +19,14 @@ public class TitleScript : MonoBehaviour
     private void Awake()
     {
         GameObject cameraOb = GameObject.FindGameObjectWithTag("MainCamera");
-        GameObject titleLogo = transform.GetChild(0).gameObject;
+        GameObject titleLogo = transform.Find("TitleLogo").gameObject;
+        GameObject titleWord = transform.Find("Word").gameObject;
         GameObject tempUI = GameObject.Find("TempUI");
         GameObject rainSwitch = GameObject.Find("RainSwitch");
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         title = titleLogo.GetComponent<FadeImage>();
+        word = titleWord.GetComponent<TitleWord>();
         tempCanvas = tempUI.GetComponent<Canvas>();
         rainCanvas = rainSwitch.GetComponent<Canvas>();
         p = player.GetComponent<NewPlayerController>();
@@ -38,6 +41,7 @@ public class TitleScript : MonoBehaviour
         tempCanvas.enabled = false;
 
         StartCoroutine(title.StartFadeOut());
+        StartCoroutine(word.Flash());
     }
 
     // Update is called once per frame
@@ -58,6 +62,7 @@ public class TitleScript : MonoBehaviour
 
     private IEnumerator TitleDestroy()
     {
+        word.Stop();
         StartCoroutine(title.StartFadeIn());
         yield return StartCoroutine(cam.PlayStart(playerX));
 
