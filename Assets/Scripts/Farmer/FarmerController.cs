@@ -16,7 +16,7 @@ public class FarmerController : MonoBehaviour
 
     protected TalkMobController talkMob;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         image = imageOb.GetComponent<Image>();
         textBox = text.GetComponent<Text>();
