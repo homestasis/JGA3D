@@ -19,7 +19,7 @@ public abstract class CameraBase : MonoBehaviour
 
     private protected bool isZoom;
     private protected bool isHigh;
-
+    private protected bool isNotTitle;
 
     internal void ZoomIn(Vector3 pos, Vector3 euler)
     {
@@ -47,6 +47,8 @@ public abstract class CameraBase : MonoBehaviour
         defaultFov = cam.fieldOfView;
         zoom = 6;
         waitTime = 0.4f;
+        transform.position = new Vector3(-1, 5.2f, -2);
+        transform.rotation = Quaternion.Euler(-20.6f, -17.2f, 2.2f);
     }
 
     // Update is called once per frame
