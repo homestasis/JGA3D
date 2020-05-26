@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class FarmerController : MonoBehaviour
 {
-    [SerializeField] private GameObject imageOb;
+    [SerializeField] protected GameObject imageOb;
     protected Image image;
-    [SerializeField] private GameObject text;
+    [SerializeField] protected GameObject text;
     protected Text textBox;
-    [SerializeField] private List<string> contents;
+    [SerializeField] protected List<string> contents;
     protected GameObject player;
-    [SerializeField] private Vector3 zoomEular;
-    private Quaternion initEular;
+    [SerializeField] protected Vector3 zoomEular;
+    protected Quaternion initEular;
 
-    private TalkMobController talkMob;
+    protected TalkMobController talkMob;
 
     private void Awake()
     {
@@ -40,12 +40,12 @@ public class FarmerController : MonoBehaviour
         textBox.enabled = false;
     }
 
-    internal void LookToPlayer()
+    internal virtual void LookToPlayer()
     {
         transform.LookAt(player.transform);
     }
 
-    internal void ResetDirection()
+    internal virtual void ResetDirection()
     {
         transform.rotation = initEular;
         if (talkMob != null)

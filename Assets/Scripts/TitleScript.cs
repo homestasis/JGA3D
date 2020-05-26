@@ -63,6 +63,7 @@ public class TitleScript : MonoBehaviour
     private IEnumerator TitleDestroy()
     {
         word.Stop();
+
         StartCoroutine(title.StartFadeIn());
         yield return StartCoroutine(cam.PlayStart(playerX));
 

@@ -11,14 +11,13 @@ public class EnemyBase : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         anim = GetComponent<Animator>();
-        eController = GetComponent<Enemy1_3DController>();
     }
 
     internal void FindPlayer()
     {
         transform.LookAt(player.transform);
        // transform.localRotation = Quaternion.Euler(0, 180, 0);
-        eController.StopToMove();
+        StopToMove();
         anim.SetBool("isLook", true);
     }
 
@@ -33,6 +32,10 @@ public class EnemyBase : MonoBehaviour
 
     }
 
+    protected virtual void StopToMove()
+    {
+
+    }
 
 
 }

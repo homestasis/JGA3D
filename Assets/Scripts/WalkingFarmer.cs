@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-
-public class Enemy1_3DController : EnemyBase
+public class WalkingFarmer : FarmerController
 {
 
     [SerializeField] private float minX;
@@ -26,18 +27,18 @@ public class Enemy1_3DController : EnemyBase
     // Update is called once per frame
     private void Update()
     {
-        if(isStop)
+        if (isStop)
         {
             return;
         }
 
         if (isTurn)
         {
-            float rot = (float)(90 * vec - vec*(sumTime / 0.3) * 180);
+            float rot = (float)(90 * vec - vec * (sumTime / 0.3) * 180);
             transform.rotation = Quaternion.Euler(0, rot, 0);
 
             sumTime += Time.deltaTime;
-            if(sumTime>0.3f)
+            if (sumTime > 0.3f)
             {
                 startToWalk();
             }
@@ -46,7 +47,7 @@ public class Enemy1_3DController : EnemyBase
         if (isLeft)
         {
             float x = transform.position.x - delta;
-            if(x <= minX)
+            if (x <= minX)
             {
                 isLeft = false;
                 LookBack();
@@ -73,7 +74,19 @@ public class Enemy1_3DController : EnemyBase
 
     }
 
-    private void　LookBack()
+    internal override void LookToPlayer()
+    {
+        base.LookToPlayer();
+        isStop = true;
+    }
+
+    internal override void ResetDirection()
+    {
+        base.ResetDirection();
+        isStop = false;
+    }
+
+    private void LookBack()
     {
         isTurn = true;
         transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -107,12 +120,12 @@ public class Enemy1_3DController : EnemyBase
         transform.rotation = Quaternion.Euler(0, -90, 0);
     }
 
-    protected override void  StopToMove()
+    internal void StopToMove()
     {
         isStop = true;
     }
 
-    protected override void RestartToMove()
+    private void RestartToMove()
     {
         isStop = false;
         if (isLeft)

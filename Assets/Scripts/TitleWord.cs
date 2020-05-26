@@ -1,24 +1,26 @@
 ﻿using System.Collections;
+using UnityEngine;
 
 
 public class TitleWord : FadeImage
 {
     private bool isFlash;
 
-   
     internal IEnumerator Flash()
     {
         isFlash = true;
         while (isFlash)
         {
-            yield return StartCoroutine(StartFadeIn());
-            yield return StartCoroutine(StartFadeOut());
+            StartCoroutine(StartFadeIn());
+            yield return new WaitForSeconds(0.8f);
+            StartCoroutine(StartFadeOut());
+            yield return new WaitForSeconds(0.8f);
+
         }
     }
 
     internal void Stop()
     {
-        isFlash = false;
-        fadeIm.enabled = false;      
+        Destroy(gameObject);
     }
 }

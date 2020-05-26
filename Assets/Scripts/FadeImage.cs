@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FadeImage : MonoBehaviour
 {
-    public float fadeSpeed = 0.01f;
+    public float fadeSpeed = 0.008f;
     protected bool compFadeIn;
 	protected bool compFadeOut;
 
