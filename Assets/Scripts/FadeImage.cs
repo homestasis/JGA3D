@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FadeImage : MonoBehaviour
 {
-    public float fadeSpeed = 0.02f;
+    public float fadeSpeed = 0.01f;
     public bool compFadeIn = false;
     public bool compFadeOut = false;
     public bool isFadeIn = false;
@@ -22,20 +22,6 @@ public class FadeImage : MonoBehaviour
         green = fadeImage.color.g;
         blue = fadeImage.color.b;
         alfa = fadeImage.color.a;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isFadeIn)
-        {
-            StartFadeIn();
-        }
-
-        if (isFadeOut)
-        {
-            StartFadeOut();
-        }
     }
 
     public void StartFadeIn()

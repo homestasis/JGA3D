@@ -12,8 +12,12 @@ public class Camera3DController : CameraBase
         float playerX = player.transform.position.x;
         float playerY = player.transform.position.y;
 
-
-        if (playerX <= 0)//開始地点
+        if (!isNotTitle)
+        {
+            //transform.position = new Vector3(-1,5,-2);
+            //transform.rotation = Quaternion.Euler(-20,-14,2);
+        }
+        else if (playerX <= 0)//開始地点
         {
             if (maxX < 0) { maxX = playerX; }
             transform.position = new Vector3(maxX + offsetX, posY[0], -10);
@@ -85,4 +89,11 @@ public class Camera3DController : CameraBase
         isHigh = false;
     }
 
+    public IEnumerator PlayStart(float playerX)
+    {
+        transform.DOMove(new Vector3(playerX + offsetX, posY[0], -10), 3f);
+        transform.DORotate(new Vector3(0, 0, 0), 3f);
+        yield return new WaitForSeconds(3f);
+        isNotTitle = true;
+    }
 }

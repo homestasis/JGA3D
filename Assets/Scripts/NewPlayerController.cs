@@ -22,7 +22,7 @@ public partial class NewPlayerController : MonoBehaviour
     private Animator anim = null;
     private bool isRun = false;
     private bool isJump = false;
-    private bool isDead = false;//new
+    private bool isDead = false;
     private bool isLadder = false;
     private bool rainKey = false;
     private bool fall;
@@ -48,8 +48,6 @@ public partial class NewPlayerController : MonoBehaviour
     private AudioSource audio;
     private List<SpeechChange> speechScripts;
     private GameObject[] farmers;
-    private GameObject[] talkmobs;
-    private GameObject[] dst;
     private List<FarmerController> farmerScripts;
     [SerializeField] private GameObject handLight;
     private PointLightController handLightController;
@@ -165,16 +163,6 @@ public partial class NewPlayerController : MonoBehaviour
     public void Spell()
     {
         handLightController.Spell();
-    }
-
-    internal void IsDead()
-    {
-        isDead = true;
-    }
-
-    internal void IsNotDead()
-    {
-        isDead = false;
     }
 
     internal void SetNormalRain()
