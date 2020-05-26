@@ -24,7 +24,7 @@ public class GrassController : MonoBehaviour
                 isGrow = true;
             }
 
-            yield return new WaitForSeconds(0.05f);
+            yield return null;
 
         }
     }

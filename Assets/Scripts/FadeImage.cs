@@ -14,8 +14,7 @@ public class FadeImage : MonoBehaviour
     Image fadeImage;
     float red,green,blue,alfa;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         fadeImage = GetComponent<Image>();
         red = fadeImage.color.r;
@@ -23,28 +22,39 @@ public class FadeImage : MonoBehaviour
         blue = fadeImage.color.b;
         alfa = fadeImage.color.a;
     }
+   
 
-    public void StartFadeIn()
+    public IEnumerator StartFadeIn()
     {
-        alfa -= fadeSpeed;                //a)不透明度を徐々に下げる
-        SetAlpha();                      //b)変更した不透明度パネルに反映する
-        if (alfa <= 0)
-        {                    //c)完全に透明になったら処理を抜ける
-            isFadeIn = false;
-            compFadeIn = true;
-            fadeImage.enabled = false;//d)パネルの表示をオフにする
+        while (!compFadeIn)
+        {
+            alfa -= fadeSpeed;                //a)不透明度を徐々に下げる
+            SetAlpha();                      //b)変更した不透明度パネルに反映する
+            if (alfa <= 0)
+            {                    //c)完全に透明になったら処理を抜ける
+                isFadeIn = false;
+                compFadeIn = true;
+                fadeImage.enabled = false;//d)パネルの表示をオフにする
+            }
+
+            yield return null;
         }
     }
 
-    public void StartFadeOut()
+    public IEnumerator StartFadeOut()
     {
         fadeImage.enabled = true;  // a)パネルの表示をオンにする
-        alfa += fadeSpeed;         // b)不透明度を徐々にあげる
-        SetAlpha();               // c)変更した透明度をパネルに反映する
-        if (alfa >= 1)
-        {             // d)完全に不透明になったら処理を抜ける
-            isFadeOut = false;
-            compFadeOut = true;
+        while (!compFadeOut)
+        {
+            alfa += fadeSpeed;         // b)不透明度を徐々にあげる
+            SetAlpha();               // c)変更した透明度をパネルに反映する
+            if (alfa >= 1)
+            {             // d)完全に不透明になったら処理を抜ける
+                isFadeOut = false;
+                compFadeOut = true;
+            }
+
+            yield return null;
         }
     }
 

@@ -5,14 +5,13 @@ using UnityEngine;
 public class FireController : MonoBehaviour
 {
     private Light fireLight;
-    private NewPlayerController pController;
     [SerializeField] private float recoveryTemp;
+    private TempController tempSilder;
 
     private void Awake()
     {
         fireLight = GetComponent<Light>();
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        pController = player.GetComponent<NewPlayerController>();
+        tempSilder = TempController.Instance;
     }
 
     private void Start()
@@ -26,6 +25,6 @@ public class FireController : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        pController.RecoveryTemp(recoveryTemp);
+        tempSilder.RecoveryTemp(recoveryTemp);
     }
 }

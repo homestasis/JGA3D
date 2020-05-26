@@ -1,25 +1,32 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
 public class Camera3DController : CameraBase
 {
-   
+    private bool isNotTitle;
+
+    private void Start()
+    {
+        transform.position = new Vector3(-1, 5.2f, -2);
+        transform.rotation = Quaternion.Euler(-20.6f, -17.2f, 2.2f);
+    }
+
     internal override void UpdatePos()
     {
 
         float playerX = player.transform.position.x;
         float playerY = player.transform.position.y;
 
+
         if (!isNotTitle)
         {
-            //transform.position = new Vector3(-1,5,-2);
-            //transform.rotation = Quaternion.Euler(-20,-14,2);
+            return;
         }
-        else if (playerX <= 0)//開始地点
+
+        if (playerX <= -2.9)//開始地点
         {
-            if (maxX < 0) { maxX = playerX; }
+            if (maxX < playerX) { maxX = playerX; }
             transform.position = new Vector3(maxX + offsetX, posY[0], -10);
             // Debug.Log("Low 1");
         }

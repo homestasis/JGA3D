@@ -7,54 +7,65 @@ public class TitleScript : MonoBehaviour
 {
     //public FadeImage fade;
     private Camera3DController cam;
-    private GameObject player;
-    public GameObject tempUI;//なぜかインスペクターで取らないと動かない
-    public GameObject rainSwitch;//同上
+    private Canvas rainCanvas;
+    private Canvas tempCanvas;
     private NewPlayerController p;
     private FadeImage title;
 
-    private bool firstPush = false;
+    private bool firstPush;
     private float playerX;
 
     private void Awake()
     {
         GameObject cameraOb = GameObject.FindGameObjectWithTag("MainCamera");
-        GameObject titleLogo = GameObject.Find("TitleLogo");
-        //tempUI = GameObject.Find("TempUI");
-        //rainSwitch = GameObject.Find("RainSwicth");
+        GameObject titleLogo = transform.GetChild(0).gameObject;
+        GameObject tempUI = GameObject.Find("TempUI");
+        GameObject rainSwitch = GameObject.Find("RainSwitch");
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
         title = titleLogo.GetComponent<FadeImage>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        tempCanvas = tempUI.GetComponent<Canvas>();
+        rainCanvas = rainSwitch.GetComponent<Canvas>();
         p = player.GetComponent<NewPlayerController>();
         cam = cameraOb.GetComponent<Camera3DController>();
+
         playerX = player.transform.position.x;
+    }
+
+    private void Start()
+    {
+        rainCanvas.enabled = false;
+        tempCanvas.enabled = false;
+
+        StartCoroutine(title.StartFadeOut());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!title.compFadeOut)
+
+        if(firstPush)
         {
-            title.StartFadeOut();
+            return;
         }
-        if (!firstPush && Input.GetKeyDown(KeyCode.Return))
-        {
-            StartCoroutine(cam.PlayStart(playerX));
-            firstPush = true;
-        }
-        if (firstPush)
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             StartCoroutine(TitleDestroy());
+            firstPush = true;
         }
+       
     }
 
     private IEnumerator TitleDestroy()
     {
-        title.StartFadeIn();
-        yield return new WaitForSeconds(3f);
-        tempUI.SetActive(true);
-        rainSwitch.SetActive(true);
-        p.enabled = true;
-        this.enabled = false;
+        StartCoroutine(title.StartFadeIn());
+        yield return StartCoroutine(cam.PlayStart(playerX));
+
+        rainCanvas.enabled = true;
+        tempCanvas.enabled = true;
+        
+        p.enabled = true;  
+        Destroy(gameObject);
     }
 
 }

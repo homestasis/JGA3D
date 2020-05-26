@@ -36,14 +36,7 @@ public partial class NewPlayerController : MonoBehaviour
     private float xSpeedBefore;
     private string deadTag = "DeadPoint";
 
-
-    [SerializeField] private float nomalTempDecrease;
-    [SerializeField] private float heavyTempDecrease;
     [SerializeField] private float speedPropInHeavyRain;
-
-    [SerializeField] private GameObject tempUI;
-    private Slider tempSlider;
-
     private CameraBase cam;
     private AudioSource audio;
     private List<SpeechChange> speechScripts;
@@ -53,19 +46,18 @@ public partial class NewPlayerController : MonoBehaviour
     private PointLightController handLightController;
     private RainSwitcher rainSwitcher;
     private LeverController lever;
+    private TempController tempSlider;
  
     private void Awake()
     {
         initiateComponent();      
 
         SetNormalRain();
-
-        nomalTempDecrease = nomalTempDecrease * Time.deltaTime;
-        heavyTempDecrease = heavyTempDecrease * Time.deltaTime;
     }
 
     private void Start()
     {
+        tempSlider.initiate();
         //stage2だったら的な
         if (GManager.instance.stageNum == 2)
         {
@@ -94,8 +86,8 @@ public partial class NewPlayerController : MonoBehaviour
         }
         weather = weatherOb.GetComponent<WeatherController>();
         rainSwitcher = RainSwitcher.Instance;
-        tempSlider = tempUI.transform.Find("TempBar").GetComponent<Slider>();
-        tempSlider.value = 1f;
+        tempSlider = TempController.Instance;
+
         handLightController = handLight.GetComponent<PointLightController>();
     }
 
@@ -112,7 +104,7 @@ public partial class NewPlayerController : MonoBehaviour
 
         GetRain();
         DecreaseTempreture();
-        if (tempSlider.value <= 0)
+        if (tempSlider.GetValue() <= 0)
         {
             //GameOver
         }
@@ -198,18 +190,15 @@ public partial class NewPlayerController : MonoBehaviour
     {
         if (rainKey)
         {
-            tempSlider.value -= heavyTempDecrease;
+            tempSlider.HeavyDecrease();
         }
         else
         {
-            tempSlider.value -= nomalTempDecrease;
+            tempSlider.NormalDecrease();
         }
     }
 
-    internal void RecoveryTemp(float plusTemp)
-    {
-        tempSlider.value += plusTemp;
-    }
+   
 
     private void GetXSpeed()
     {

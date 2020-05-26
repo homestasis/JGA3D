@@ -58,7 +58,7 @@ public class WaterController : MonoBehaviour
                 transform.position = new Vector3(initX, sum, initZ);
                 isUp = false;
             }
-            yield return new WaitForSeconds(0.05f);
+            yield return null;
         }
        // Debug.Log("end increase Water");
     }
@@ -78,7 +78,7 @@ public class WaterController : MonoBehaviour
                 transform.position = new Vector3(initX, sum, initZ);
                 isUp = true;
             }
-            yield return new WaitForSeconds(0.05f);
+            yield return null;
         }
     }
 }
