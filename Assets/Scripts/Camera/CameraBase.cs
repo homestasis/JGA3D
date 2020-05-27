@@ -28,12 +28,27 @@ public abstract class CameraBase : MonoBehaviour
         DOTween.To(() => Camera.main.fieldOfView, fov => Camera.main.fieldOfView = fov, defaultFov / zoom, waitTime);
     }
 
+    internal void ZoomInExtend(Vector3 pos, Vector3 euler, float locZoom, float locTime)
+    {
+        isZoom = true;
+        transform.position = new Vector3(pos.x, transform.position.y, transform.position.z);
+        transform.rotation = Quaternion.Euler(euler.x, euler.y, euler.z);
+        DOTween.To(() => Camera.main.fieldOfView, fov => Camera.main.fieldOfView = fov, defaultFov / locZoom, locTime);
+    }
+
     internal void ZoomAuto()
     {
         isZoom = false;
         DOTween.To(() => Camera.main.fieldOfView, fov => Camera.main.fieldOfView = fov, defaultFov, waitTime);
         UpdatePos();
 
+    }
+
+    internal void ZoomAutoExtend(float locTime)
+    {
+        isZoom = false;
+        DOTween.To(() => Camera.main.fieldOfView, fov => Camera.main.fieldOfView = fov, defaultFov, locTime);
+        UpdatePos();
     }
 
 
