@@ -27,6 +27,7 @@ public partial class NewPlayerController : MonoBehaviour
     private bool rainKey = false;
     private bool fall;
     private bool inWater;
+    private bool isOnAir;
     private float jumpPos = 0.0f;
     private float dashTime, jumpTime;
     private float beforeKey;
@@ -110,8 +111,8 @@ public partial class NewPlayerController : MonoBehaviour
         }
 
         isLadder = ladderChecker.IsLadder();
+        IsOnAir();
         GetXSpeed();
-        xSpeedBefore = xSpeed;
         if (!inWater)
         {
             GetYSpeed();
@@ -186,6 +187,23 @@ public partial class NewPlayerController : MonoBehaviour
         fall = false;
     }
 
+    private void IsOnAir()
+    {
+        if (!controller.isGrounded && !inWater && !isLadder)
+        {
+            if (!isOnAir)
+            {
+                xSpeedBefore = xSpeed;
+                isOnAir = true;
+                //Debug.Log("ON AIR");
+            }
+        }
+        else
+        {
+            isOnAir = false;
+        }
+    }
+
     private void DecreaseTempreture()
     {
         if (rainKey)
@@ -202,57 +220,78 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void GetXSpeed()
     {
-        if (!controller.isGrounded && !isLadder &!inWater)
-        {
-            xSpeed = xSpeedBefore;
-            audio.Stop();
-            return;
-        }
-
         float horizontalKey = Input.GetAxis("Horizontal");
         xSpeed = 0f;
         if (horizontalKey > 0)
         {
-            if (isLadder)
-            {
-                transform.localRotation = Quaternion.Euler(0, 0, 0);
-            }
-            else
-            {
-                transform.localRotation = Quaternion.Euler(0, 90, 0);
-            }
-            dashTime += Time.deltaTime;
-            isRun = true;
+
             xSpeed = speed;
             if (!audio.isPlaying)
             {
                 audio.Play();
             }
-        }
-        else if (horizontalKey < 0)
-        {
             if (isLadder)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
             else
             {
-                transform.localRotation = Quaternion.Euler(0, -90, 0);
+                
+                if(isOnAir)
+                {
+                    xSpeed = xSpeedBefore + (float)(speed * 0.3);
+                    audio.Stop();
+                }
+                else
+                {
+                    transform.localRotation = Quaternion.Euler(0, 90, 0);
+                    dashTime += Time.deltaTime;
+                }
             }
-            dashTime += Time.deltaTime;
+            
+            isRun = true;
+        }
+        else if (horizontalKey < 0)
+        {
             isRun = true;
             xSpeed = -speed;
             if (!audio.isPlaying)
             {
                 audio.Play();
             }
+            if (isLadder)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                if(isOnAir)
+                {
+                    xSpeed = xSpeedBefore - (float)(speed * 0.3);
+                    audio.Stop();
+                }
+                else
+                {
+                    transform.localRotation = Quaternion.Euler(0, -90, 0);
+                    dashTime += Time.deltaTime;
+                }
+            }
+           
         }
         else
         {
-            isRun = false;
-            xSpeed = 0.0f;
-            dashTime = 0.0f;
             audio.Stop();
+
+            if(isOnAir)
+            {
+                xSpeed = xSpeedBefore;
+            }
+            else
+            {
+                isRun = false;
+                xSpeed = 0.0f;
+                dashTime = 0.0f;
+            }
         }
         if (horizontalKey > 0 && beforeKey < 0)
         {
@@ -321,7 +360,6 @@ public partial class NewPlayerController : MonoBehaviour
         {
             ySpeed *= jumpCurve.Evaluate(jumpTime);
         }
-
     }
 
 
@@ -374,11 +412,6 @@ public partial class NewPlayerController : MonoBehaviour
                 float bouyanValue =(float)(gravity * (surfaceP - y) *6);
                 ySpeed += bouyanValue;
             }
-            /*
-            float tem = CalculateBouyancy(y);
-            float bouyanValue = fall ? (float)(tem * 0.40) : (float)(tem * 0.6);
-            ySpeed += bouyanValue;
-            */
         }
     }
     private float CalculateBouyancy(float posY)
