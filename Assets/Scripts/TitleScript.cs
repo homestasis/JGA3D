@@ -40,8 +40,7 @@ public class TitleScript : MonoBehaviour
         rainCanvas.enabled = false;
         tempCanvas.enabled = false;
 
-        StartCoroutine(title.StartFadeOut());
-        StartCoroutine(word.Flash());
+        StartCoroutine(title.FadeOut());
     }
 
     // Update is called once per frame
@@ -64,7 +63,7 @@ public class TitleScript : MonoBehaviour
     {
         word.Stop();
 
-        StartCoroutine(title.StartFadeIn());
+        StartCoroutine(title.FadeIn());
         yield return StartCoroutine(cam.PlayStart(playerX));
 
         rainCanvas.enabled = true;

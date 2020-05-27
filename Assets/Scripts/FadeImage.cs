@@ -23,7 +23,7 @@ public class FadeImage : MonoBehaviour
     }
    
 
-    internal IEnumerator StartFadeIn()
+    internal IEnumerator FadeIn()
     {
         while (!compFadeIn)
         {
@@ -40,7 +40,7 @@ public class FadeImage : MonoBehaviour
 		compFadeOut = false;
     }
 
-    internal IEnumerator StartFadeOut()
+    internal IEnumerator FadeOut()
     {
         fadeIm.enabled = true;  // a)パネルの表示をオンにする
         while (!compFadeOut)
@@ -57,7 +57,7 @@ public class FadeImage : MonoBehaviour
 		compFadeIn = false;
     }
 
-    private void SetAlpha()
+    protected void SetAlpha()
     {
         fadeIm.color = new Color(red, green, blue, alfa);
     }
