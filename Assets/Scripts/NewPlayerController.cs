@@ -187,6 +187,16 @@ public partial class NewPlayerController : MonoBehaviour
         fall = false;
     }
 
+    internal void Stop()
+    {
+        isStop = true;
+        StopPoint = transform.position;
+    }
+    internal void UnStop()
+    {
+        isStop = false;
+    }
+
     private void IsOnAir()
     {
         if (!controller.isGrounded && !inWater && !isLadder)
