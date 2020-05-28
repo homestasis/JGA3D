@@ -7,7 +7,6 @@ public class GManager : MonoBehaviour
     public static GManager instance = null;
     public int stageNum = 1;
     public int continueNum = 0;
-    public bool isStageClear = false;
 
     private void Awake()
     {
