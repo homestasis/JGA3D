@@ -39,13 +39,13 @@ public class StageController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stageClearTrigger != null && stageClearTrigger.IsPlayerOn() && !doClear)
+        /*if (stageClearTrigger != null && stageClearTrigger.IsPlayerOn() && !doClear)
         {
             StageClear();
             GManager.instance.stageNum = nextStageNum;
             SceneManager.LoadScene("Stage" + nextStageNum);
             doClear = true;
-        }
+        }*/
         if (p.IsDieAnimEnd())
         {
             playerObj.transform.position = continuePoint[GManager.instance.continueNum].transform.position;
@@ -62,14 +62,14 @@ public class StageController : MonoBehaviour
         p.ResetIsStop();
     }
 
-    public void ChangeScene(int Num)
+    /*public void ChangeScene(int Num)
     {
         nextStageNum = Num;
-    }
+    }*/
 
-    public void StageClear()
+    /*public void StageClear()
     {
         GManager.instance.isStageClear = true;
         ChangeScene(GManager.instance.stageNum + 1);
-    }
+    }*/
 }
