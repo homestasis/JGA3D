@@ -46,4 +46,10 @@ public class SpeechChange : MonoBehaviour
     {
         return isDisplay;
     }
+
+    internal void Turn(float yRot)
+    {
+        transform.rotation = Quaternion.Euler(90, yRot, 180);
+        Debug.Log("turn");
+    }
 }

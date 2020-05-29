@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 
 public class WalkingFarmer : FarmerController
 {
@@ -17,11 +16,19 @@ public class WalkingFarmer : FarmerController
     private float sumTime;
     private int vec;//Left = -1, Right = 1;
 
+    private SpeechChange speech;
 
-    // Start is called before the first frame update
+
+    protected override void Awake()
+    {
+        base.Awake();
+        speech = transform.Find("SpeechBubble").gameObject.GetComponent<SpeechChange>();
+    }
+
     private void Start()
     {
         LookLeft();
+        speech.Turn(0);
     }
 
     // Update is called once per frame
@@ -36,6 +43,7 @@ public class WalkingFarmer : FarmerController
         {
             float rot = (float)(90 * vec - vec * (sumTime / 0.3) * 180);
             transform.rotation = Quaternion.Euler(0, rot, 0);
+            speech.Turn(0);
 
             sumTime += Time.deltaTime;
             if (sumTime > 0.3f)
@@ -90,6 +98,7 @@ public class WalkingFarmer : FarmerController
     {
         isTurn = true;
         transform.rotation = Quaternion.Euler(0, 0, 0);
+        speech.Turn(0);
         sumTime = 0;
     }
 
@@ -112,12 +121,14 @@ public class WalkingFarmer : FarmerController
         isRight = true;
         vec = 1;
         transform.rotation = Quaternion.Euler(0, 90, 0);
+        speech.Turn(0);
     }
     private void LookLeft()
     {
         isLeft = true;
         vec = -1;
         transform.rotation = Quaternion.Euler(0, -90, 0);
+        speech.Turn(0);
     }
 
     internal void StopToMove()

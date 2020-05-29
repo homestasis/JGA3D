@@ -12,6 +12,7 @@ public class ShoppingFarmer : FarmerController
     private static string[] falseContents;
     private NewPlayerController pController;
     private Collider colid;
+    private SpeechChange speech;
 
     protected override void Awake()
     {
@@ -20,12 +21,13 @@ public class ShoppingFarmer : FarmerController
         anim = GetComponent<Animator>();
         pController = player.GetComponent<NewPlayerController>();
         colid = GetComponent<Collider>();
+        speech = transform.Find("SpeechBubble").gameObject.GetComponent<SpeechChange>();
     }
 
     private void Start()
     {
         transform.position = place[myPlaceNum];
-        transform.rotation = Quaternion.Euler(standingDir[myPlaceNum]);
+        Turn();
     }
 
     internal override IEnumerator Talk()
@@ -160,6 +162,7 @@ public class ShoppingFarmer : FarmerController
     private void Turn()
     {
         transform.rotation = Quaternion.Euler(standingDir[myPlaceNum]);
+        speech.Turn(0);
     }
 
 }
