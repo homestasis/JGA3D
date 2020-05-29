@@ -16,6 +16,9 @@ public class FarmerController : MonoBehaviour
 
     protected TalkMobController talkMob;
 
+    private static AudioClip[] farmAudio;
+    private AudioSource audioComp;
+
     protected virtual void Awake()
     {
         image = imageOb.GetComponent<Image>();
@@ -23,6 +26,22 @@ public class FarmerController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         initEular = transform.rotation;
         talkMob = GetComponent<TalkMobController>();
+        audioComp = GetComponent<AudioSource>();
+        installAudio();
+    }
+
+    private static void installAudio()
+    {
+        if(farmAudio != null)
+        {
+            return;
+        }
+
+        farmAudio = new AudioClip[3];
+        for(int i = 0; i<farmAudio.Length; i++)
+        {
+            farmAudio[i] = Resources.Load<AudioClip>("Audio/Farmer_sample"+(i+1));
+        }
     }
 
     internal virtual IEnumerator Talk()
@@ -33,6 +52,7 @@ public class FarmerController : MonoBehaviour
         for (int i = 0; i < contents.Count; i++)
         {
             textBox.text = contents[i];
+            PlayVoice();
             yield return new WaitUntil(() => Input.anyKeyDown);
             yield return null;
         }
@@ -63,6 +83,13 @@ public class FarmerController : MonoBehaviour
     {
         image.enabled = true;
         textBox.enabled = true;
+    }
+
+    private void PlayVoice()
+    {
+        int value = Random.Range(0, farmAudio.Length);
+        audioComp.clip = farmAudio[value];
+        audioComp.Play();
     }
 
     
