@@ -25,6 +25,7 @@ public partial class NewPlayerController : MonoBehaviour
     private bool fall;
     private bool inWater;
     private bool isOnAir;
+    private bool isLowTemp;
     private float jumpPos = 0.0f;
     private float dashTime, jumpTime;
     private float beforeKey;
@@ -45,6 +46,7 @@ public partial class NewPlayerController : MonoBehaviour
     private RainSwitcher rainSwitcher;
     private LeverController lever;
     private TempController tempSlider;
+    private PPController ppController;
  
     private void Awake()
     {
@@ -87,6 +89,8 @@ public partial class NewPlayerController : MonoBehaviour
         tempSlider = TempController.Instance;
 
         handLightController = handLight.GetComponent<PointLightController>();
+
+        ppController = GameObject.Find("PostProcesser").GetComponent<PPController>();
     }
 
     private void Update()
@@ -102,9 +106,27 @@ public partial class NewPlayerController : MonoBehaviour
 
         GetRain();
         DecreaseTempreture();
-        if (tempSlider.GetValue() <= 0)
+        float v = tempSlider.GetValue();
+        if (v <= 0.3)
+        {
+            ppController.TurnOnMidEffect();
+            isLowTemp = true;
+        }
+        else if(v <= 0.1)
+        {
+            ppController.TurnOnHeavyEffect();
+        }
+        else if (v <= 0)
         {
             //GameOver
+        }
+        else
+        {
+            if (isLowTemp)
+            {
+                isLowTemp = false;
+                ppController.TurnOffEffect();
+            }
         }
 
         isLadder = ladderChecker.IsLadder();
