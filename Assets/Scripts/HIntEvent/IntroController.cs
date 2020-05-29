@@ -73,21 +73,21 @@ public class IntroController : MonoBehaviour
 
     private IEnumerator Ob1()
     {
-        pController.Stop();
+        pController.StopPlayer();
         cam.ZoomIn(zoomOb[0].transform.position, new Vector3(10, 0, 0));
         yield return null;
         yield return StartCoroutine(Talk());
         cam.ZoomAutoExtend(0.8f);
-        pController.UnStop();
+        pController.ResetIsStop();
     }
 
     private IEnumerator Ob2()
     {
-        pController.Stop();
+        pController.StopPlayer();
         cam.ZoomInExtend(zoomOb[1].transform.position, new Vector3(3, 0, 0),5, 0.8f);
         yield return new WaitForSeconds(1f);
         cam.ZoomAutoExtend(0.8f);
-        pController.UnStop();
+        pController.ResetIsStop();
     }
 
 

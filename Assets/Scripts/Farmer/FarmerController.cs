@@ -25,7 +25,7 @@ public class FarmerController : MonoBehaviour
         talkMob = GetComponent<TalkMobController>();
     }
 
-    internal IEnumerator Talk()
+    internal virtual IEnumerator Talk()
     {
         initiate();
 
@@ -59,11 +59,9 @@ public class FarmerController : MonoBehaviour
         return zoomEular;
     }
 
-    private void initiate()
+    protected void initiate()
     {
-        image = imageOb.GetComponent<Image>();
         image.enabled = true;
-        textBox = text.GetComponent<Text>();
         textBox.enabled = true;
     }
 

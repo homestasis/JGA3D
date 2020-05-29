@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -187,15 +184,6 @@ public partial class NewPlayerController : MonoBehaviour
         fall = false;
     }
 
-    internal void Stop()
-    {
-        isStop = true;
-        StopPoint = transform.position;
-    }
-    internal void UnStop()
-    {
-        isStop = false;
-    }
 
     private void IsOnAir()
     {
@@ -488,8 +476,9 @@ public partial class NewPlayerController : MonoBehaviour
 
         //会話終了後
         cam.ZoomAuto();
-        farmerScripts[i].ResetDirection();
         ResetIsStop();
+        farmerScripts[i].ResetDirection();
+        
     }
 
     private void SetAnimation()
