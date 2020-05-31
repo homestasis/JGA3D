@@ -253,6 +253,7 @@ public partial class NewPlayerController : MonoBehaviour
             if (isLadder)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
+                dashTime += Time.deltaTime;
             }
             else
             {
@@ -282,6 +283,7 @@ public partial class NewPlayerController : MonoBehaviour
             if (isLadder)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
+                dashTime += Time.deltaTime;
             }
             else
             {
