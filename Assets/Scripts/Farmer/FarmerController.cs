@@ -85,7 +85,7 @@ public class FarmerController : MonoBehaviour
         textBox.enabled = true;
     }
 
-    private void PlayVoice()
+    protected void PlayVoice()
     {
         int value = Random.Range(0, farmAudio.Length);
         audioComp.clip = farmAudio[value];

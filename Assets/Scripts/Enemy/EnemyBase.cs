@@ -7,7 +7,7 @@ public class EnemyBase : MonoBehaviour
     private Animator anim;
     private Enemy1_3DController eController;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         player = GameObject.FindWithTag("Player");
         anim = GetComponent<Animator>();

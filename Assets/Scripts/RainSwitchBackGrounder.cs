@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Coffee.UIExtensions;
+﻿using Coffee.UIExtensions;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 public class RainSwitchBackGrounder : MonoBehaviour
-{
-    [SerializeField] Sprite coolTimeImage;
-    [SerializeField] Sprite activeTImeImage;
+{ 
+    private static Sprite coolTimeImage;
+    private static Sprite activeTImeImage;
 
     private bool isActivate;
     private bool increase;
@@ -19,8 +17,16 @@ public class RainSwitchBackGrounder : MonoBehaviour
 
     private void Awake()
     {
+        installImage();
         backImage = GetComponent<Image>();
         uIHsvModifier = GetComponent<UIHsvModifier>();
+    }
+
+    private void installImage()
+    {
+        if (coolTimeImage != null) { return; }
+        coolTimeImage =  Resources.Load<Sprite>("gray4");
+        activeTImeImage = Resources.Load<Sprite>("blue4");
     }
 
     private void Update()

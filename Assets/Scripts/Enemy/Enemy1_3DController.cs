@@ -16,6 +16,13 @@ public class Enemy1_3DController : EnemyBase
     private float sumTime;
     private int vec;//Left = -1, Right = 1;
 
+    private Collider colid;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        colid = transform.Find("SeeSight").gameObject.GetComponent<Collider>();
+    }
 
     // Start is called before the first frame update
     private void Start()
@@ -76,6 +83,7 @@ public class Enemy1_3DController : EnemyBase
     private void　LookBack()
     {
         isTurn = true;
+        colid.enabled = false;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         sumTime = 0;
     }
@@ -84,6 +92,7 @@ public class Enemy1_3DController : EnemyBase
     {
         sumTime = 0;
         isTurn = false;
+        colid.enabled = true;
         if (transform.position.x > (minX + maxX) / 2)
         {
             LookLeft();

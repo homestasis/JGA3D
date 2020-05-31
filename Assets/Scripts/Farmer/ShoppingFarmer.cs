@@ -39,6 +39,7 @@ public class ShoppingFarmer : FarmerController
         yield return null;
         
         textBox.text = playingString;
+        PlayVoice();
         yield return new WaitUntil(() => Input.anyKeyDown);
         yield return null;
         
@@ -57,6 +58,64 @@ public class ShoppingFarmer : FarmerController
         {
             transform.rotation = initEular;
         }
+    }
+
+    internal IEnumerator Amayadori()
+    {
+        if(System.Math.Abs(transform.position.z - 0.7f) < 0.05) { yield break; }
+
+
+        Vector3 next = new Vector3(transform.position.x, transform.position.y, 0.7f);
+        Vector3 dir = new Vector3(0, 0, 1);
+        float dis = Vector3.Distance(next, place[myPlaceNum]);
+
+        colid.enabled = false;
+
+        transform.LookAt(next);
+        anim.SetBool("run", true);
+        pController.StopPlayer();
+        while (true)
+        {
+            transform.position += dir * Time.deltaTime / dis;
+            if (Vector3.Distance(next, transform.position) < 0.1)
+            {
+                transform.position = next;
+                break;
+            }
+            yield return null;
+        }
+        anim.SetBool("run", false);
+        LookForward();
+        pController.ResetIsStop();
+        colid.enabled = true;
+    }
+
+    internal IEnumerator UnAmayadori()
+    {
+        if (System.Math.Abs(place[myPlaceNum].z - 0.7f) < 0.05) { yield break; }
+  
+        Vector3 dir = new Vector3(0, 0, -1);
+        float dis = Vector3.Distance(transform.position, place[myPlaceNum]);
+
+        colid.enabled = false;
+
+        transform.LookAt(place[myPlaceNum]);
+        anim.SetBool("run", true);
+        pController.StopPlayer();
+        while (true)
+        {
+            transform.position += dir * Time.deltaTime / dis;
+            if (Vector3.Distance(place[myPlaceNum], transform.position) < 0.1)
+            {
+                transform.position = place[myPlaceNum];
+                break;
+            }
+            yield return null;
+        }
+        anim.SetBool("run", false);
+        Turn();
+        pController.ResetIsStop();
+        colid.enabled = true;
     }
 
     private static void initiateStatic()
@@ -162,6 +221,12 @@ public class ShoppingFarmer : FarmerController
     private void Turn()
     {
         transform.rotation = Quaternion.Euler(standingDir[myPlaceNum]);
+        speech.Turn(0);
+    }
+
+    private void LookForward()
+    {
+        transform.rotation = Quaternion.Euler(0, 180, 0);
         speech.Turn(0);
     }
 

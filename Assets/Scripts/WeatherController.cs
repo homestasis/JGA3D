@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,8 +6,7 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
 {
     private SunLightController sunLight;
     private Rain3DController rain;
-    private List<EnemyGardian> gardian;
-    private TalkMobController[] talkMob;
+    private ShoppingFarmer[] talkMob;
 
     private bool isNormalRainy;
     private bool isHeavyRainy;
@@ -19,14 +17,6 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
 
         sunLight = SunLightController.Instance;
         rain = Rain3DController.Instance;
-        gardian = new List<EnemyGardian>();
-        GameObject[] gardOb = GameObject.FindGameObjectsWithTag("Gardian");
-        foreach (GameObject g in gardOb)
-        {
-            gardian.Add(g.GetComponent<EnemyGardian>());
-        }
-
-       
         isNormalRainy = true;
     }
 
@@ -36,8 +26,8 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
         if (GManager.instance.stageNum == 2)
         {
             GameObject farmers = GameObject.FindWithTag("Farmers");
-            talkMob = new TalkMobController[farmers.transform.childCount];
-            talkMob = farmers.GetComponentsInChildren<TalkMobController>();
+            talkMob = new ShoppingFarmer[farmers.transform.childCount];
+            talkMob = farmers.GetComponentsInChildren<ShoppingFarmer>();
         }
     }
 
@@ -51,16 +41,12 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
         StartCoroutine(sunLight.Darken());
         yield return new WaitForSeconds(1.2f);
         StartCoroutine(rain.StartToSoundStrong());
-        foreach (EnemyGardian g in gardian)
-        {
-            g.RunAway();
-        }
 
         if (!(talkMob is null))
         {
-            foreach (TalkMobController t in talkMob)
+            foreach (ShoppingFarmer t in talkMob)
             {
-                t.MobGo();
+                StartCoroutine(t.Amayadori());
             }
         }
     }
@@ -71,15 +57,11 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
         isHeavyRainy = false;
         StartCoroutine(sunLight.Lighten());
         StartCoroutine(rain.StopToSoundStrong());
-        foreach (EnemyGardian g in gardian)
-        {
-            g.ComeBack();
-        }
         if (!(talkMob is null))
         {
-            foreach (TalkMobController t in talkMob)
+            foreach (ShoppingFarmer t in talkMob)
             {
-                t.MobBack();
+                StartCoroutine(t.UnAmayadori());
             }
         }
     }
