@@ -18,7 +18,7 @@ public class Stage2Start : MonoBehaviour
     {
         if (other.tag == playerTag)
         {
-            StartCoroutine(fade.StartFadeOut());
+            StartCoroutine(fade.FadeOut());
         }
     }
 }

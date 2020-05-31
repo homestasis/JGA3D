@@ -26,7 +26,7 @@ public class SceanChanger : MonoBehaviour
 
     private IEnumerator SceanChange()
     {
-        StartCoroutine(fade.StartFadeOut());
+        StartCoroutine(fade.FadeOut());
         yield return new WaitForSeconds(3f);
         GManager.instance.stageNum = nextStageNum;
         GManager.instance.continueNum = 0;
