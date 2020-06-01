@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceanChanger : MonoBehaviour
 {
     private string playerTag = "Player";
-    private int nextStageNum = 2;
+    public int nextStageNum = 3;
     private GameObject black;
     private FadeImage fade;
 
@@ -27,9 +27,10 @@ public class SceanChanger : MonoBehaviour
     private IEnumerator SceanChange()
     {
         StartCoroutine(fade.FadeOut());
-        yield return new WaitForSeconds(3f);
         GManager.instance.stageNum = nextStageNum;
+        yield return new WaitForSeconds(3f);
         GManager.instance.continueNum = 0;
         SceneManager.LoadScene("Stage" + nextStageNum);
+        nextStageNum = GManager.instance.stageNum + 1;
     }
 }
