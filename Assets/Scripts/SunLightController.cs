@@ -46,7 +46,6 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
         {
             grass.Add(g.GetComponent<GrassController>());
         }
-
     }
 
     internal IEnumerator Darken()
@@ -111,7 +110,9 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
         {
             StartCoroutine(w.DecreaseWater());
         }
+        
     }
+
 
     internal void EnterDarkPlace()
     {

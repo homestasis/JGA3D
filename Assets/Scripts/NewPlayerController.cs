@@ -12,7 +12,8 @@ public partial class NewPlayerController : MonoBehaviour
     public float climbSpeed;
     public AnimationCurve dashCurve;
     public AnimationCurve jumpCurve;
-    public LadderCheck ladderChecker;
+    // public LadderCheck ladderChecker;
+    private LadderCheck ladderChecker;
 
     private Rigidbody rb = null;
     private CharacterController controller = null;
@@ -33,6 +34,7 @@ public partial class NewPlayerController : MonoBehaviour
     private float xSpeed;
     private float ySpeed;
     private float xSpeedBefore;
+    private float jumpPoint;
     private string deadTag = "DeadPoint";
 
     [SerializeField] private float speedPropInHeavyRain;
@@ -68,6 +70,7 @@ public partial class NewPlayerController : MonoBehaviour
 
     private void initiateComponent()
     {
+        ladderChecker = GetComponent<LadderCheck>();
         GameObject cameraOb = GameObject.FindWithTag("MainCamera");
         cam = cameraOb.GetComponent<CameraBase>();
         rb = GetComponent<Rigidbody>();
@@ -98,7 +101,7 @@ public partial class NewPlayerController : MonoBehaviour
         Conversation();
         if (isStop)
         {
-            transform.position = StopPoint;
+            Stay();
             return;
         }
 
@@ -206,6 +209,17 @@ public partial class NewPlayerController : MonoBehaviour
         fall = false;
     }
 
+    private void Stay()
+    {
+        if(!controller.isGrounded)
+        {
+            Vector3 direction = new Vector3(0, -gravity, 0);
+            controller.Move(direction * Time.deltaTime);
+        }
+
+        anim.SetBool("jump", false);
+        anim.SetBool("run", false);
+    }
 
     private void IsOnAir()
     {
@@ -215,13 +229,31 @@ public partial class NewPlayerController : MonoBehaviour
             {
                 xSpeedBefore = xSpeed;
                 isOnAir = true;
-                //Debug.Log("ON AIR");
+                jumpPoint = transform.position.y;
             }
         }
         else
         {
+            if (isOnAir)
+            {
+                Fall();
+            }
             isOnAir = false;
+           
         }
+    }
+
+    private void Fall()
+    {
+        float dis = jumpPoint - transform.position.y;
+        if (dis > 2.5 && !inWater)
+        {
+            StopPlayer();
+            anim.Play("Die");
+            isDead = true;
+        }
+        Debug.Log(dis);
+        Debug.Log("inWater" + inWater);
     }
 
     private void DecreaseTempreture()

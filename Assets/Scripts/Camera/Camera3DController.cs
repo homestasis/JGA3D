@@ -8,7 +8,7 @@ public class Camera3DController : CameraBase
 
     private void Start()
     {
-        transform.position = new Vector3(-1, 5.2f, -2);
+        transform.position = new Vector3(-16, 5.3f, -2);
         transform.rotation = Quaternion.Euler(-20.6f, -17.2f, 2.2f);
     }
 
@@ -24,7 +24,7 @@ public class Camera3DController : CameraBase
             return;
         }
 
-        if (playerX <= -2.9)//開始地点
+        if (playerX <= -18)//開始地点
         {
             if (maxX < playerX) { maxX = playerX; }
             transform.position = new Vector3(maxX + offsetX, posY[0], -10);
