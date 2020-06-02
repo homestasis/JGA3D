@@ -1,10 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HideCheck3D : MonoBehaviour
 {
-    [SerializeField] private GameObject playerOb;
+    private GameObject playerOb;
+
+    private void Awake()
+    {
+        playerOb = GameObject.FindWithTag("Player");
+    }
 
     //PlayerのTagを変更
     private void OnTriggerEnter(Collider other)

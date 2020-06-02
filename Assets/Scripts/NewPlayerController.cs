@@ -71,13 +71,19 @@ public partial class NewPlayerController : MonoBehaviour
     private void initiateComponent()
     {
         ladderChecker = GetComponent<LadderCheck>();
-        GameObject cameraOb = GameObject.FindWithTag("MainCamera");
-        cam = cameraOb.GetComponent<CameraBase>();
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
+        handLightController = handLight.GetComponent<PointLightController>();
+        weather = weatherOb.GetComponent<WeatherController>();
+        rainSwitcher = RainSwitcher.Instance;
+        tempSlider = TempController.Instance;
+        ppController = GameObject.Find("PostProcesser").GetComponent<PPController>();
 
+        //reload
+        GameObject cameraOb = GameObject.FindWithTag("MainCamera");
+        cam = cameraOb.GetComponent<CameraBase>();   
         speechScripts = new List<SpeechChange>();
         farmerScripts = new List<FarmerController>();
         farmers = GameObject.FindGameObjectsWithTag("Farmer");
@@ -86,14 +92,7 @@ public partial class NewPlayerController : MonoBehaviour
             GameObject speechBubble = g.transform.Find("SpeechBubble").gameObject;
             speechScripts.Add(speechBubble.GetComponent<SpeechChange>());
             farmerScripts.Add(g.GetComponent<FarmerController>());
-        }
-        weather = weatherOb.GetComponent<WeatherController>();
-        rainSwitcher = RainSwitcher.Instance;
-        tempSlider = TempController.Instance;
-
-        handLightController = handLight.GetComponent<PointLightController>();
-
-        ppController = GameObject.Find("PostProcesser").GetComponent<PPController>();
+        }        
     }
 
     private void Update()
@@ -252,8 +251,6 @@ public partial class NewPlayerController : MonoBehaviour
             anim.Play("Die");
             isDead = true;
         }
-        Debug.Log(dis);
-        Debug.Log("inWater" + inWater);
     }
 
     private void DecreaseTempreture()
@@ -365,7 +362,8 @@ public partial class NewPlayerController : MonoBehaviour
         //float verticalKey = Input.GetAxis("Vertical");
         bool jump = Input.GetKey(KeyCode.Space);
         ySpeed = -gravity;
-        if (isLadder)
+
+       if (isLadder)
         {
             if (jump)
             {
@@ -532,9 +530,9 @@ public partial class NewPlayerController : MonoBehaviour
 
         //会話終了後
         cam.ZoomAuto();
-        ResetIsStop();
         farmerScripts[i].ResetDirection();
-        
+        ResetIsStop();
+
     }
 
     private void SetAnimation()

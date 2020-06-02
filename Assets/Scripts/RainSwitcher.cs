@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class RainSwitcher : SingletonMonoBehaviour<RainSwitcher>
@@ -13,6 +11,7 @@ public class RainSwitcher : SingletonMonoBehaviour<RainSwitcher>
     private bool isHeavyRain;
     private UmbrellaController umbController;
     private RainSwitchBackGrounder backgrounder;
+    private Canvas canv;
 
    
     protected override void Awake()
@@ -22,6 +21,7 @@ public class RainSwitcher : SingletonMonoBehaviour<RainSwitcher>
         backgrounder = transform.Find("background").gameObject.GetComponent<RainSwitchBackGrounder>();
         umbController = transform.Find("umbrella").gameObject.GetComponent<UmbrellaController>();
         geugeImage = transform.Find("gauge").gameObject.GetComponent<Image>();
+        canv = GetComponent<Canvas>();
 
         SetActive();
     }
@@ -57,6 +57,16 @@ public class RainSwitcher : SingletonMonoBehaviour<RainSwitcher>
     internal bool GetIsActive()
     {
         return active;
+    }
+
+    internal void Off()
+    {
+        canv.enabled = false;
+    }
+
+    internal void On()
+    {
+        canv.enabled = true;
     }
 
     private void UseSkill()

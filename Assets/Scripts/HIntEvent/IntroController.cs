@@ -29,14 +29,14 @@ public class IntroController : MonoBehaviour
         image = imageOb.GetComponent<Image>();
         textBox = text.GetComponent<Text>();
 
-        isEnter = new bool[2];
+        isEnter = new bool[1];
     }
 
     private void OnTriggerEnter(Collider other)
     {
         float posX = player.transform.position.x;
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 1; i++)
         {
             if (!isEnter[i] && posX - colliderPos[i] > -1 && posX - colliderPos[i] < 1)
             {
@@ -74,7 +74,7 @@ public class IntroController : MonoBehaviour
     private IEnumerator Ob1()
     {
         pController.StopPlayer();
-        cam.ZoomIn(zoomOb[0].transform.position, new Vector3(10, 0, 0));
+        cam.ZoomIn(zoomOb[0].transform.position, new Vector3(5, 0, 0));
         yield return null;
         yield return StartCoroutine(Talk());
         cam.ZoomAutoExtend(0.8f);

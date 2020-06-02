@@ -1,10 +1,9 @@
 ﻿using System.Collections;
-using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 
 
-public class PPController : MonoBehaviour
+public class PPController : SingletonMonoBehaviour<PPController>
 {
 
     private PostProcessVolume ppVolume;
@@ -14,8 +13,9 @@ public class PPController : MonoBehaviour
     private float low;
     private float high;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         ppVolume = GetComponent<PostProcessVolume>();
         foreach (PostProcessEffectSettings item in ppVolume.profile.settings)
         {

@@ -1,31 +1,28 @@
 ﻿using UnityEngine;
 
-public class RoomChecker : MonoBehaviour
-{
-    private CameraSecond cam;
+
+public class CaveChecker : MonoBehaviour
+{ 
     private SunLightController sun;
 
     private void Awake()
     {
-        cam = GameObject.FindWithTag("MainCamera").GetComponent<CameraSecond>();
         sun = SunLightController.Instance;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            cam.RoomCamera();
             sun.EnterDarkPlace();
         }
-     
+
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            cam.ResetInRoom();
             sun.ExitDarkPlace();
         }
     }
