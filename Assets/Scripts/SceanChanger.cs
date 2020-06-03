@@ -4,12 +4,14 @@
 public class SceanChanger : MonoBehaviour
 {
     private string playerTag = "Player";
+    private bool isRoaded;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == playerTag)
+        if(other.tag == playerTag && !isRoaded)
         {
-            StartCoroutine(GManager.Instance.SceanChangeToStage2());
+            StartCoroutine(GManager.Instance.SceanChange());
+            isRoaded = true;
         }
     }
 

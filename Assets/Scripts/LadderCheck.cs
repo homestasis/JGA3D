@@ -3,7 +3,7 @@
 public class LadderCheck : MonoBehaviour
 {
     private string ladderTag = "Ladder";
-    private bool isLadder = false;
+    private bool isLadder;
     private bool isLadderEnter, isLadderStay, isLadderExit;
 
     public bool IsLadder()

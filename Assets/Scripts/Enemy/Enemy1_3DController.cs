@@ -7,6 +7,7 @@ public class Enemy1_3DController : EnemyBase
     [SerializeField] private float minX;
     [SerializeField] private float maxX;
     [SerializeField] private float delta;
+    private float moveVal;
 
     private bool isLeft;
     private bool isRight;
@@ -28,6 +29,7 @@ public class Enemy1_3DController : EnemyBase
     private void Start()
     {
         LookLeft();
+        moveVal = delta * Time.deltaTime;
     }
 
     // Update is called once per frame
@@ -52,7 +54,7 @@ public class Enemy1_3DController : EnemyBase
 
         if (isLeft)
         {
-            float x = transform.position.x - delta;
+            float x = transform.position.x - moveVal;
             if(x <= minX)
             {
                 isLeft = false;
@@ -60,13 +62,13 @@ public class Enemy1_3DController : EnemyBase
             }
             else
             {
-                transform.Translate(0, 0, delta);
+                transform.Translate(0, 0, moveVal);
 
             }
         }
         if (isRight)
         {
-            float x = transform.position.x + delta;
+            float x = transform.position.x + moveVal;
             if (x >= maxX)
             {
                 isRight = false;
@@ -74,7 +76,7 @@ public class Enemy1_3DController : EnemyBase
             }
             else
             {
-                transform.Translate(0, 0, delta);
+                transform.Translate(0, 0, moveVal);
             }
         }
 

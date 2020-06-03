@@ -30,19 +30,9 @@ public class GManager : SingletonMonoBehaviour<GManager>
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        stageNum = 1;
     }
 
-    internal IEnumerator SceanChangeToStage2()
-    {
-        StartCoroutine(fade.FadeOut());
-        rain.Off();
-        temp.Off();
-        pController.enabled = false;
-        yield return new WaitForSeconds(3f);
-        stageNum++;
-        continueNum = 0;
-        SceneManager.LoadScene("Stage" + stageNum);
-    }
 
     void OnSceneLoaded(Scene nextScene, LoadSceneMode mode)
     {
@@ -50,6 +40,29 @@ public class GManager : SingletonMonoBehaviour<GManager>
         {
             StartStage2();
         }
+        else if(string.Equals(nextScene.name, "Stage3"))
+        {
+            Clear();
+        }
+        else if(string.Equals(nextScene.name, "Stage1"))
+        {
+            StartStage1();
+        }
+    }
+
+    internal IEnumerator SceanChange()
+    {
+        rain.Off();
+        temp.Off();
+        yield return StartCoroutine(fade.FadeOut());
+        stageNum += 1;
+        if (stageNum == 4)
+        {
+            stageNum = 1;
+        }
+        continueNum = 0;
+        SceneManager.LoadScene("Stage" + stageNum);
+
     }
 
     private void StartStage2()
@@ -58,9 +71,22 @@ public class GManager : SingletonMonoBehaviour<GManager>
         StartCoroutine(fade.FadeIn());
         pController.enabled = true;
         pController.initiateStage2();
-        rain.enabled = true;
-        temp.enabled = true;
 
+        rain.On();
+        temp.On();
+
+    }
+
+    private void Clear()
+    {
+        black = GameObject.Find("Black");
+        StartCoroutine(fade.FadeIn());
+    }
+
+    private void StartStage1()
+    {
+        black = GameObject.Find("Black");
+        StartCoroutine(fade.FadeIn());
     }
 
 }

@@ -150,6 +150,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
         else
         {
             audio.Stop();
+            xSpeed = (float)(xSpeed * 0.8);
             GetYSPeedInWater();
         }
 
