@@ -1,23 +1,66 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
-public class GManager : MonoBehaviour
+
+public class GManager : SingletonMonoBehaviour<GManager>
 {
-    public static GManager instance = null;
+    public int continueNum;
     public int stageNum = 1;
-    public int continueNum = 0;
 
-    private void Awake()
+
+    private string playerTag = "Player";
+    private GameObject black;
+    private FadeImage fade;
+    private RainSwitcher rain;
+    private TempUiController temp;
+    private GManager gameManager;
+    private NewPlayerController pController;
+
+    protected override void Awake()
     {
-        if (instance == null)
+        base.Awake();
+        black = GameObject.Find("Black");
+        fade = black.GetComponent<FadeImage>();
+        rain = RainSwitcher.Instance;
+        temp = TempUiController.Instance;
+        pController = NewPlayerController.Instance;
+    }
+
+    private void Start()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    internal IEnumerator SceanChangeToStage2()
+    {
+        StartCoroutine(fade.FadeOut());
+        rain.Off();
+        temp.Off();
+        pController.enabled = false;
+        yield return new WaitForSeconds(3f);
+        stageNum++;
+        continueNum = 0;
+        SceneManager.LoadScene("Stage" + stageNum);
+    }
+
+    void OnSceneLoaded(Scene nextScene, LoadSceneMode mode)
+    {
+        if (string.Equals(nextScene.name, "Stage2"))
         {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
+            StartStage2();
         }
     }
+
+    private void StartStage2()
+    {
+        black = GameObject.Find("Black");
+        StartCoroutine(fade.FadeIn());
+        pController.enabled = true;
+        pController.initiateStage2();
+        rain.enabled = true;
+        temp.enabled = true;
+
+    }
+
 }

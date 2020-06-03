@@ -3,8 +3,7 @@ using UnityEngine;
 
 
 public class WaterController : MonoBehaviour
-{
-    [SerializeField] private GameObject player;
+{ 
     [SerializeField] private float delta;
     [SerializeField] private float minY;
     [SerializeField] private float maxY;
@@ -18,7 +17,7 @@ public class WaterController : MonoBehaviour
 
     private void Awake()
     {
-        pController = player.GetComponent<NewPlayerController>();
+        pController = NewPlayerController.Instance;
     }
 
     private void Start()

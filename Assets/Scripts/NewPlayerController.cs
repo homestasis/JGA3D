@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public partial class NewPlayerController : MonoBehaviour
+public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
 {
     public float speed;
     public float gravity;
@@ -35,6 +35,8 @@ public partial class NewPlayerController : MonoBehaviour
     private float ySpeed;
     private float xSpeedBefore;
     private float jumpPoint;
+    private bool isStop;
+    private Vector3 StopPoint;
     private string deadTag = "DeadPoint";
 
     [SerializeField] private float speedPropInHeavyRain;
@@ -49,38 +51,37 @@ public partial class NewPlayerController : MonoBehaviour
     private LeverController lever;
     private TempController tempSlider;
     private PPController ppController;
- 
-    private void Awake()
+    private WeatherController weather;
+
+    protected override void Awake()
     {
-        initiateComponent();      
+        base.Awake();
 
-        SetNormalRain();
-    }
-
-    private void Start()
-    {
-        tempSlider.initiate();
-        //stage2だったら的な
-        if (GManager.instance.stageNum == 2)
-        {
-            lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
-        }
-    }
-
-
-    private void initiateComponent()
-    {
+        weather = WeatherController.Instance;
         ladderChecker = GetComponent<LadderCheck>();
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         handLightController = handLight.GetComponent<PointLightController>();
-        weather = weatherOb.GetComponent<WeatherController>();
         rainSwitcher = RainSwitcher.Instance;
         tempSlider = TempController.Instance;
         ppController = GameObject.Find("PostProcesser").GetComponent<PPController>();
 
+        initiateComponent();      
+
+     
+    }
+
+    private void Start()
+    {
+        SetNormalRain();
+        tempSlider.initiate();
+    }
+
+
+    private void initiateComponent()
+    {
         //reload
         GameObject cameraOb = GameObject.FindWithTag("MainCamera");
         cam = cameraOb.GetComponent<CameraBase>();   
@@ -94,6 +95,14 @@ public partial class NewPlayerController : MonoBehaviour
             farmerScripts.Add(g.GetComponent<FarmerController>());
         }        
     }
+
+    internal void initiateStage2()
+    {
+        initiateComponent();
+        lever = GameObject.FindWithTag("Lever").GetComponent<LeverController>();
+    }
+
+
 
     private void Update()
     {
@@ -206,6 +215,25 @@ public partial class NewPlayerController : MonoBehaviour
     {
         inWater = false;
         fall = false;
+    }
+
+    internal bool IntoSight()
+    {
+        if (weather.GetIsHeavyRainy()) { return false; }
+
+        return true;
+    }
+
+    internal void StopPlayer()
+    {
+        isStop = true;
+        isRun = false;
+        StopPoint = transform.position;
+    }
+
+    internal void ResetIsStop()
+    {
+        isStop = false;
     }
 
     private void Stay()

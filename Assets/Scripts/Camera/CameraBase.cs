@@ -6,8 +6,8 @@ public abstract class CameraBase : MonoBehaviour
 {
     [SerializeField] private protected float offsetX;
     [SerializeField] private protected List<float> posY;
-    [SerializeField] private protected GameObject player;
     [SerializeField] private protected LadderCheck ladder;
+    protected GameObject player;
 
     private protected float maxX;
     private protected float posZ;
@@ -19,6 +19,18 @@ public abstract class CameraBase : MonoBehaviour
 
     private protected bool isZoom;
     private protected bool isHigh;
+
+
+    protected virtual void Awake()
+    {
+        player = GameObject.FindWithTag("Player");
+        maxX = -100;
+        cam = GetComponent<Camera>();
+
+        defaultFov = cam.fieldOfView;
+        zoom = 6;
+        waitTime = 0.4f;
+    }
 
     internal void ZoomIn(Vector3 pos, Vector3 euler)
     {
@@ -52,16 +64,7 @@ public abstract class CameraBase : MonoBehaviour
     }
 
 
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        maxX = -100;
-        cam = GetComponent<Camera>();
-
-        defaultFov = cam.fieldOfView;
-        zoom = 6;
-        waitTime = 0.4f;
-    }
+ 
 
     // Update is called once per frame
     private void LateUpdate()

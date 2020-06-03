@@ -23,7 +23,7 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
     private void Start()
     {
         //stage2だったら的な
-        if (GManager.instance.stageNum == 2)
+        if (GManager.Instance.stageNum == 2)
         {
             GameObject farmers = GameObject.FindWithTag("Farmers");
             talkMob = new ShoppingFarmer[farmers.transform.childCount];

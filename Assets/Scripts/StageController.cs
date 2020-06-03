@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+
 
 public class StageController : MonoBehaviour
 {
-    [Header("プレイヤーゲームオブジェクト")] public GameObject playerObj;
+    private GameObject playerObj;
     [Header("コンティニュー位置")] public GameObject[] continuePoint;
     public PlayerTriggerOn stageClearTrigger;
 
@@ -14,10 +12,15 @@ public class StageController : MonoBehaviour
     private bool doClear = false;
 
 
+    private void Awake()
+    {
+        playerObj = GameObject.FindWithTag("Player");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        if (playerObj != null && continuePoint != null && continuePoint.Length > 0)
+        if (continuePoint != null && continuePoint.Length > 0)
         {
             playerObj.transform.position = continuePoint[0].transform.position;
 
@@ -48,7 +51,7 @@ public class StageController : MonoBehaviour
         }*/
         if (p.IsDieAnimEnd())
         {
-            playerObj.transform.position = continuePoint[GManager.instance.continueNum].transform.position;
+            playerObj.transform.position = continuePoint[GManager.Instance.continueNum].transform.position;
             p.ContinuePlayer();
         }
     }
@@ -58,7 +61,7 @@ public class StageController : MonoBehaviour
     /// </summary>
     public void PlayerSetContinuePoint()
     {
-        playerObj.transform.position = continuePoint[GManager.instance.continueNum].transform.position;
+        playerObj.transform.position = continuePoint[GManager.Instance.continueNum].transform.position;
         p.ResetIsStop();
     }
 

@@ -25,7 +25,7 @@ public class ContinuePoint : MonoBehaviour
         //プレイヤーが範囲内に入った
         if (trigger.IsPlayerOn() && !on)
         {
-            GManager.instance.continueNum = continueNum;
+            GManager.Instance.continueNum = continueNum;
             on = true;
         }
     }
