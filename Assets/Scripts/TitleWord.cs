@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-
+﻿
 public class TitleWord : FadeImage
 {
     private bool isFlash;
@@ -10,7 +7,7 @@ public class TitleWord : FadeImage
     private void Start()
     {
         compFadeIn = true;
-        isFlash = true;
+        isFlash = false;
         fadeSpeed = 0.0072f;
     }
 
@@ -26,6 +23,11 @@ public class TitleWord : FadeImage
         {
             FadeIn();
         }
+    }
+
+    internal void StartToFlash()
+    {
+        isFlash = true;
     }
 
     internal void Stop()
