@@ -31,6 +31,12 @@ public class PPController : SingletonMonoBehaviour<PPController>
         ppVolume.enabled = false;
     }
 
+    internal void SetFalse()
+    {
+        isMidFlash = false;
+        isHeavyFlash = false;
+    }
+
     internal void TurnOnMidEffect()
     {
         if (isMidFlash) { return; }

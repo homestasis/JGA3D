@@ -32,26 +32,31 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
 
         weather = WeatherController.Instance;
 
+        initiate();
+    }
+
+    internal void initiate()
+    {
         water = new List<WaterController>();
         GameObject[] waterOb = GameObject.FindGameObjectsWithTag("Water");
-        foreach(GameObject w in waterOb)
+        foreach (GameObject w in waterOb)
         {
             water.Add(w.GetComponent<WaterController>());
         }
-        
+
 
         grass = new List<GrassController>();
         GameObject[] grassOb = GameObject.FindGameObjectsWithTag("Grass");
-        foreach(GameObject g in grassOb)
+        foreach (GameObject g in grassOb)
         {
             grass.Add(g.GetComponent<GrassController>());
         }
     }
 
     internal IEnumerator Darken()
-    { 
+    {
         while (true)
-        {       
+        {
             sunLight.intensity -= delta;
             float inte = sunLight.intensity;
 
@@ -71,9 +76,12 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
             yield return new WaitForSeconds(0.05f);
         }
 
-        foreach(GrassController g in grass)
-        {
-            StartCoroutine(g.GrowGrass());
+        if (grass != null)
+        { 
+          foreach (GrassController g in grass)
+          {
+              StartCoroutine(g.GrowGrass());
+          }  
         }
        
         foreach(WaterController w in water)

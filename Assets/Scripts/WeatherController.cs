@@ -20,17 +20,15 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
         isNormalRainy = true;
     }
 
-    private void Start()
+
+    internal void initiate()
     {
-        //stage2だったら的な
-        if (GManager.Instance.stageNum == 2)
-        {
-            GameObject farmers = GameObject.FindWithTag("Farmers");
-            talkMob = new ShoppingFarmer[farmers.transform.childCount];
-            talkMob = farmers.GetComponentsInChildren<ShoppingFarmer>();
-        }
+        GameObject farmers = GameObject.FindWithTag("Farmers");
+        talkMob = new ShoppingFarmer[farmers.transform.childCount];
+        talkMob = farmers.GetComponentsInChildren<ShoppingFarmer>();
     }
 
+   
     internal bool GetIsNormalRainy() { return isNormalRainy; }
     internal bool GetIsHeavyRainy() { return isHeavyRainy;  }
 

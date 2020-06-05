@@ -26,6 +26,7 @@ public class ReviveFarmer : FarmerController
     {
         yield return StartCoroutine(fade.FadeOut());
         tempC.initiate();
+        PPController.Instance.SetFalse();
         StartCoroutine(fade.FadeIn());
     }
 }

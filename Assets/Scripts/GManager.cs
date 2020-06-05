@@ -71,6 +71,8 @@ public class GManager : SingletonMonoBehaviour<GManager>
         StartCoroutine(fade.FadeIn());
         pController.enabled = true;
         pController.initiateStage2();
+        SunLightController.Instance.initiate();
+        WeatherController.Instance.initiate();
 
         rain.On();
         temp.On();

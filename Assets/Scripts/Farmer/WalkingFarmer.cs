@@ -17,6 +17,7 @@ public class WalkingFarmer : FarmerController
     private int vec;//Left = -1, Right = 1;
 
     private SpeechChange speech;
+    private float moveDelta;
 
 
     protected override void Awake()
@@ -29,6 +30,7 @@ public class WalkingFarmer : FarmerController
     {
         LookLeft();
         speech.Turn(0);
+        moveDelta = (float)(delta * Time.deltaTime);
     }
 
     // Update is called once per frame
@@ -54,7 +56,7 @@ public class WalkingFarmer : FarmerController
 
         if (isLeft)
         {
-            float x = transform.position.x - delta;
+            float x = transform.position.x - moveDelta;
             if (x <= minX)
             {
                 isLeft = false;
@@ -62,13 +64,13 @@ public class WalkingFarmer : FarmerController
             }
             else
             {
-                transform.Translate(0, 0, delta);
+                transform.Translate(0, 0, moveDelta);
 
             }
         }
         if (isRight)
         {
-            float x = transform.position.x + delta;
+            float x = transform.position.x + moveDelta;
             if (x >= maxX)
             {
                 isRight = false;
@@ -76,7 +78,7 @@ public class WalkingFarmer : FarmerController
             }
             else
             {
-                transform.Translate(0, 0, delta);
+                transform.Translate(0, 0, moveDelta);
             }
         }
 
