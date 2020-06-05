@@ -12,10 +12,7 @@ public class FireController : MonoBehaviour
         tempSilder = TempController.Instance;
     }
 
-    private void Start()
-    {
-        recoveryTemp = recoveryTemp * Time.deltaTime;
-    }
+   
     internal void PutOutFire()
     {
         fireLight.intensity = 0;
@@ -23,6 +20,6 @@ public class FireController : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        tempSilder.RecoveryTemp(recoveryTemp);
+        tempSilder.RecoveryTemp(recoveryTemp * Time.deltaTime);
     }
 }

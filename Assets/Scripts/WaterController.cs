@@ -38,7 +38,8 @@ public class WaterController : MonoBehaviour
 
 
 
-    internal IEnumerator IncreaseWater()
+
+    internal virtual IEnumerator IncreaseWater()
     {
         isUp = true;
         if (transform.position.y >= maxY)
@@ -62,7 +63,7 @@ public class WaterController : MonoBehaviour
        // Debug.Log("end increase Water");
     }
 
-    internal IEnumerator DecreaseWater()
+    internal virtual IEnumerator DecreaseWater()
     {
         isUp = false;
         if (transform.position.y <= minY) { isUp = true; }

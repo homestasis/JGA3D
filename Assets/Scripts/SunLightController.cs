@@ -133,12 +133,10 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
         if (weather.GetIsNormalRainy())
         {
             sunLight.intensity = maxLight;
-            Debug.Log("max light");
         }
         else
         {
             sunLight.intensity = minLight;
-            Debug.Log("min light");
         }
         
 

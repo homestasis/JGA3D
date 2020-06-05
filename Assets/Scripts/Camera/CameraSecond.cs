@@ -71,7 +71,7 @@ public class CameraSecond : CameraBase
     internal void RoomCamera()
     {
         inRoom = true;
-        transform.position = new Vector3(194, 0, -4);
+        transform.position = new Vector3(204, 0, -4);
         cam.fieldOfView = 60;
     }
 

@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 
 public class LeverController : MonoBehaviour
 {
     [SerializeField] private GameObject puddle;
-    private WaterController wController;
+    private WaterGimmickController wController;
     private LeverLever lev;
     private ParticleSystem waterParticle;
     private SpeechChange speechBubble;
@@ -14,7 +13,7 @@ public class LeverController : MonoBehaviour
 
     private void Awake()
     {
-        wController = puddle.GetComponent<WaterController>();
+        wController = puddle.GetComponent<WaterGimmickController>();
         lev = transform.Find("Lever").gameObject.GetComponent<LeverLever>();
         waterParticle = transform.Find("Water_Drop").gameObject.GetComponent<ParticleSystem>();
         speechBubble = transform.Find("SpeechBubble").gameObject.GetComponent<SpeechChange>();
@@ -39,7 +38,7 @@ public class LeverController : MonoBehaviour
 
         waterParticle.Stop();
 
-        StartCoroutine(wController.DecreaseWater());
+        wController.DecreaseByLever();
     }
     private void LeverDown()
     {
@@ -49,6 +48,7 @@ public class LeverController : MonoBehaviour
         waterParticle.Play();
 
         StartCoroutine(wController.IncreaseWater());
+        wController.SetIsUnder(true);
     }
 
     internal bool GetIsDisplay()
