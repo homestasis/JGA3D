@@ -24,8 +24,8 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
         // 他のGameObjectにアタッチされているか調べる.
         // アタッチされている場合は破棄する.
         if (this != Instance) {
-            Destroy (this);
-            //Destroy(this.gameObject);
+            //Destroy (this);
+            Destroy(this.gameObject);
             Debug.LogError (
                 typeof (T) +
                 " は既に他のGameObjectにアタッチされているため、コンポーネントを破棄しました." +
@@ -36,5 +36,10 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
         if (dontDestroyOnLoad) {
             DontDestroyOnLoad (this.gameObject);
         }
+    }
+
+    internal void DestroyThis()
+    {
+        Destroy(this.gameObject);
     }
 }

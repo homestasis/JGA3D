@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class RainSwitchBackGrounder : MonoBehaviour
 { 
-    private static Sprite coolTimeImage;
-    private static Sprite activeTImeImage;
+    private  Sprite coolTimeImage;
+    private  Sprite activeTImeImage;
 
     private bool isActivate;
     private bool increase;
@@ -24,14 +24,13 @@ public class RainSwitchBackGrounder : MonoBehaviour
 
     private void installImage()
     {
-        if (coolTimeImage != null) { return; }
         coolTimeImage =  Resources.Load<Sprite>("gray4");
         activeTImeImage = Resources.Load<Sprite>("blue4");
     }
 
     private void Update()
     {
-        if (isActivate)
+　　　　　if (isActivate)
         {
 
             float delta = (float)(Time.deltaTime * 0.6);
@@ -63,6 +62,10 @@ public class RainSwitchBackGrounder : MonoBehaviour
 
     internal void SetActiveTimeImage()
     {
+        if(GetComponent<Image>() == null) { Debug.Log("image is null"); }
+        if(backImage == null) { Debug.Log("backImge is null");}
+        if(backImage.sprite == null) { Debug.Log("sprite is null"); }
+        if(activeTImeImage == null) { Debug.Log("active time image is null"); }
         backImage.sprite = activeTImeImage;
         isActivate = true;
     }

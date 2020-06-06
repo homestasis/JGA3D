@@ -42,7 +42,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
         }
         else if(string.Equals(nextScene.name, "Stage3"))
         {
-            Clear();
+            StartCoroutine(Clear());
         }
         else if(string.Equals(nextScene.name, "Stage1"))
         {
@@ -56,13 +56,17 @@ public class GManager : SingletonMonoBehaviour<GManager>
         temp.Off();
         yield return StartCoroutine(fade.FadeOut());
         stageNum += 1;
-        if (stageNum == 4)
-        {
-            stageNum = 1;
-        }
         continueNum = 0;
         SceneManager.LoadScene("Stage" + stageNum);
 
+    }
+
+    internal IEnumerator Reset()
+    {
+        yield return StartCoroutine(fade.FadeOut());
+        stageNum = 1;
+        continueNum = 0;
+        SceneManager.LoadScene("Stage" + stageNum);
     }
 
     private void StartStage2()
@@ -79,16 +83,39 @@ public class GManager : SingletonMonoBehaviour<GManager>
 
     }
 
-    private void Clear()
+    private IEnumerator Clear()
     {
         black = GameObject.Find("Black");
-        StartCoroutine(fade.FadeIn());
+        yield return StartCoroutine(fade.FadeIn());
+
+        DestroyThem();
+
+        KeyChecker.Instance.SetIsStart();
+
     }
 
     private void StartStage1()
     {
-        black = GameObject.Find("Black");
+        initiate();
         StartCoroutine(fade.FadeIn());
+    }
+
+    private void DestroyThem()
+    {
+        rain.DestroyThis();
+        temp.DestroyThis();
+        pController.DestroyThis();
+        SunLightController.Instance.DestroyThis();
+        WeatherController.Instance.DestroyThis();
+
+    }
+
+    private void initiate()
+    {
+        black = GameObject.Find("Black");
+        rain = RainSwitcher.Instance;
+        temp = TempUiController.Instance;
+        pController = NewPlayerController.Instance;
     }
 
 }

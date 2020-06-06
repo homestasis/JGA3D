@@ -22,14 +22,16 @@ public class RainSwitcher : SingletonMonoBehaviour<RainSwitcher>
         umbController = transform.Find("umbrella").gameObject.GetComponent<UmbrellaController>();
         geugeImage = transform.Find("gauge").gameObject.GetComponent<Image>();
         canv = GetComponent<Canvas>();
+    }
 
+    private void Start()
+    {
         SetActive();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        
 
         if(coolTime > 0)
         {

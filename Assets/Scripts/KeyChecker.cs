@@ -1,27 +1,35 @@
 ﻿using UnityEngine;
 
-public class KeyChecker : MonoBehaviour
+public class KeyChecker : SingletonMonoBehaviour<KeyChecker>
 {
     private bool isChanged;
     private GameObject canv;
 
+    private bool isStart;
 
-    private void Awake()
+
+    protected override void Awake()
     {
+        base.Awake();
         canv = GameObject.Find("Canvas");
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if(Input.anyKeyDown)
+        if(isStart && Input.anyKeyDown)
         {
             if (!isChanged)
             {
                 isChanged = true;
-                StartCoroutine(GManager.Instance.SceanChange());
+                StartCoroutine(GManager.Instance.Reset());
                 Destroy(canv);
             }
         }
+    }
+
+    internal void SetIsStart()
+    {
+        isStart = true;
     }
 }
