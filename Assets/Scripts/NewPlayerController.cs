@@ -179,11 +179,6 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
         }
     }
 
-    public void Spell()
-    {
-        handLightController.Spell();
-    }
-
     internal void SetNormalRain()
     {
         rainKey = false;
@@ -384,7 +379,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     private void GetYSpeed()
     {
         //float verticalKey = Input.GetAxis("Vertical");
-        bool jump = Input.GetKey(KeyCode.Space);
+        bool jump = Input.GetKey(KeyCode.Space) || Input.GetButton("Jump");//aaaaa
         ySpeed = -gravity;
 
        if (isLadder)
@@ -441,7 +436,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
 
     private void GetYSPeedInWater()
     {
-        bool pushSpace = Input.GetKey(KeyCode.Space);
+        bool pushSpace = Input.GetKey(KeyCode.Space) || Input.GetButtonDown("Jump");//aaaaaa
         ySpeed = -gravity;
         if (!isJump)
         {
@@ -497,7 +492,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
 
     private void GetRain()
     {
-        if(Input.GetKeyDown(KeyCode.Return) && rainSwitcher.GetIsActive())
+        if((Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Action1")) && rainSwitcher.GetIsActive())
         {
             anim.SetTrigger("BeRain");
         }
@@ -506,7 +501,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
 
     private void Conversation()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.A) || Input.GetButtonDown("Action2"))
         {
             for(int i =0; i<speechScripts.Count; i++)
             {
