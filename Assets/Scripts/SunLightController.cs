@@ -10,6 +10,7 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
 
     private Light sunLight;
     private WeatherController weather;
+    private GManager gMane;
 
     private List<WaterController> water;
     private List<GrassController> grass;
@@ -31,6 +32,7 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
         sky.SetFloat("_Exposure", ex);
 
         weather = WeatherController.Instance;
+        gMane = GManager.Instance;
 
         initiate();
     }
@@ -76,7 +78,7 @@ public class SunLightController : SingletonMonoBehaviour<SunLightController>
             yield return new WaitForSeconds(0.05f);
         }
 
-        if (grass != null)
+        if (grass != null && gMane.stageNum == 1)
         { 
           foreach (GrassController g in grass)
           {

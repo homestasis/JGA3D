@@ -1,19 +1,32 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeechChange : MonoBehaviour
 {
-    [SerializeField] private Material[] mates;
     private MeshRenderer mesh;
     private bool isDisplay;
-
+    private static Material[] mates;
 
     // Start is called before the first frame update
     private void Awake()
     {
         mesh = GetComponent<MeshRenderer>();
         mesh.enabled = false;
+
+        if(mates == null)
+        {
+            mates = new Material[2];
+           
+            if(Input.GetJoystickNames().Length == 0)
+            {
+                mates[0] = Resources.Load<Material>("speech_key1");
+                mates[1] = Resources.Load<Material>("speech_key2");
+            }
+            else
+            {
+                //コントローラー用の画像のロード
+            }
+        }
     }
 
     internal IEnumerator SetImage()

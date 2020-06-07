@@ -50,6 +50,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     private TempController tempSlider;
     private PPController ppController;
     private WeatherController weather;
+    private SpellSound spel;
 
     protected override void Awake()
     {
@@ -64,6 +65,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
         rainSwitcher = RainSwitcher.Instance;
         tempSlider = TempController.Instance;
         ppController = GameObject.Find("PostProcesser").GetComponent<PPController>();
+        spel = transform.Find("Speller").gameObject.GetComponent<SpellSound>();
 
         initiateComponent();      
 
@@ -161,6 +163,11 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         
         SetAnimation();
+    }
+
+    public void Spell()
+    {
+        spel.Spell();
     }
 
     public void OnEventFx()

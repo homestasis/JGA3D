@@ -16,6 +16,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
     private TempUiController temp;
     private GManager gameManager;
     private NewPlayerController pController;
+    private WeatherController weather;
 
     protected override void Awake()
     {
@@ -25,6 +26,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
         rain = RainSwitcher.Instance;
         temp = TempUiController.Instance;
         pController = NewPlayerController.Instance;
+        weather = WeatherController.Instance;
     }
 
     private void Start()
@@ -52,6 +54,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
 
     internal IEnumerator SceanChange()
     {
+
         rain.Off();
         temp.Off();
         yield return StartCoroutine(fade.FadeOut());
