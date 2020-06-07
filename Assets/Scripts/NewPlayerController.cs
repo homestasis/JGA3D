@@ -181,7 +181,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
 
     public void Spell()
     {
-        handLightController.Spell();
+     //   handLightController.Spell();
     }
 
     internal void SetNormalRain()

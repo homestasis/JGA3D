@@ -8,6 +8,8 @@ public class EnemySeeSight : MonoBehaviour
     private EnemyBase enemyBase;
     private StageController stage;
 
+    private bool isFind;
+
 
     private void Awake()
     {
@@ -20,10 +22,23 @@ public class EnemySeeSight : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && isFind)
         {
             if (pController.IntoSight())
             {
+                isFind = true;
+                StartCoroutine(FindingPlayer());
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player") && !isFind)
+        {
+            if (pController.IntoSight())
+            {
+                isFind = true;
                 StartCoroutine(FindingPlayer());
             }
         }

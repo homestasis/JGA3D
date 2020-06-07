@@ -5,16 +5,22 @@ public class StageController : MonoBehaviour
 {
     private GameObject playerObj;
     [Header("コンティニュー位置")] public GameObject[] continuePoint;
-    public PlayerTriggerOn stageClearTrigger;
+    [Header("コンテニュー体温プラス量")]
+    [SerializeField] private int[] continuePlus; 
+  //  public PlayerTriggerOn stageClearTrigger;
 
     private NewPlayerController p;
     private int nextStageNum = 1;
     private bool doClear = false;
+    private TempController temp;
+    private GManager gMane;
 
 
     private void Awake()
     {
         playerObj = GameObject.FindWithTag("Player");
+        temp = TempController.Instance;
+        gMane = GManager.Instance;
     }
 
     // Start is called before the first frame update
@@ -51,8 +57,7 @@ public class StageController : MonoBehaviour
         }*/
         if (p.IsDieAnimEnd())
         {
-            playerObj.transform.position = continuePoint[GManager.Instance.continueNum].transform.position;
-            p.ContinuePlayer();
+            PlayerSetContinuePoint();
         }
     }
 
@@ -61,8 +66,9 @@ public class StageController : MonoBehaviour
     /// </summary>
     public void PlayerSetContinuePoint()
     {
-        playerObj.transform.position = continuePoint[GManager.Instance.continueNum].transform.position;
-        p.ResetIsStop();
+        temp.IncreaseValue(continuePlus[gMane.continueNum]);
+        playerObj.transform.position = continuePoint[gMane.continueNum].transform.position;
+        p.ContinuePlayer();
     }
 
     /*public void ChangeScene(int Num)

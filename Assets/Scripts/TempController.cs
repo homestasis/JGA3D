@@ -43,6 +43,12 @@ public class TempController : SingletonMonoBehaviour<TempController>
         return tempSlider.value;
     }
 
+    internal void IncreaseValue(float plusValue)
+    {
+        tempSlider.value += plusValue;
+        if(tempSlider.value >= 1) { tempSlider.value = 1; }
+    }
+
     internal void RecoveryTemp(float plusTemp)
     {
         tempSlider.value += plusTemp;
