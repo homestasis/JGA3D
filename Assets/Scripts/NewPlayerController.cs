@@ -45,8 +45,6 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     private List<SpeechChange> speechScripts;
     private GameObject[] farmers;
     private List<FarmerController> farmerScripts;
-    [SerializeField] private GameObject handLight;
-    private PointLightController handLightController;
     private RainSwitcher rainSwitcher;
     private LeverController lever;
     private TempController tempSlider;
@@ -63,7 +61,6 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
-        handLightController = handLight.GetComponent<PointLightController>();
         rainSwitcher = RainSwitcher.Instance;
         tempSlider = TempController.Instance;
         ppController = GameObject.Find("PostProcesser").GetComponent<PPController>();
@@ -112,8 +109,6 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
             Stay();
             return;
         }
-
-        GetLightKey();
 
         GetRain();
         DecreaseTempreture();
@@ -498,21 +493,6 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     private float CalculateBouyancy(float posY)
     {
         return (float)(gravity * (surfaceP - posY) / 0.10);
-    }
-
-    private void GetLightKey()
-    {
-        if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
-        {
-            if(handLightController.GEtisOn())
-            {
-                handLightController.TurnOff();
-            }
-            else
-            {
-                handLightController.TurnOn();
-            }
-        }
     }
 
     private void GetRain()
