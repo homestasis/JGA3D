@@ -51,7 +51,7 @@ public class TitleScript : MonoBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Action2"))
         {
             StartCoroutine(TitleDestroy());
             firstPush = true;
