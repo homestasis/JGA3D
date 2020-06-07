@@ -508,7 +508,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
 
     private void Conversation()
     {
-        if(Input.GetKeyDown(KeyCode.A) || Input.GetButtonDown("Action2"))
+        if(Input.GetKeyDown(KeyCode.K) || Input.GetButtonDown("Action2"))
         {
             for(int i =0; i<speechScripts.Count; i++)
             {

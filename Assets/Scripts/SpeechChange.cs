@@ -5,7 +5,8 @@ public class SpeechChange : MonoBehaviour
 {
     private MeshRenderer mesh;
     private bool isDisplay;
-    private static Material[] mates;
+    private static Material[] matesForPc;
+    private static Material[] matesForPad;
 
     // Start is called before the first frame update
     private void Awake()
@@ -13,19 +14,16 @@ public class SpeechChange : MonoBehaviour
         mesh = GetComponent<MeshRenderer>();
         mesh.enabled = false;
 
-        if(mates == null)
+        if(matesForPc == null)
         {
-            mates = new Material[2];
-           
-            if(Input.GetJoystickNames().Length == 0)
-            {
-                mates[0] = Resources.Load<Material>("speech_key1");
-                mates[1] = Resources.Load<Material>("speech_key2");
-            }
-            else
-            {
-                //コントローラー用の画像のロード
-            }
+            matesForPc = new Material[2];
+            matesForPad = new Material[2];
+
+            matesForPc[0] = Resources.Load<Material>("speech_key1");
+            matesForPc[1] = Resources.Load<Material>("speech_key2");
+             
+            matesForPad[0] = Resources.Load<Material>("speech_pad1");
+            matesForPad[1] = Resources.Load<Material>("speech_pad2");
         }
     }
 
@@ -34,6 +32,15 @@ public class SpeechChange : MonoBehaviour
         mesh = GetComponent<MeshRenderer>();
         mesh.enabled = true;
         int i = 0;
+        Material[] mates = new Material[2];
+        if (Input.GetJoystickNames().Length == 0)
+        {
+            mates = matesForPc;
+        }
+        else
+        {
+            mates = matesForPad;
+        }
         while (isDisplay)
         {
            // mesh.material = null;
