@@ -379,7 +379,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     private void GetYSpeed()
     {
         //float verticalKey = Input.GetAxis("Vertical");
-        bool jump = Input.GetKey(KeyCode.Space) || Input.GetButtonDown("Jump");//aaaaa
+        bool jump = Input.GetKey(KeyCode.Space) || Input.GetButton("Jump");//aaaaa
         ySpeed = -gravity;
 
        if (isLadder)
