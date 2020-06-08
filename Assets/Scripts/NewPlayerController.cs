@@ -521,6 +521,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
             if (lever is null) { return; }
             else if (lever.GetIsDisplay())
             {
+                anim.SetTrigger("lever");
                 lever.Levering();
             }
         }
