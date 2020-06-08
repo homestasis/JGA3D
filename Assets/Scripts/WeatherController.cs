@@ -14,15 +14,15 @@ public class WeatherController : SingletonMonoBehaviour<WeatherController>
     protected override void Awake()
     {
         base.Awake();
-
-        sunLight = SunLightController.Instance;
         rain = Rain3DController.Instance;
+        sunLight = SunLightController.Instance;
         isNormalRainy = true;
     }
 
 
     internal void initiate()
     {
+        rain = Rain3DController.Instance;
         GameObject farmers = GameObject.FindWithTag("Farmers");
         talkMob = new ShoppingFarmer[farmers.transform.childCount];
         talkMob = farmers.GetComponentsInChildren<ShoppingFarmer>();

@@ -18,12 +18,7 @@ public class TempController : SingletonMonoBehaviour<TempController>
         base.Awake();
         tempSlider = GetComponent<Slider>();
     }
-    private void Start()
-    {
-        normalDecrease = (float)(nomalTempDecrease * Time.deltaTime);
-        heavyDecrease = (float)(heavyTempDecrease * Time.deltaTime);
-    }
-
+    
     internal void initiate()
     {
         tempSlider.value = 1;
@@ -31,11 +26,11 @@ public class TempController : SingletonMonoBehaviour<TempController>
 
     internal void HeavyDecrease()
     {
-        tempSlider.value -= heavyDecrease;
+        tempSlider.value -= heavyDecrease*Time.deltaTime;
     }
     internal void NormalDecrease()
     {
-        tempSlider.value -= normalDecrease;
+        tempSlider.value -= normalDecrease*Time.deltaTime;
     }
 
     internal float GetValue()
