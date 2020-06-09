@@ -61,4 +61,13 @@ public class FadeImage : MonoBehaviour
     {
         fadeIm.color = new Color(red, green, blue, alfa);
     }
+
+    public bool CompFadeOut()
+    {
+        if (compFadeOut)
+        {
+            return true;
+        }
+        return false;
+    }
 }

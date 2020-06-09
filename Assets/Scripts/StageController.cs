@@ -14,7 +14,8 @@ public class StageController : MonoBehaviour
     private bool doClear = false;
     private TempController temp;
     private GManager gMane;
-
+    private GameObject black;
+    private FadeImage fade;
 
     private void Awake()
     {
@@ -26,6 +27,8 @@ public class StageController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        black = GameObject.Find("Black");
+        fade = black.GetComponent<FadeImage>();
         if (continuePoint != null && continuePoint.Length > 0)
         {
             playerObj.transform.position = continuePoint[0].transform.position;
@@ -48,18 +51,16 @@ public class StageController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (stageClearTrigger != null && stageClearTrigger.IsPlayerOn() && !doClear)
-        {
-            StageClear();
-            GManager.instance.stageNum = nextStageNum;
-            SceneManager.LoadScene("Stage" + nextStageNum);
-            doClear = true;
-        }*/
         if (p.IsDieAnimEnd() && p.GameOver())
         {
-            temp.IncreaseValue(continuePlus[gMane.continueNum]);
-            playerObj.transform.position = continuePoint[0].transform.position;
-            p.ContinuePlayer();
+            StartCoroutine(fade.FadeOut());
+            if (fade.CompFadeOut())
+            {             
+                temp.IncreaseValue(continuePlus[gMane.continueNum]);
+                playerObj.transform.position = continuePoint[0].transform.position;
+                p.ContinuePlayer();
+                StartCoroutine(fade.FadeIn());
+            }
         }
         else if (p.IsDieAnimEnd())
         {
@@ -76,15 +77,4 @@ public class StageController : MonoBehaviour
         playerObj.transform.position = continuePoint[gMane.continueNum].transform.position;
         p.ContinuePlayer();
     }
-
-    /*public void ChangeScene(int Num)
-    {
-        nextStageNum = Num;
-    }*/
-
-    /*public void StageClear()
-    {
-        GManager.instance.isStageClear = true;
-        ChangeScene(GManager.instance.stageNum + 1);
-    }*/
 }
