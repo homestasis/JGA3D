@@ -27,6 +27,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     private bool inWater;
     private bool isOnAir;
     private bool isLowTemp;
+    private bool gameOver;
     private float jumpPos = 0.0f;
     private float dashTime, jumpTime;
     private float beforeKey;
@@ -115,17 +116,21 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
         GetRain();
         DecreaseTempreture();
         float v = tempSlider.GetValue();
-        if (v <= 0.3)
+        if (v <= 0.3 && v > 0)
         {
             ppController.TurnOnMidEffect();
             isLowTemp = true;
         }
-        else if(v <= 0.1)
+        else if(v <= 0.1 && v > 0)
         {
             ppController.TurnOnHeavyEffect();
         }
         else if (v <= 0)
         {
+            StopPlayer();
+            anim.Play("Die");
+            isDead = true;
+            gameOver = true;
             //GameOver
         }
         else
@@ -581,8 +586,17 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     {
         ResetIsStop();
         isDead = false;
+        gameOver = false;
         anim.Play("Idol");
         isJump = false;
         isRun = false;
+    }
+    public bool GameOver()
+    {
+        if (gameOver)
+        {
+            return true;
+        }
+        return false;
     }
 }

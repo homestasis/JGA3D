@@ -55,7 +55,13 @@ public class StageController : MonoBehaviour
             SceneManager.LoadScene("Stage" + nextStageNum);
             doClear = true;
         }*/
-        if (p.IsDieAnimEnd())
+        if (p.IsDieAnimEnd() && p.GameOver())
+        {
+            temp.IncreaseValue(continuePlus[gMane.continueNum]);
+            playerObj.transform.position = continuePoint[0].transform.position;
+            p.ContinuePlayer();
+        }
+        else if (p.IsDieAnimEnd())
         {
             PlayerSetContinuePoint();
         }

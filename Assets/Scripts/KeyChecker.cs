@@ -17,7 +17,7 @@ public class KeyChecker : SingletonMonoBehaviour<KeyChecker>
     // Update is called once per frame
     private void Update()
     {
-        if(isStart && Input.anyKeyDown)
+        if(isStart && (Input.anyKeyDown || Input.GetButtonDown("Action2")))
         {
             if (!isChanged)
             {
