@@ -260,6 +260,15 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
                 xSpeedBefore = xSpeed;
                 isOnAir = true;
                 jumpPoint = transform.position.y;
+                if (xSpeed >= 0)
+                {
+                    transform.localRotation = Quaternion.Euler(0, 90, 0);
+                }
+                else
+                {
+                    transform.localRotation = Quaternion.Euler(0, -90, 0);
+                }
+
             }
         }
         else
@@ -276,7 +285,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     private void Fall()
     {
         float dis = jumpPoint - transform.position.y;
-        if (dis > 2.5 && !inWater)
+        if (dis > 2.5 && !inWater && !isLadder)
         {
             StopPlayer();
             anim.Play("Die");

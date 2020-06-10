@@ -3,8 +3,8 @@
 
 public class EnemyBase : MonoBehaviour
 {
-    private GameObject player;
-    private Animator anim;
+    protected GameObject player;
+    protected Animator anim;
     private Enemy1_3DController eController;
 
     protected virtual void Awake()
