@@ -71,7 +71,6 @@ public class PPController : SingletonMonoBehaviour<PPController>
     {
         isMidFlash = false;
         isHeavyFlash = false;
-        bgm.SetVolume(0.03f);
     }
 
     private IEnumerator Flashing()

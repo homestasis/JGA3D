@@ -52,6 +52,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
     private PPController ppController;
     private WeatherController weather;
     private SpellSound spel;
+    private BGMSounder bgm;
 
     protected override void Awake()
     {
@@ -67,6 +68,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
         tempSlider = TempController.Instance;
         ppController = GameObject.Find("PostProcesser").GetComponent<PPController>();
         spel = transform.Find("Speller").gameObject.GetComponent<SpellSound>();
+        bgm = BGMSounder.Instance;
 
         initiateComponent();      
 
@@ -131,7 +133,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
             anim.Play("Die");
             isDead = true;
             gameOver = true;
-            //GameOver
+            ppController.TurnOffEffect();
         }
         else
         {
@@ -139,6 +141,7 @@ public class NewPlayerController : SingletonMonoBehaviour<NewPlayerController>
             {
                 isLowTemp = false;
                 ppController.TurnOffEffect();
+                bgm.SetVolume(0.03f);
             }
         }
 

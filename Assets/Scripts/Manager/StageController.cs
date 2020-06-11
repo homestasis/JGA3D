@@ -65,6 +65,7 @@ public class StageController : MonoBehaviour
         else if (p.IsDieAnimEnd())
         {
             PlayerSetContinuePoint();
+            BGMSounder.Instance.SetVolume(0.03f);
         }
     }
 
