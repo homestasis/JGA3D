@@ -6,7 +6,6 @@ public abstract class CameraBase : MonoBehaviour
 {
     [SerializeField] private protected float offsetX;
     [SerializeField] private protected List<float> posY;
-    [SerializeField] private protected LadderCheck ladder;
     protected GameObject player;
 
     private protected float maxX;
