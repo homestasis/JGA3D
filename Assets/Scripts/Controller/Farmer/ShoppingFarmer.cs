@@ -1,0 +1,233 @@
+﻿using System.Collections;
+using UnityEngine;
+
+public class ShoppingFarmer : FarmerController
+{
+    private static Vector3[] place;
+    private static bool[] isVacant;
+    private static Vector3[] standingDir;
+    [SerializeField] private int myPlaceNum;
+    private Animator anim;
+    private static string[] trueContents;
+    private static string[] falseContents;
+    private NewPlayerController pController;
+    private Collider colid;
+    private SpeechChange speech;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        initiateStatic();
+        anim = GetComponent<Animator>();
+        pController = player.GetComponent<NewPlayerController>();
+        colid = GetComponent<Collider>();
+        speech = transform.Find("SpeechBubble").gameObject.GetComponent<SpeechChange>();
+    }
+
+    private void Start()
+    {
+        transform.position = place[myPlaceNum];
+        Turn();
+    }
+
+    internal override IEnumerator Talk()
+    {
+        initiate();
+
+        string playingString = isVacant[myPlaceNum + 1] ? trueContents[myPlaceNum] : falseContents[myPlaceNum];
+
+        yield return null;
+        
+        textBox.text = playingString;
+        PlayVoice();
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        yield return null;
+        
+        image.enabled = false;
+        textBox.enabled = false;
+    }
+
+    internal override void ResetDirection()
+    {
+        if (myPlaceNum != 7 && isVacant[myPlaceNum + 1])
+        {
+            StartCoroutine(Move());
+            updateVacancy();
+        }
+        else
+        {
+            transform.rotation = initEular;
+        }
+    }
+
+    internal IEnumerator Amayadori()
+    {
+        if(System.Math.Abs(transform.position.z - 0.7f) < 0.05) { yield break; }
+
+
+        Vector3 next = new Vector3(transform.position.x, transform.position.y, 0.7f);
+        Vector3 dir = new Vector3(0, 0, 1);
+        float dis = Vector3.Distance(next, place[myPlaceNum]);
+
+        colid.enabled = false;
+
+        transform.LookAt(next);
+        anim.SetBool("run", true);
+        pController.StopPlayer();
+        while (true)
+        {
+            transform.position += dir * Time.deltaTime / dis;
+            if (Vector3.Distance(next, transform.position) < 0.1)
+            {
+                transform.position = next;
+                break;
+            }
+            yield return null;
+        }
+        anim.SetBool("run", false);
+        LookForward();
+        pController.ResetIsStop();
+        colid.enabled = true;
+    }
+
+    internal IEnumerator UnAmayadori()
+    {
+        if (System.Math.Abs(place[myPlaceNum].z - 0.7f) < 0.05) { yield break; }
+  
+        Vector3 dir = new Vector3(0, 0, -1);
+        float dis = Vector3.Distance(transform.position, place[myPlaceNum]);
+
+        colid.enabled = false;
+
+        transform.LookAt(place[myPlaceNum]);
+        anim.SetBool("run", true);
+        pController.StopPlayer();
+        while (true)
+        {
+            transform.position += dir * Time.deltaTime / dis;
+            if (Vector3.Distance(place[myPlaceNum], transform.position) < 0.1)
+            {
+                transform.position = place[myPlaceNum];
+                break;
+            }
+            yield return null;
+        }
+        anim.SetBool("run", false);
+        Turn();
+        pController.ResetIsStop();
+        colid.enabled = true;
+    }
+
+    private static void initiateStatic()
+    {
+        if(place != null) { return; }
+        place = new Vector3[8]{
+          new Vector3(75, -1.2f,0),
+          new Vector3(73, -1.2f, 0.7f),
+          new Vector3(72.5f,-1.2f, -0.7f),
+          new Vector3(71f,-1.2f,0),
+          new Vector3(66.3f, -1.2f, 0.7f),
+          new Vector3(68.7f,-1.2f, 0.7f),
+          new Vector3(67.8f,-1.2f,-0.7f),
+          new Vector3(59, -1.2f, -0.7f)
+        };
+
+        isVacant = new bool[8]
+        {
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true,
+            true
+        };
+
+        standingDir = new Vector3[8]
+        {
+            new Vector3(0,-40,0),
+            new Vector3(0,0,0),
+            new Vector3(0,180,0),
+            new Vector3(0,-40,0),
+            new Vector3(0,0,0),
+            new Vector3(0,0,0),
+            new Vector3(0,0,0),
+            new Vector3(0,0,0)
+        };
+
+        trueContents = new string[8]
+        {
+            "オ アイタ アイタ",
+            "コレ ミルカイ",
+            "カサ ハ コンド デ イイヤ",
+            "アイタゾー",
+            "ツギハ トナリ ミタイ",
+            "ドイテ ホシイカイ",
+            "アッチ イコ",
+            ""
+        };
+
+        falseContents = new string[8]
+        {
+            "ジャマダナー",
+            "ムムムムム",
+            "ナニイロ ガ イイカナ",
+            "チカクデ ミタインダヨネ",
+            "コレ カッタホウガ イイカナ",
+            "イイツボダネ",
+            "チョット キュウケイ",
+            "ヤスイ モノ オオイヨ"
+        };
+
+        
+    }
+
+    private IEnumerator Move()
+    {
+        Vector3 nextPlace =place[myPlaceNum + 1];
+        Vector3 dir = nextPlace - place[myPlaceNum];
+        float dis = Vector3.Distance(nextPlace, place[myPlaceNum]);
+        myPlaceNum++;
+
+        colid.enabled = false;
+
+        transform.LookAt(nextPlace);
+        anim.SetBool("run", true);
+        pController.StopPlayer();
+        while (true)
+        {
+            transform.position += dir * Time.deltaTime/dis;
+            if (Vector3.Distance(nextPlace, transform.position)<0.1)
+            {
+                transform.position = nextPlace;
+                break;
+            }
+            yield return null;
+        }
+        anim.SetBool("run", false);
+        Turn();
+        pController.ResetIsStop();
+        colid.enabled = true;
+    }
+
+    private void updateVacancy()
+    {
+        isVacant[myPlaceNum] = false;
+        isVacant[myPlaceNum - 1] = true;
+        
+    }
+
+    private void Turn()
+    {
+        transform.rotation = Quaternion.Euler(standingDir[myPlaceNum]);
+        speech.Turn(0);
+    }
+
+    private void LookForward()
+    {
+        transform.rotation = Quaternion.Euler(0, 180, 0);
+        speech.Turn(0);
+    }
+
+}
