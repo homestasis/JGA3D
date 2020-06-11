@@ -56,7 +56,7 @@ public class StageController : MonoBehaviour
             StartCoroutine(fade.FadeOut());
             if (fade.CompFadeOut())
             {             
-                temp.IncreaseValue(continuePlus[gMane.continueNum]);
+                temp.IncreaseValue(continuePlus[0]);
                 playerObj.transform.position = continuePoint[0].transform.position;
                 p.ContinuePlayer();
                 StartCoroutine(fade.FadeIn());
