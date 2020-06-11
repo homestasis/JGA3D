@@ -30,7 +30,6 @@ public class WalkingFarmer : FarmerController
     {
         LookLeft();
         speech.Turn(0);
-        moveDelta = (float)(delta * Time.deltaTime);
     }
 
     // Update is called once per frame
@@ -41,6 +40,7 @@ public class WalkingFarmer : FarmerController
             return;
         }
 
+        moveDelta = (float)(delta * Time.deltaTime); 
         if (isTurn)
         {
             float rot = (float)(90 * vec - vec * (sumTime / 0.3) * 180);

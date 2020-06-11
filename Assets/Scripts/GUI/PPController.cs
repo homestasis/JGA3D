@@ -12,6 +12,7 @@ public class PPController : SingletonMonoBehaviour<PPController>
     private bool isHeavyFlash;
     private float low;
     private float high;
+    private BGMSounder bgm;
 
     protected override void Awake()
     {
@@ -24,6 +25,7 @@ public class PPController : SingletonMonoBehaviour<PPController>
                 vig = item as Vignette;
             }
         }
+        bgm = BGMSounder.Instance;
     }
 
     private void Start()
@@ -40,6 +42,8 @@ public class PPController : SingletonMonoBehaviour<PPController>
     internal void TurnOnMidEffect()
     {
         if (isMidFlash) { return; }
+
+        StartCoroutine(bgm.FadeInComp());
 
         ppVolume.enabled = true;
         isMidFlash = true;
@@ -67,6 +71,7 @@ public class PPController : SingletonMonoBehaviour<PPController>
     {
         isMidFlash = false;
         isHeavyFlash = false;
+        bgm.SetVolume(0.03f);
     }
 
     private IEnumerator Flashing()

@@ -17,6 +17,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
     private GManager gameManager;
     private NewPlayerController pController;
     private WeatherController weather;
+    private BGMSounder bgm;
 
     protected override void Awake()
     {
@@ -27,6 +28,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
         temp = TempUiController.Instance;
         pController = NewPlayerController.Instance;
         weather = WeatherController.Instance;
+        bgm = BGMSounder.Instance;
     }
 
     private void Start()
@@ -38,12 +40,15 @@ public class GManager : SingletonMonoBehaviour<GManager>
 
     void OnSceneLoaded(Scene nextScene, LoadSceneMode mode)
     {
+       
         if (string.Equals(nextScene.name, "Stage2"))
         {
+            bgm.SetVolume(0.03f);
             StartStage2();
         }
         else if(string.Equals(nextScene.name, "Stage3"))
         {
+            bgm.SetVolume(0.03f);
             StartCoroutine(Clear());
         }
         else if(string.Equals(nextScene.name, "Stage1"))
@@ -57,6 +62,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
 
         rain.Off();
         temp.Off();
+        StartCoroutine(bgm.FadeInComp());
         yield return StartCoroutine(fade.FadeOut());
         stageNum += 1;
         continueNum = 0;
@@ -119,6 +125,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
         rain = RainSwitcher.Instance;
         temp = TempUiController.Instance;
         pController = NewPlayerController.Instance;
+        bgm.initiate();
     }
 
 }

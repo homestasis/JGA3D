@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class TitleScript : MonoBehaviour
 {
@@ -68,12 +67,14 @@ public class TitleScript : MonoBehaviour
     private IEnumerator TitleDestroy()
     {
         word.Stop();
-
+        StartCoroutine(BGMSounder.Instance.FadeIn());
         StartCoroutine(title.FadeIn());
         yield return StartCoroutine(cam.PlayStart(playerX));
 
         rainCanvas.enabled = true;
         tempCanvas.enabled = true;
+
+     
         
         p.enabled = true;  
         Destroy(gameObject);
