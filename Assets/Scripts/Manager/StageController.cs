@@ -6,7 +6,7 @@ public class StageController : MonoBehaviour
     private GameObject playerObj;
     [Header("コンティニュー位置")] public GameObject[] continuePoint;
     [Header("コンテニュー体温プラス量")]
-    [SerializeField] private int[] continuePlus; 
+    [SerializeField] private float[] continuePlus; 
   //  public PlayerTriggerOn stageClearTrigger;
 
     private NewPlayerController p;
