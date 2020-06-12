@@ -71,6 +71,7 @@ public class PPController : SingletonMonoBehaviour<PPController>
     {
         isMidFlash = false;
         isHeavyFlash = false;
+        vig.intensity.value = 0;
     }
 
     private IEnumerator Flashing()
