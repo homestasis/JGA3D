@@ -116,7 +116,7 @@ public class GManager : SingletonMonoBehaviour<GManager>
         pController.DestroyThis();
         SunLightController.Instance.DestroyThis();
         WeatherController.Instance.DestroyThis();
-
+        PPController.Instance.DestroyThis();
     }
 
     private void initiate()
