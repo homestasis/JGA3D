@@ -32,7 +32,8 @@
 
 ![sample](https://user-images.githubusercontent.com/53995569/122144643-d938fa80-ce8e-11eb-806c-fb32f63f1533.gif)
 
-![0387](https://user-images.githubusercontent.com/53995569/122143975-7dba3d00-ce8d-11eb-8b18-40429b4236c4.png)
+![sample2](https://user-images.githubusercontent.com/53995569/122145068-87dd3b00-ce8f-11eb-941f-3c80ba3d7132.gif)
+
 
 ![0727](https://user-images.githubusercontent.com/53995569/122144051-a0e4ec80-ce8d-11eb-870b-f177cf54a317.png)
 
