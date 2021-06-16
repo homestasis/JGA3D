@@ -30,6 +30,8 @@
 # イメージ
 ![0028](https://user-images.githubusercontent.com/53995569/122143799-2320e100-ce8d-11eb-8b0a-e95ef064042e.png)
 
+![sample](https://user-images.githubusercontent.com/53995569/122144643-d938fa80-ce8e-11eb-806c-fb32f63f1533.gif)
+
 ![0387](https://user-images.githubusercontent.com/53995569/122143975-7dba3d00-ce8d-11eb-8b18-40429b4236c4.png)
 
 ![0727](https://user-images.githubusercontent.com/53995569/122144051-a0e4ec80-ce8d-11eb-870b-f177cf54a317.png)
