@@ -27,5 +27,7 @@
 
 雨を元に戻す:(雨を強くした状態で)returnキー or Yボタン
 
-# PV
+# イメージ
+![0028](https://user-images.githubusercontent.com/53995569/122143799-2320e100-ce8d-11eb-8b0a-e95ef064042e.png)
+
 
