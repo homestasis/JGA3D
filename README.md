@@ -41,7 +41,7 @@
 
 ![0878](https://user-images.githubusercontent.com/53995569/122144167-e43f5b00-ce8d-11eb-8178-19092248457a.png)
 
-![1030](https://user-images.githubusercontent.com/53995569/122144242-05a04700-ce8e-11eb-8f25-26488e3410af.png)
+![sample3](https://user-images.githubusercontent.com/53995569/122145408-26699c00-ce90-11eb-8e85-b7acfb1e259c.gif)
 
 
 
